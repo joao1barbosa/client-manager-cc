@@ -10,24 +10,20 @@ export function isFormValidated() {
     if( 
         !nome || !sobrenome || !email || !aniversario || !telefone
     ){
-        alert("Preencha todos os campos!");
-        return false;
+        return ("Preencha todos os campos!");
     } 
     
     if(!(email.includes("@"))){
-        alert("Formato errado de email!");
-        return false;
+        return ("Formato errado de email!");
     }
-    
+
     if(aniversario[2] !== "/" || aniversario[5] !== "/" || aniversario.length !== 10){
-        alert("Formato errado de data!");
-        return false;
+        return ("Formato errado de data!");
     }
 
     if((telefone.includes("_"))){
-        alert("Formato errado de telefone!");
-        return false;
+        return("Formato errado de telefone!");
     }
     
-    return true;
+    return "";
 }

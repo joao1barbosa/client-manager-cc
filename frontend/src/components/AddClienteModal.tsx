@@ -1,21 +1,27 @@
-import { useState, ChangeEvent, FormEvent } from 'react';
-import Modal from './Modal';
-import InputField from './InputField';
+import { FormEvent } from 'react';
 import { isFormValidated } from '@/utils/validate';
+import toast, { Toaster } from 'react-hot-toast';
+import InputField from './InputField';
+import Modal from './Modal';
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
 }
 
+const notify = (menssage: string) => toast(menssage);
+
 export default function AddClienteModal({isOpen, onClose}: Props){
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
-        if (isFormValidated()){
+        
+        const validated = isFormValidated();
+        
+        if (!validated){
           //inscrever no bd
           onClose();
         }
-        
+        notify(validated);
       };
 
       return (
@@ -46,6 +52,7 @@ export default function AddClienteModal({isOpen, onClose}: Props){
                 </button>
               </div>
             </form>
+          <Toaster/>
         </Modal>
       );
-}
+    }
