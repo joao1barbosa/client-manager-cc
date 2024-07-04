@@ -4,17 +4,27 @@ import { useState } from "react";
 import ClientesButtons from "./ClientesButtons";
 import OptionsButtons from "./OptionsButtons";
 import AddClienteModal from "./AddClienteModal";
+import DeleteConfirmationModal from "./DeleteConfirmationModal";
 
 export default function ClientesTable() {
-    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+    const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
     const handleAddClick = () => {
-        setIsModalOpen(true);
+      setIsAddModalOpen(true);
       };
     
-      const handleCloseModal = () => {
-        setIsModalOpen(false);
-      };
+    const handleCloseAddModal = () => {
+      setIsAddModalOpen(false);
+    };
+
+    const haddleDeleteClick = () => {
+      setIsDeleteModalOpen(true);
+    }
+
+    const haddleCloseDeleteModal = () => {
+      setIsDeleteModalOpen(false);
+    }
 
     return (
         <main className="relative w-3/4 h-[80vh] bg-gray-100 rounded-lg p-4 overflow-hidden">
@@ -36,17 +46,18 @@ export default function ClientesTable() {
               </thead>
               <tbody >
                 <tr>
-                    <th className="font-medium py-2 px-4 border-b">João</th>
+                    <th id='cliente' className="font-medium py-2 px-4 border-b">João</th>
                     <th className="font-medium py-2 px-4 border-b">barbosa</th>
                     <th className="font-medium py-2 px-4 border-b">joao1.barbosa@outlook.com</th>
                     <th className="font-medium py-2 px-4 border-b">03/08/2001</th>
                     <th className="font-medium py-2 px-4 border-b">(62) 99664-1935</th>
-                    <th className="py-2 pr-0 border-b"><OptionsButtons/></th>
+                    <th className="py-2 pr-0 border-b"><OptionsButtons onDeleteClick={haddleDeleteClick}/></th>
                 </tr>
               </tbody>
             </table>
           </div>
-          <AddClienteModal isOpen={isModalOpen} onClose={handleCloseModal} />
+          <AddClienteModal isOpen={isAddModalOpen} onClose={handleCloseAddModal} />
+          <DeleteConfirmationModal isOpen={isDeleteModalOpen} onClose={haddleCloseDeleteModal}/>
         </main>
     );
   }
