@@ -3,10 +3,10 @@
 import { useState } from "react";
 import ClientesButtons from "./ClientesButtons";
 import OptionsButtons from "./OptionsButtons";
-import AddClienteModal from "./AddClienteModal";
-import DeleteConfirmationModal from "./DeleteConfirmationModal";
+import AddClienteModal from "./Modals/AddClienteModal";
+import DeleteConfirmationModal from "./Modals/DeleteConfirmationModal";
 import { handleClick } from "@/utils/haddleClick";
-import EditClienteModal from "./EditClienteModal";
+import EditClienteModal from "./Modals/EditClienteModal";
 
 export default function ClientesTable() {
     const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
