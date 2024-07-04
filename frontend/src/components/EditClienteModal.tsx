@@ -11,14 +11,14 @@ interface Props {
 
 const notify = (menssage: string) => toast(menssage);
 
-export default function AddClienteModal({isOpen, onClose}: Props){
+export default function EditClienteModal({isOpen, onClose}: Props){
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
         
-        const validated = isFormValidated("add");
+        const validated = isFormValidated("edit");
         
         if (!validated){
-          //inscrever no bd
+          //editar no bd
           onClose();
         }
         notify(validated);
@@ -27,7 +27,7 @@ export default function AddClienteModal({isOpen, onClose}: Props){
       return (
         <Modal isOpen={isOpen} onClose={onClose}>
           <div className="flex flex-row justify-center mb-3">
-            <h2 className="font-bold text-xl">Adicionar Cliente</h2>
+            <h2 className="font-bold text-xl">Editar Cliente</h2>
           </div>
             <form noValidate onSubmit={handleSubmit}>
               <InputField id="nome" type="text" placeholder="Nome"/>
@@ -46,9 +46,9 @@ export default function AddClienteModal({isOpen, onClose}: Props){
                 </button>
                 <button
                   type="submit"
-                  className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 ml-2"
+                  className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 ml-2"
                 >
-                  Adicionar
+                  Editar
                 </button>
               </div>
             </form>

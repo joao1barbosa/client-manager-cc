@@ -1,17 +1,20 @@
 // @ts-nocheck
 
-export function isFormValidated() {
+export function isFormValidated(mode: string) {
     const nome = document.getElementById("nome").value;
     const sobrenome = document.getElementById("sobrenome").value;
     const email = document.getElementById("email").value;
     const aniversario = document.getElementById("aniversario").value;
     const telefone = document.getElementById("telefone").value;
 
-    if( 
-        !nome || !sobrenome || !email || !aniversario || !telefone
-    ){
-        return ("Preencha todos os campos!");
-    } 
+    if(mode ==="add"){
+        if( 
+            !nome || !sobrenome || !email || !aniversario || !telefone
+        ){
+            return ("Preencha todos os campos!");
+        } 
+    }
+
     
     if(!(email.includes("@"))){
         return ("Formato errado de email!");

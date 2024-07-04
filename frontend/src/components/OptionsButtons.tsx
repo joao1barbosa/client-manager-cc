@@ -3,9 +3,10 @@ import { FaLocationDot } from "react-icons/fa6";
 
 interface Props{
     onDeleteClick: () => void;
+    onEditClick: () => void;
 }
 
-export default function OptionsButtons({ onDeleteClick }: Props){
+export default function OptionsButtons({ onDeleteClick, onEditClick }: Props){
     return(
         <div className="flex flex-row justify-center space-x-1 mr-0">
             <button className="flex justify-center items-center w-8 h-8 bg-gray-300 rounded-md hover:bg-gray-400">
@@ -14,7 +15,10 @@ export default function OptionsButtons({ onDeleteClick }: Props){
             <button className="flex justify-center items-center w-8 h-8 bg-gray-300 rounded-md hover:bg-gray-400">
                 <FaCreditCard className="text-white" />
             </button>
-            <button className="flex justify-center items-center w-8 h-8 bg-gray-300 rounded-md hover:bg-gray-400">
+            <button 
+                className="flex justify-center items-center w-8 h-8 bg-gray-300 rounded-md hover:bg-gray-400"
+                onClick={onEditClick}
+            >
                 <FaPen className="text-white" />
             </button>
             <button 
