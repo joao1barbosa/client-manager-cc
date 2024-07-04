@@ -1,12 +1,26 @@
+"use client"
+
+import { useState } from "react";
 import ClientesButtons from "./ClientesButtons";
 import OptionsButtons from "./OptionsButtons";
+import AddClienteModal from "./AddClienteModal";
 
 export default function ClientesTable() {
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+    const handleAddClick = () => {
+        setIsModalOpen(true);
+      };
+    
+      const handleCloseModal = () => {
+        setIsModalOpen(false);
+      };
+
     return (
         <main className="relative w-3/4 h-[80vh] bg-gray-100 rounded-lg p-4 overflow-hidden">
         <div className="flex flex-row justify-between pl-4 mb-4">
           <h1 className="text-4xl font-bold">Clientes</h1>
-          <ClientesButtons/>
+          <ClientesButtons onAddClick={handleAddClick}/>
         </div>
           <div className="overflow-auto h-full">
             <table className="min-w-full">
@@ -32,6 +46,7 @@ export default function ClientesTable() {
               </tbody>
             </table>
           </div>
+          <AddClienteModal isOpen={isModalOpen} onClose={handleCloseModal} />
         </main>
     );
   }
