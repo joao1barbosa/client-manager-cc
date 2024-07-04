@@ -5,14 +5,11 @@ import ClientesButtons from "./ClientesButtons";
 import OptionsButtons from "./OptionsButtons";
 import AddClienteModal from "./AddClienteModal";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
+import { handleClick } from "@/utils/haddleClick";
 
 export default function ClientesTable() {
     const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
-
-    const handleClick = (set: (value: boolean) => void, value: boolean) => {
-      set(value);
-    }
 
     return (
         <main className="relative w-3/4 h-[80vh] bg-gray-100 rounded-lg p-4 overflow-hidden">
