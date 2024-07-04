@@ -10,27 +10,15 @@ export default function ClientesTable() {
     const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
-    const handleAddClick = () => {
-      setIsAddModalOpen(true);
-      };
-    
-    const handleCloseAddModal = () => {
-      setIsAddModalOpen(false);
-    };
-
-    const haddleDeleteClick = () => {
-      setIsDeleteModalOpen(true);
-    }
-
-    const haddleCloseDeleteModal = () => {
-      setIsDeleteModalOpen(false);
+    const handleClick = (set: (value: boolean) => void, value: boolean) => {
+      set(value);
     }
 
     return (
         <main className="relative w-3/4 h-[80vh] bg-gray-100 rounded-lg p-4 overflow-hidden">
         <div className="flex flex-row justify-between pl-4 mb-4">
           <h1 className="text-4xl font-bold">Clientes</h1>
-          <ClientesButtons onAddClick={handleAddClick}/>
+          <ClientesButtons onAddClick={() => handleClick(setIsAddModalOpen, true)}/>
         </div>
           <div className="overflow-auto h-full">
             <table className="min-w-full">
@@ -51,13 +39,13 @@ export default function ClientesTable() {
                     <th className="font-medium py-2 px-4 border-b">joao1.barbosa@outlook.com</th>
                     <th className="font-medium py-2 px-4 border-b">03/08/2001</th>
                     <th className="font-medium py-2 px-4 border-b">(62) 99664-1935</th>
-                    <th className="py-2 pr-0 border-b"><OptionsButtons onDeleteClick={haddleDeleteClick}/></th>
+                    <th className="py-2 pr-0 border-b"><OptionsButtons onDeleteClick={() => handleClick(setIsDeleteModalOpen, true)}/></th>
                 </tr>
               </tbody>
             </table>
           </div>
-          <AddClienteModal isOpen={isAddModalOpen} onClose={handleCloseAddModal} />
-          <DeleteConfirmationModal isOpen={isDeleteModalOpen} onClose={haddleCloseDeleteModal}/>
+          <AddClienteModal isOpen={isAddModalOpen} onClose={() => handleClick(setIsAddModalOpen, false)} />
+          <DeleteConfirmationModal isOpen={isDeleteModalOpen} onClose={() => handleClick(setIsDeleteModalOpen, false)}/>
         </main>
     );
   }
