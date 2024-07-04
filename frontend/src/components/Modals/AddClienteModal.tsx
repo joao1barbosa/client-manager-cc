@@ -30,11 +30,11 @@ export default function AddClienteModal({isOpen, onClose}: Props){
             <h2 className="font-bold text-xl">Adicionar Cliente</h2>
           </div>
             <form noValidate onSubmit={handleSubmit}>
-              <InputField id="nome" type="text" placeholder="Nome"/>
-              <InputField id="sobrenome" type="text" placeholder="Sobrenome"/>
-              <InputField id="email" type="email" placeholder="Email"/>
-              <InputField id="aniversario" type="text" placeholder="Data de Nascimento"/>
-              <InputField id="telefone" type="text" placeholder="Telefone"/>
+            <InputField id="nome" type="text" label="Nome" placeholder="Nome"/>
+              <InputField id="sobrenome" type="text" label="Sobrenome"placeholder="Sobrenome"/>
+              <InputField id="email" type="email" label="Email" placeholder="Email"/>
+              <InputField id="aniversario" type="text" label="Data de Nascimento"/>
+              <InputField id="telefone" type="text" label="Telefone"/>
 
               <div className="flex justify-center">
                 <button

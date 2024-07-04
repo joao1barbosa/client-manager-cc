@@ -15,18 +15,29 @@ export function isFormValidated(mode: string) {
         } 
     }
 
-    
     if(!(email.includes("@"))){
+        if(mode === "edit" && !email) return;
+
         return ("Formato errado de email!");
     }
 
     if(aniversario[2] !== "/" || aniversario[5] !== "/" || aniversario.length !== 10){
+        if(mode === "edit" && !aniversario) return;
+
         return ("Formato errado de data!");
     }
 
     if((telefone.includes("_"))){
+        if(mode === "edit" && !telefone) return;
+
         return("Formato errado de telefone!");
     }
     
-    return "";
+    return;
+}
+
+export function locationValidate(){
+
+
+    return;
 }

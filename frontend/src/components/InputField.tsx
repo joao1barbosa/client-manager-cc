@@ -4,17 +4,18 @@ import InputMask from 'react-input-mask';
 interface Props{
     id: string;
     type:string;
-    placeholder: string;
+    label: string;
+    placeholder?: string;
 }
 
-export default function InputField({id, type, placeholder}: Props){
+export default function InputField({id, type, label, placeholder}: Props){
     const isAniversario = (id ==="aniversario");
     const isTelefone = (id ==="telefone");
 
     return (
         <div className="mb-4">
             <label className="block text-sm font-bold mb-2" htmlFor={id}>
-                {placeholder}:
+                {label}:
             </label>
             {isAniversario ? 
                 <input
