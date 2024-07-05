@@ -45,6 +45,7 @@ export default function ClientesTable() {
                     onDeleteClick={() => handleClick(setIsDeleteModalOpen, true)}
                     onEditClick={() => handleClick(setIsEditModalOpen, true)}
                     onAddressClick={() => handleClick(setIsAddressModalOpen, true)}
+                    uuid="1234123"
                   />
                 </th>
               </tr>
