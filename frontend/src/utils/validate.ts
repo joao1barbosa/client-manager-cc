@@ -27,5 +27,5 @@ export function isFormValidated(mode: string) {
         if (!(mode ==="edit" && !telefone)) return("Formato errado de telefone!");
     }
     
-    return;
+    return "";
 }
