@@ -6,9 +6,11 @@ interface Props{
     type:string;
     label: string;
     placeholder?: string;
+    value?: string;
+    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export default function InputField({id, type, label, placeholder}: Props){
+export default function InputField({id, type, label, placeholder, value, onChange}: Props){
     const isAniversario = (id ==="aniversario");
     const isTelefone = (id ==="telefone");
 
@@ -39,6 +41,8 @@ export default function InputField({id, type, label, placeholder}: Props){
                     id={id}
                     type={type}
                     placeholder = {placeholder}
+                    value={value}
+                    onChange={onChange}
                 />
             }
         </div>

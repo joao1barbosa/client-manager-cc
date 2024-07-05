@@ -3,15 +3,17 @@
 import { useState } from "react";
 import ClientesButtons from "./ClientesButtons";
 import OptionsButtons from "./OptionsButtons";
+import { handleClick } from "@/utils/haddleClick";
 import AddClienteModal from "./Modals/AddClienteModal";
 import DeleteConfirmationModal from "./Modals/DeleteConfirmationModal";
-import { handleClick } from "@/utils/haddleClick";
 import EditClienteModal from "./Modals/EditClienteModal";
+import AddressModal from "./Modals/AddressModal";
 
 export default function ClientesTable() {
     const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
+    const [isAddressModalOpen, setIsAddressModalOpen] = useState<boolean>(false);
 
     return (
         <>
@@ -42,6 +44,7 @@ export default function ClientesTable() {
                   <OptionsButtons 
                     onDeleteClick={() => handleClick(setIsDeleteModalOpen, true)}
                     onEditClick={() => handleClick(setIsEditModalOpen, true)}
+                    onAddressClick={() => handleClick(setIsAddressModalOpen, true)}
                   />
                 </th>
               </tr>
@@ -51,6 +54,7 @@ export default function ClientesTable() {
         <AddClienteModal isOpen={isAddModalOpen} onClose={() => handleClick(setIsAddModalOpen, false)}/>
         <DeleteConfirmationModal isOpen={isDeleteModalOpen} onClose={() => handleClick(setIsDeleteModalOpen, false)}/>
         <EditClienteModal isOpen={isEditModalOpen} onClose={() => handleClick(setIsEditModalOpen, false)}/>
+        <AddressModal isOpen={isAddressModalOpen} onClose={() => handleClick(setIsAddressModalOpen, false)}/>
       </>
     );
   }

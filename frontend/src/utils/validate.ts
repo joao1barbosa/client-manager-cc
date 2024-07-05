@@ -16,28 +16,26 @@ export function isFormValidated(mode: string) {
     }
 
     if(!(email.includes("@"))){
-        if(mode === "edit" && !email) return;
-
-        return ("Formato errado de email!");
+        if(!(mode === "edit" && !email)) return ("Formato errado de email!");
     }
 
     if(aniversario[2] !== "/" || aniversario[5] !== "/" || aniversario.length !== 10){
-        if(mode === "edit" && !aniversario) return;
-
-        return ("Formato errado de data!");
+        if (!(mode ==="edit" && !aniversario)) return ("Formato errado de data!");
     }
 
     if((telefone.includes("_"))){
-        if(mode === "edit" && !telefone) return;
-
-        return("Formato errado de telefone!");
+        if (!(mode ==="edit" && !telefone)) return("Formato errado de telefone!");
     }
     
     return;
 }
 
 export function locationValidate(){
+    const cep = document.getElementById("cep").value;
 
+    if((cep.includes("_"))){
+        return("Formato errado de cep!");
+    }
 
-    return;
+    return "";
 }
