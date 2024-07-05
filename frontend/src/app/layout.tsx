@@ -16,7 +16,7 @@ export default function RootLayout({
   return (
     <html>
       <body className={inter.className}>
-        <main className="relative w-3/4 h-[80vh] bg-gray-100 rounded-lg p-4 overflow-hidden"> 
+        <main className="relative w-3/4 h-[83vh] bg-gray-100 rounded-lg p-4 overflow-hidden"> 
           {children}
         </main>
       </body>
