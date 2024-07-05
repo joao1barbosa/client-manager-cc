@@ -29,13 +29,3 @@ export function isFormValidated(mode: string) {
     
     return;
 }
-
-export function locationValidate(){
-    const cep = document.getElementById("cep").value;
-
-    if((cep.includes("_"))){
-        return("Formato errado de cep!");
-    }
-
-    return "";
-}

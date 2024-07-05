@@ -3,7 +3,6 @@
 //@ts-ignore
 import InputMask from 'react-input-mask';
 import { FormEvent, useState } from 'react';
-import { locationValidate } from '@/utils/validate';
 import toast, { Toaster } from 'react-hot-toast';
 import InputField from '../InputField';
 import UfSelect from '../UfSelect';
@@ -73,15 +72,15 @@ export default function AddressModal({ uuid, isOpen, onClose }: Props){
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault(); 
-        
-        const validated = locationValidate();
-        
-        if (!validated){
-          //inscrever no bd
-          onClose();
+        if(cep){
+            if((cep.includes("_"))){
+                notify("Formato errado de cep!");
+                return;
+            }
+            //inscrever no bd
+            onClose();
         }
-        notify(validated);
-      };
+    }
 
     return(
         <Modal isOpen={isOpen} onClose={onClose}>
@@ -107,6 +106,7 @@ export default function AddressModal({ uuid, isOpen, onClose }: Props){
                             className="
                             flex justify-center items-center w-10 h-10 bg-gray-500 rounded-md hover:bg-gray-600
                             "
+                            type='button'
                             onClick={buscarCEP} 
                         >
                             <FaSearch className="text-white" />
@@ -137,11 +137,6 @@ export default function AddressModal({ uuid, isOpen, onClose }: Props){
                 <InputField 
                     id="localidade" type="text" label="Cidade"
                     placeholder="Cidade" value={addressData.localidade}
-                    onChange={handleInputChange}
-                />
-                <InputField 
-                    id="uf" type="text" label="UF"
-                    placeholder="UF" value={addressData.uf}
                     onChange={handleInputChange}
                 />
 
