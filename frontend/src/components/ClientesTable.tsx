@@ -99,7 +99,7 @@ export default function ClientesTable() {
               ))}
             </tbody>
           </table>
-          <div className="absolute bottom-0 left-0 right-0 flex justify-center pb-12 bg-gray-100">
+          <div className="absolute bottom-0 left-0 right-0 flex justify-center pb-14 bg-gray-100">
             {Array.from({ length: totalPages }, (_, index) => (
               <button 
                 key={index} 
