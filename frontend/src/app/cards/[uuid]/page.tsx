@@ -4,6 +4,7 @@ import { useParams } from 'next/navigation';
 import { useState } from 'react';
 import AddCardModal from '@/components/Modals/AddCardModal';
 import { handleClick } from '@/utils/haddleClick';
+import CardBlock from '@/components/CardBlock';
 
 export default function Cards() {
   const [isAddCardModalOpen, setIsAddCardModalOpen] = useState<boolean>(false);
@@ -12,8 +13,14 @@ export default function Cards() {
   const { uuid } = params as { uuid: string };
 
   const cards = [
-    //index no bd
+    "111111"
   ];
+
+  const card = {
+    expiry: "12/12",
+    name: "Joao Barbosa",
+    number: "4434 1234 1234 4321"
+  }
 
   return (
     <>
@@ -33,7 +40,8 @@ export default function Cards() {
               </button>
             </div>
           :
-            <h1>Tem</h1>
+            
+            <CardBlock card={card}/>
         }
       </div>
       <AddCardModal isOpen={isAddCardModalOpen} onClose={() => handleClick(setIsAddCardModalOpen, false)}/>
