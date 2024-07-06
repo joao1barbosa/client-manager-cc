@@ -4,7 +4,7 @@ import "react-credit-cards-2/dist/es/styles-compiled.css";
 interface Props{
     card: {
         number: string,
-        name:string,
+        name: string,
         expiry: string,
     }
 }
@@ -26,7 +26,6 @@ export default function CardBlock({ card }: Props){
                 name={card.name}
                 number={hideCardNumer(card.number)}
             />
-
             </div>
         </aside>
     );

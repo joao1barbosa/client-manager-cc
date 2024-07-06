@@ -4,9 +4,9 @@
 import InputMask from 'react-input-mask';
 import { FormEvent, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
-import InputField from '../InputField';
-import UfSelect from '../UfSelect';
-import Modal from "./Modal";
+import InputField from '../../InputField';
+import UfSelect from '../../UfSelect';
+import Modal from "../Modal";
 import { searchCep } from '@/services/viacep';
 import { FaSearch } from "react-icons/fa";
 
@@ -25,7 +25,7 @@ type AddressData = {
     uf: string;
 }
 
-const notify = (menssage: string) => toast(menssage);
+const notify = (message: string) => toast(message);
 
 export default function AddressModal({ uuid, isOpen, onClose }: Props){
     const [cep, setCep] = useState('');

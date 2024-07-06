@@ -5,7 +5,7 @@ import InputMask from 'react-input-mask';
 import { FormEvent, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import Cards from 'react-credit-cards-2';
-import Modal from "./Modal";
+import Modal from "../Modal";
 import "react-credit-cards-2/dist/es/styles-compiled.css";
 
 interface Props {
@@ -13,7 +13,7 @@ interface Props {
     onClose: () => void;
 }
 
-const notify = (menssage: string) => toast(menssage);
+const notify = (message: string) => toast(message);
 
 export default function AddCardModal({ isOpen, onClose }: Props) {
     const [cardInfo, setCardInfo] = useState({

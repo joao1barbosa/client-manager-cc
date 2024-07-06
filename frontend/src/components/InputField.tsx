@@ -11,15 +11,15 @@ interface Props{
 }
 
 export default function InputField({id, type, label, placeholder, value, onChange}: Props){
-    const isAniversario = (id ==="aniversario");
-    const isTelefone = (id ==="telefone");
+    const isBirthDay = (id ==="aniversario");
+    const isFone = (id ==="telefone");
 
     return (
         <div className="mb-4">
             <label className="block text-sm font-bold mb-2" htmlFor={id}>
                 {label}:
             </label>
-            {isAniversario ? 
+            {isBirthDay ? 
                 <input
                     className="w-full p-2 border border-gray-300 rounded"
                     id={id}
@@ -27,7 +27,7 @@ export default function InputField({id, type, label, placeholder, value, onChang
                     placeholder="DD/MM/AAAA"
                     pattern="\d{2}/\d{2}/\d{4}"
                />
-            : isTelefone ?
+            : isFone ?
                 <InputMask
                     className="w-full p-2 border border-gray-300 rounded"
                     id={id}

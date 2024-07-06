@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import ClientesButtons from "./ClientesButtons";
+import ClientesButtons from "./ClientsButtons";
 import OptionsButtons from "./OptionsButtons";
 import { handleClick } from "@/utils/haddleClick";
-import AddClienteModal from "./Modals/AddClienteModal";
+import AddClienteModal from "./Modals/Client/AddClientModal";
 import DeleteConfirmationModal from "./Modals/DeleteConfirmationModal";
-import EditClienteModal from "./Modals/EditClienteModal";
-import AddressModal from "./Modals/AddressModal";
+import EditClienteModal from "./Modals/Client/EditClientModal";
+import AddressModal from "./Modals/Client/AddressModal";
 
 export default function ClientesTable() {
     const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
@@ -16,10 +16,10 @@ export default function ClientesTable() {
     const [isAddressModalOpen, setIsAddressModalOpen] = useState<boolean>(false);
 
     const [currentPage, setCurrentPage] = useState<number>(1);
-    const clientesPerPage = 12;
+    const clientsPerPage = 12;
 
     // será preenchido com index do bd
-    const clientes = [
+    const clients = [
         { uuid: "adasdadasdada", nome: "João1", sobrenome: "Barbosa", email: "joao1.barbosa@outlook.com", aniversario: "03/08/2001", telefone: "(62) 99664-1935" },
         { uuid: "adasdadasdada", nome: "João2", sobrenome: "Barbosa", email: "joao1.barbosa@outlook.com", aniversario: "03/08/2001", telefone: "(62) 99664-1935" },
         { uuid: "adasdadasdada", nome: "João3", sobrenome: "Barbosa", email: "joao1.barbosa@outlook.com", aniversario: "03/08/2001", telefone: "(62) 99664-1935" },
@@ -50,11 +50,11 @@ export default function ClientesTable() {
     ];
 
     // Cálculo para a paginação
-    const indexOfLastCliente = currentPage * clientesPerPage;
-    const indexOfFirstCliente = indexOfLastCliente - clientesPerPage;
-    const currentClientes = clientes.slice(indexOfFirstCliente, indexOfLastCliente);
+    const indexOfLastCliente = currentPage * clientsPerPage;
+    const indexOfFirstCliente = indexOfLastCliente - clientsPerPage;
+    const currentClientes = clients.slice(indexOfFirstCliente, indexOfLastCliente);
 
-    const totalPages = Math.ceil(clientes.length / clientesPerPage);
+    const totalPages = Math.ceil(clients.length / clientsPerPage);
 
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
@@ -80,19 +80,19 @@ export default function ClientesTable() {
                             </tr>
                         </thead>
                         <tbody>
-                            {currentClientes.map((cliente, index) => (
+                            {currentClientes.map((client, index) => (
                                 <tr key={index}>
-                                    <th id="cliente" className="font-medium py-2 px-4 border-b">{cliente.nome}</th>
-                                    <th className="font-medium py-2 px-4 border-b">{cliente.sobrenome}</th>
-                                    <th className="font-medium py-2 px-4 border-b">{cliente.email}</th>
-                                    <th className="font-medium py-2 px-4 border-b">{cliente.aniversario}</th>
-                                    <th className="font-medium py-2 px-4 border-b">{cliente.telefone}</th>
+                                    <th id="cliente" className="font-medium py-2 px-4 border-b">{client.nome}</th>
+                                    <th className="font-medium py-2 px-4 border-b">{client.sobrenome}</th>
+                                    <th className="font-medium py-2 px-4 border-b">{client.email}</th>
+                                    <th className="font-medium py-2 px-4 border-b">{client.aniversario}</th>
+                                    <th className="font-medium py-2 px-4 border-b">{client.telefone}</th>
                                     <th className="py-2 pr-0 border-b">
                                         <OptionsButtons
                                             onDeleteClick={() => handleClick(setIsDeleteModalOpen, true)}
                                             onEditClick={() => handleClick(setIsEditModalOpen, true)}
                                             onAddressClick={() => handleClick(setIsAddressModalOpen, true)}
-                                            uuid={cliente.uuid}
+                                            uuid={client.uuid}
                                         />
                                     </th>
                                 </tr>
@@ -105,8 +105,12 @@ export default function ClientesTable() {
                         <button
                             key={index}
                             onClick={() => handlePageChange(index + 1)}
-                            className={`px-3 py-1 mx-1 rounded ${currentPage === index + 1 ? 'bg-gray-500 text-white' : 'bg-gray-200 text-black'
-                                }`}
+                            className={`px-3 py-1 mx-1 rounded ${
+                                currentPage === index + 1 ? 
+                                    'bg-gray-500 text-white' 
+                                : 
+                                    'bg-gray-200 text-black'
+                            }`}
                         >
                             {index + 1}
                         </button>

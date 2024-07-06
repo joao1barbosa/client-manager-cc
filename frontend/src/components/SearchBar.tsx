@@ -26,15 +26,6 @@ export default function SearchBar() {
         >
                 <FaSearch className="text-white" />
         </button>
-        {/* <button 
-            className= {
-              `flex justify-center items-center 'w-10' h-10
-              bg-gray-500 rounded-md hover:bg-gray-600 transition-all duration-300 ease-in-out`
-          }
-          onClick={() => setIsActive(!isActive)} 
-        >
-            <FaSearch className="text-white" />
-        </button> */}
     </div>
   );
 }

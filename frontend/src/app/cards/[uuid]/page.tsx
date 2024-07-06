@@ -2,7 +2,7 @@
 
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
-import AddCardModal from '@/components/Modals/AddCardModal';
+import AddCardModal from '@/components/Modals/Card/AddCardModal';
 import { handleClick } from '@/utils/haddleClick';
 import CardBlock from '@/components/CardBlock';
 
