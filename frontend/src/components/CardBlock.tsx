@@ -15,7 +15,7 @@ export default function CardBlock({ card }: Props){
     }
 
     return (
-        <aside className='flex flex-col w-48 h-[9.5rem] rounded border border-gray-300 justify-end items-center'>
+        <aside className='flex flex-col w-48 h-[9.5rem] rounded border border-gray-300 justify-end items-center m-2'>
             <section className='flex flex-row justify-end'>
 
             </section>

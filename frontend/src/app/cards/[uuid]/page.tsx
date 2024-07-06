@@ -40,8 +40,13 @@ export default function Cards() {
               </button>
             </div>
           :
-            
-            <CardBlock card={card}/>
+            <section className='w-full h-full flex flex-row flex-wrap overflow-y-auto justify-center'>
+              <CardBlock card={card}/>
+              <CardBlock card={card}/>
+              <CardBlock card={card}/>
+              <CardBlock card={card}/>
+              <CardBlock card={card}/>
+            </section>
         }
       </div>
       <AddCardModal isOpen={isAddCardModalOpen} onClose={() => handleClick(setIsAddCardModalOpen, false)}/>
