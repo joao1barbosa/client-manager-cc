@@ -1,61 +1,43 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import ClientesButtons from "./ClientsButtons";
-import OptionsButtons from "./OptionsButtons";
-import { handleClick } from "@/utils/haddleClick";
-import AddClienteModal from "./Modals/Client/AddClientModal";
 import DeleteConfirmationModal from "./Modals/DeleteConfirmationModal";
 import EditClienteModal from "./Modals/Client/EditClientModal";
 import AddressModal from "./Modals/Client/AddressModal";
+import OptionsButtons from "./OptionsButtons";
+import { useState } from "react";
+import { handleClick } from "@/utils/haddleClick";
 import { useSearch } from "@/hooks/useSearch";
 
-export default function ClientesTable() {
-    const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
+interface Client{
+    uuid: string;
+    nome: string,
+    sobrenome: string;
+    email: string;
+    aniversario: string;
+    telefone: string;
+}
+
+interface Props{
+    clients: Client[];
+}
+
+export default function ClientesTable({ clients }: Props) {
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
     const [isAddressModalOpen, setIsAddressModalOpen] = useState<boolean>(false);
-
     const [currentPage, setCurrentPage] = useState<number>(1);
     const clientsPerPage = 12;
 
     const { search } = useSearch();
-
-    // será preenchido com index do bd
-    const clients = [
-        { uuid: "adasdadasdada", nome: "João1", sobrenome: "Barbosa", email: "joao1.barbosa@outlook.com", aniversario: "03/08/2001", telefone: "(62) 99664-1935" },
-        { uuid: "adasdadasdada", nome: "João2", sobrenome: "Barbosa", email: "joao1.barbosa@outlook.com", aniversario: "03/08/2001", telefone: "(62) 99664-1935" },
-        { uuid: "adasdadasdada", nome: "João3", sobrenome: "Barbosa", email: "joao1.barbosa@outlook.com", aniversario: "03/08/2001", telefone: "(62) 99664-1935" },
-        { uuid: "adasdadasdada", nome: "João4", sobrenome: "Barbosa", email: "joao1.barbosa@outlook.com", aniversario: "03/08/2001", telefone: "(62) 99664-1935" },
-        { uuid: "adasdadasdada", nome: "João5", sobrenome: "Barbosa", email: "joao1.barbosa@outlook.com", aniversario: "03/08/2001", telefone: "(62) 99664-1935" },
-        { uuid: "adasdadasdada", nome: "João6", sobrenome: "Barbosa", email: "joao1.barbosa@outlook.com", aniversario: "03/08/2001", telefone: "(62) 99664-1935" },
-        { uuid: "adasdadasdada", nome: "João7", sobrenome: "Barbosa", email: "joao1.barbosa@outlook.com", aniversario: "03/08/2001", telefone: "(62) 99664-1935" },
-        { uuid: "adasdadasdada", nome: "João8", sobrenome: "Barbosa", email: "joao1.barbosa@outlook.com", aniversario: "03/08/2001", telefone: "(62) 99664-1935" },
-        { uuid: "adasdadasdada", nome: "João9", sobrenome: "Barbosa", email: "joao1.barbosa@outlook.com", aniversario: "03/08/2001", telefone: "(62) 99664-1935" },
-        { uuid: "adasdadasdada", nome: "João10", sobrenome: "Barbosa", email: "joao1.barbosa@outlook.com", aniversario: "03/08/2001", telefone: "(62) 99664-1935" },
-        { uuid: "adasdadasdada", nome: "João11", sobrenome: "Barbosa", email: "joao1.barbosa@outlook.com", aniversario: "03/08/2001", telefone: "(62) 99664-1935" },
-        { uuid: "adasdadasdada", nome: "João12", sobrenome: "Barbosa", email: "joao1.barbosa@outlook.com", aniversario: "03/08/2001", telefone: "(62) 99664-1935" },
-        { uuid: "adasdadasdada", nome: "João13", sobrenome: "Barbosa", email: "joao1.barbosa@outlook.com", aniversario: "03/08/2001", telefone: "(62) 99664-1935" },
-        { uuid: "adasdadasdada", nome: "João14", sobrenome: "Barbosa", email: "joao1.barbosa@outlook.com", aniversario: "03/08/2001", telefone: "(62) 99664-1935" },
-        { uuid: "adasdadasdada", nome: "João15", sobrenome: "Barbosa", email: "joao1.barbosa@outlook.com", aniversario: "03/08/2001", telefone: "(62) 99664-1935" },
-        { uuid: "adasdadasdada", nome: "João16", sobrenome: "Barbosa", email: "joao1.barbosa@outlook.com", aniversario: "03/08/2001", telefone: "(62) 99664-1935" },
-        { uuid: "adasdadasdada", nome: "João17", sobrenome: "Barbosa", email: "joao1.barbosa@outlook.com", aniversario: "03/08/2001", telefone: "(62) 99664-1935" },
-        { uuid: "adasdadasdada", nome: "João18", sobrenome: "Barbosa", email: "joao1.barbosa@outlook.com", aniversario: "03/08/2001", telefone: "(62) 99664-1935" },
-        { uuid: "adasdadasdada", nome: "João19", sobrenome: "Barbosa", email: "joao1.barbosa@outlook.com", aniversario: "03/08/2001", telefone: "(62) 99664-1935" },
-        { uuid: "adasdadasdada", nome: "João20", sobrenome: "Barbosa", email: "joao1.barbosa@outlook.com", aniversario: "03/08/2001", telefone: "(62) 99664-1935" },
-        { uuid: "adasdadasdada", nome: "João21", sobrenome: "Barbosa", email: "joao1.barbosa@outlook.com", aniversario: "03/08/2001", telefone: "(62) 99664-1935" },
-        { uuid: "adasdadasdada", nome: "João22", sobrenome: "Barbosa", email: "joao1.barbosa@outlook.com", aniversario: "03/08/2001", telefone: "(62) 99664-1935" },
-        { uuid: "adasdadasdada", nome: "João23", sobrenome: "Barbosa", email: "joao1.barbosa@outlook.com", aniversario: "03/08/2001", telefone: "(62) 99664-1935" },
-        { uuid: "adasdadasdada", nome: "João24", sobrenome: "Barbosa", email: "joao1.barbosa@outlook.com", aniversario: "03/08/2001", telefone: "(62) 99664-1935" },
-        { uuid: "adasdadasdada", nome: "João25", sobrenome: "Barbosa", email: "joao1.barbosa@outlook.com", aniversario: "03/08/2001", telefone: "(62) 99664-1935" },
-        { uuid: "adasdadasdada", nome: "João26", sobrenome: "Barbosa", email: "joao1.barbosa@outlook.com", aniversario: "03/08/2001", telefone: "(62) 99664-1935" },
-        { uuid: "adasdadasdada", nome: "João27", sobrenome: "Barbosa", email: "joao1.barbosa@outlook.com", aniversario: "03/08/2001", telefone: "(62) 99664-1935" },
-    ];
-
+    
+    const filteredClients = clients.filter((client) =>
+        client.nome.toLowerCase().includes(search.toLowerCase()) 
+    );
+    
     // Cálculo para a paginação
     const indexOfLastCliente = currentPage * clientsPerPage;
     const indexOfFirstCliente = indexOfLastCliente - clientsPerPage;
-    const currentClientes = clients.slice(indexOfFirstCliente, indexOfLastCliente);
+    const currentClientes = filteredClients.slice(indexOfFirstCliente, indexOfLastCliente);
     const totalPages = Math.ceil(clients.length / clientsPerPage);
 
     const handlePageChange = (page: number) => {
@@ -64,12 +46,7 @@ export default function ClientesTable() {
 
     return (
         <>
-            <section className="flex flex-row justify-between pl-4 mb-4">
-                <h1 className="text-4xl font-bold">Clientes</h1>
-                <ClientesButtons onAddClick={() => handleClick(setIsAddModalOpen, true)} />
-            </section>
-            <section className="flex flex-col h-92p">
-                <div className="flex-grow overflow-auto h-full">
+            <div className="flex-grow overflow-auto h-full">
                     <table className="min-w-full">
                         <thead className="bg-white">
                             <tr>
@@ -102,7 +79,7 @@ export default function ClientesTable() {
                         </tbody>
                     </table>
                 </div>
-                <div className="flex flex-shrink-0 justify-center p-4 bg-gray-100">
+                <div className="flex flex-shrink-0 justify-center bg-gray-100">
                     {Array.from({ length: totalPages }, (_, index) => (
                         <button
                             key={index}
@@ -118,8 +95,7 @@ export default function ClientesTable() {
                         </button>
                     ))}
                 </div>
-            </section>
-            <AddClienteModal isOpen={isAddModalOpen} onClose={() => handleClick(setIsAddModalOpen, false)} />
+
             <DeleteConfirmationModal isOpen={isDeleteModalOpen} onClose={() => handleClick(setIsDeleteModalOpen, false)} />
             <EditClienteModal isOpen={isEditModalOpen} onClose={() => handleClick(setIsEditModalOpen, false)} />
             <AddressModal isOpen={isAddressModalOpen} onClose={() => handleClick(setIsAddressModalOpen, false)} />
