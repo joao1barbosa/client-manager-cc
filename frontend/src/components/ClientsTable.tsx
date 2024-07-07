@@ -8,6 +8,7 @@ import AddClienteModal from "./Modals/Client/AddClientModal";
 import DeleteConfirmationModal from "./Modals/DeleteConfirmationModal";
 import EditClienteModal from "./Modals/Client/EditClientModal";
 import AddressModal from "./Modals/Client/AddressModal";
+import { useSearch } from "@/hooks/useSearch";
 
 export default function ClientesTable() {
     const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
@@ -17,6 +18,8 @@ export default function ClientesTable() {
 
     const [currentPage, setCurrentPage] = useState<number>(1);
     const clientsPerPage = 12;
+
+    const { search } = useSearch();
 
     // será preenchido com index do bd
     const clients = [
@@ -53,7 +56,6 @@ export default function ClientesTable() {
     const indexOfLastCliente = currentPage * clientsPerPage;
     const indexOfFirstCliente = indexOfLastCliente - clientsPerPage;
     const currentClientes = clients.slice(indexOfFirstCliente, indexOfLastCliente);
-
     const totalPages = Math.ceil(clients.length / clientsPerPage);
 
     const handlePageChange = (page: number) => {

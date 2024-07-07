@@ -1,7 +1,10 @@
 import ClientesTable from "@/components/ClientsTable";
+import { SearchProvider } from "@/contexts/SeachContext";
 
 export default function Home() {
   return (
-    <ClientesTable/>
+    <SearchProvider>
+      <ClientesTable/> 
+    </SearchProvider>
   );
 }

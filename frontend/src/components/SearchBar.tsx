@@ -2,9 +2,15 @@
 
 import { useState } from 'react';
 import { FaSearch } from "react-icons/fa";
+import { useSearch } from '@/hooks/useSearch';
 
 export default function SearchBar() {
   const [isActive, setIsActive] = useState(false);
+  const { setSearch } = useSearch();
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(event.target.value);
+}
 
   return (
     <div className="flex items-center">
@@ -17,6 +23,7 @@ export default function SearchBar() {
             }
             onBlur={() => setIsActive(false)}
             autoFocus={isActive}
+            onChange={handleInputChange}
         />
         <button 
             className="
