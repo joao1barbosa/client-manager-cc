@@ -16,10 +16,6 @@ class ClientController extends Controller
 
     public function store(Request $request)
     {
-        // Log para indicar início do método store
-        Log::info('Iniciando método store do ClientController.');
-
-        // Validação dos dados recebidos
         $validator = Validator::make($request->all(), [
             'nome' => 'required|string|max:255',
             'sobrenome' => 'required|string|max:255',
@@ -28,29 +24,13 @@ class ClientController extends Controller
             'telefone' => 'required|string|max:15',
         ]);
 
-        // Verificação se a validação falhou
         if ($validator->fails()) {
-            // Log de erro se a validação falhar
-            Log::error('Erro de validação ao criar cliente:');
             return response()->json($validator->errors(), 400);
         }
 
-        try {
-            // Criar o cliente
-            $cliente = Client::create($request->all());
+        $cliente = Client::create($request->all());
+        return response()->json($cliente, 201);
 
-            // Log de sucesso ao criar cliente
-            Log::info('Cliente criado com sucesso:', $cliente->toArray());
-
-            // Retornar resposta de sucesso com o cliente criado
-            return response()->json($cliente, 201);
-        } catch (\Exception $e) {
-            // Log de erro ao criar cliente
-            Log::error('Erro ao criar cliente:', ['message' => $e->getMessage()]);
-
-            // Retornar resposta de erro genérico
-            return response()->json(['error' => 'Erro ao criar cliente'], 500);
-        }
     }
 
     public function show($uuid)

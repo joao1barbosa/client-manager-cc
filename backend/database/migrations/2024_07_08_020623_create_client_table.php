@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->string('nome');
             $table->string('sobrenome');
             $table->string('email')->unique();
-            $table->date('aniversario');
+            $table->string('aniversario');
             $table->string('telefone');
             $table->timestamps();
         });
