@@ -12,30 +12,29 @@ interface Props {
 }
 
 export default function CardBlock({ card, onRemove }: Props) {
-    const handleDeleteClick = async() => {
-        await deleteCard(card.number);
-        onRemove();
-    }
+  const handleDeleteClick = async () => {
+    await deleteCard(card.number);
+    onRemove();
+  }
 
-    return (
-        <aside className='
-            relative flex flex-col w-48 h-[9rem] rounded border border-gray-300 
-            justify-end items-center m-2
-        '>
-        <button 
-            className='absolute top-[0.01rem] right-1 text-xl'
-            onClick={handleDeleteClick}
-            >
-            &times;
-        </button>
-        <div className='mini-credit-card my-2'>
-            <Cards
-            cvc=""
-            expiry={card.expiry}
-            name={card.name}
-            number={card.number}
-            />
-        </div>
-        </aside>
-    );
+  // Verifica se card é válido antes de renderizar Cards
+  if (!card || !card.number || !card.name || !card.expiry) {
+    return null; // Ou renderiza uma mensagem de erro, se preferir
+  }
+
+  return (
+    <aside className='relative flex flex-col w-48 h-[9rem] rounded border border-gray-300 justify-end items-center m-2'>
+      <button className='absolute top-[0.01rem] right-1 text-xl' onClick={handleDeleteClick}>
+        &times;
+      </button>
+      <div className='mini-credit-card my-2'>
+        <Cards
+          cvc=""
+          expiry={card.expiry}
+          name={card.name}
+          number={card.number}
+        />
+      </div>
+    </aside>
+  );
 }
