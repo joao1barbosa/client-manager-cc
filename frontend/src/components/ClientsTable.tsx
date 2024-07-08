@@ -5,7 +5,7 @@ import EditClienteModal from "./Modals/Client/EditClientModal";
 import AddressModal from "./Modals/Client/AddressModal";
 import OptionsButtons from "./OptionsButtons";
 import { useState } from "react";
-import { handleClick } from "@/utils/haddleClick";
+import { handleClick } from "@/utils/hadleClick";
 import { useSearch } from "@/hooks/useSearch";
 
 interface Client{

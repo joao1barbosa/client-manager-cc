@@ -3,23 +3,24 @@
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
 import AddCardModal from '@/components/Modals/Card/AddCardModal';
-import { handleClick } from '@/utils/haddleClick';
+import { handleClick } from '@/utils/hadleClick';
 import CardBlock from '@/components/CardBlock';
 
 export default function Cards() {
   const [isAddCardModalOpen, setIsAddCardModalOpen] = useState<boolean>(false);
+  const [cards, setCards] = useState([
+    {
+      expiry: "12/12",
+      name: "Joao Barbosa",
+      number: "4434 1234 1234 4321"
+    }
+  ]);
 
   const params = useParams();
   const { uuid } = params as { uuid: string };
 
-  const cards = [
-    "111111"
-  ];
-
-  const card = {
-    expiry: "12/12",
-    name: "Joao Barbosa",
-    number: "4434 1234 1234 4321"
+  const handleRemoveCard = (index: number) => {
+    setCards(prevCards => prevCards.filter((_, i) => i !== index));
   }
 
   return (
@@ -40,18 +41,29 @@ export default function Cards() {
               </button>
             </div>
           :
-            <section className='w-full h-full flex flex-row flex-wrap overflow-y-auto justify-center'>
-              <CardBlock card={card}/>
-              <CardBlock card={card}/>
-              <CardBlock card={card}/>
-              <CardBlock card={card}/>
-              <CardBlock card={card}/>
-              <CardBlock card={card}/>
-              <CardBlock card={card}/>
-              <CardBlock card={card}/>
-              <CardBlock card={card}/>
-              <CardBlock card={card}/>
-            </section>
+            <div className='flex flex-col h-full w-full'>
+              <section className='flex flex-row justify-end'>
+                <button
+                  type="button"
+                  className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+                  onClick={() => handleClick(setIsAddCardModalOpen, true)}
+                >
+                  Adicionar Cartão
+                </button>
+              </section>
+              <section className='
+                w-full h-full flex flex-wrap overflow-y-auto content-start justify-center
+                my-2 
+                '>
+                {cards.map((card, index) => (
+                <CardBlock
+                  key={index}
+                  card={card}
+                  onRemove={() => handleRemoveCard(index)}
+                />
+              ))}
+              </section>
+            </div>
         }
       </div>
       <AddCardModal isOpen={isAddCardModalOpen} onClose={() => handleClick(setIsAddCardModalOpen, false)}/>

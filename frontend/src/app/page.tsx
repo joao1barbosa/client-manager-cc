@@ -5,7 +5,7 @@ import ClientesTable from "@/components/ClientsTable";
 import ClientesButtons from "../components/ClientsButtons";
 import AddClienteModal from "../components/Modals/Client/AddClientModal"
 import { SearchProvider } from "@/contexts/SeachContext";
-import { handleClick } from "@/utils/haddleClick";
+import { handleClick } from "@/utils/hadleClick";
 
 export default function Home() {
   const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
