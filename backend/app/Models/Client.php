@@ -5,13 +5,24 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Cliente extends Model
+class Client extends Model
 {
     use HasFactory;
 
     protected $keyType = 'string';
     public $incrementing = false;
-    protected $fillable = ['nome', 'sobrenome', 'email', 'aniversario', 'telefone'];
+    protected $fillable = [
+        'nome',
+        'sobrenome',
+        'email',
+        'aniversario',
+        'telefone'
+    ];
+
+    public function cards()
+    {
+        return $this->hasMany(Card::class, 'client_uuid', 'uuid');
+    }
 
     protected static function boot()
     {

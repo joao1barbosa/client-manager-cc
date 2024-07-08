@@ -1,16 +1,16 @@
 <?php
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Models\Cliente;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Models\Client;
 
-class ClienteController extends Controller
+class ClientController extends Controller
 {
     public function index()
     {
-        return response()->json(Cliente::all(), 200);
+        return response()->json(Client::all(), 200);
     }
 
     public function store(Request $request)
@@ -27,13 +27,13 @@ class ClienteController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        $cliente = Cliente::create($request->all());
+        $cliente = Client::create($request->all());
         return response()->json($cliente, 201);
     }
 
     public function show($uuid)
     {
-        $cliente = Cliente::find($uuid);
+        $cliente = Client::find($uuid);
 
         if (is_null($cliente)) {
             return response()->json(['message' => 'Cliente não encontrado'], 404);
@@ -44,7 +44,7 @@ class ClienteController extends Controller
 
     public function update(Request $request, $uuid)
     {
-        $cliente = Cliente::find($uuid);
+        $cliente = Client::find($uuid);
 
         if (is_null($cliente)) {
             return response()->json(['message' => 'Cliente não encontrado'], 404);
@@ -68,7 +68,7 @@ class ClienteController extends Controller
 
     public function destroy($uuid)
     {
-        $cliente = Cliente::find($uuid);
+        $cliente = Client::find($uuid);
 
         if (is_null($cliente)) {
             return response()->json(['message' => 'Cliente não encontrado'], 404);
