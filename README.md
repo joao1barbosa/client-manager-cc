@@ -6,6 +6,10 @@ Este projeto consiste na solução de um desafio técnico, que se trata de um cr
 
 ## 🎲 Estrutura do Banco de Dados
 
+<p align="center">
+<img src="./docs/Bd.png">
+</p>
+
 ## 📱 Technologias
 
 - **React**
