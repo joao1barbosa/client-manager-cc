@@ -1,12 +1,13 @@
-import Modal from "./Modal";
+import Modal from "../Modal";
 
 interface Props{
+    uuid: string;
     isOpen: boolean;
     onClose: () => void;
 }
 
-export default function DeleteConfirmationModal({ isOpen, onClose }: Props){
-  const haddleDelete = () => {
+export default function DeleteConfirmationModal({ uuid, isOpen, onClose }: Props){
+  const haddleDelete = (uuid: string) => {
     //deletar no bd
     onClose();
   }
@@ -20,7 +21,7 @@ export default function DeleteConfirmationModal({ isOpen, onClose }: Props){
         <button
           type="submit"
           className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-800 ml-2"
-          onClick={haddleDelete}
+          onClick={()=>haddleDelete(uuid)}
         >
           Deletar
         </button>

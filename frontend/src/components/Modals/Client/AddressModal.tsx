@@ -11,7 +11,7 @@ import { searchCep } from '@/services/viacep';
 import { FaSearch } from "react-icons/fa";
 
 interface Props {
-    uuid?: string
+    uuid: string
     isOpen: boolean;
     onClose: () => void;
 }
@@ -30,6 +30,7 @@ const notify = (message: string) => toast(message);
 export default function AddressModal({ uuid, isOpen, onClose }: Props){
     const [cep, setCep] = useState('');
     const [addressData, setAddressData] = useState<AddressData>({
+        //findByUuid ||
         logradouro: '',
         unidade:'',
         complemento: '',

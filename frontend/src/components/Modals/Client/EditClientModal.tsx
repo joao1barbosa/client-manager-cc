@@ -5,13 +5,14 @@ import InputField from '../../InputField';
 import Modal from '../Modal';
 
 interface Props {
+  uuid: string;
   isOpen: boolean;
   onClose: () => void;
 }
 
 const notify = (message: string) => toast(message);
 
-export default function EditClienteModal({isOpen, onClose}: Props){
+export default function EditClienteModal({ uuid, isOpen, onClose }: Props){
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
         

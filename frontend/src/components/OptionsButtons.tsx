@@ -12,23 +12,27 @@ interface Props{
 export default function OptionsButtons({ onDeleteClick, onEditClick, onAddressClick, uuid }: Props){
     return(
         <div className="flex flex-row justify-center space-x-1 mr-0">
+            {/* Adress Button */}
             <button 
                 className="flex justify-center items-center w-8 h-8 bg-gray-300 rounded-md hover:bg-gray-400"
                 onClick={onAddressClick}
             >
                 <FaLocationDot className="text-white" />
             </button>
+            {/* CreditCard Button */}
             <Link href={`/cards/${uuid}`}>
                 <div className="flex justify-center items-center w-8 h-8 bg-gray-300 rounded-md hover:bg-gray-400">
                     <FaCreditCard className="text-white" />
                 </div>
             </Link>
+            {/* Edit Button */}
             <button 
                 className="flex justify-center items-center w-8 h-8 bg-gray-300 rounded-md hover:bg-gray-400"
                 onClick={onEditClick}
             >
                 <FaPen className="text-white" />
             </button>
+            {/* Delete Button */}
             <button 
                 className="flex justify-center items-center w-8 h-8 bg-gray-300 rounded-md hover:bg-gray-400"
                 onClick={onDeleteClick}

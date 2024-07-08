@@ -46,6 +46,11 @@ export default function Cards() {
               <CardBlock card={card}/>
               <CardBlock card={card}/>
               <CardBlock card={card}/>
+              <CardBlock card={card}/>
+              <CardBlock card={card}/>
+              <CardBlock card={card}/>
+              <CardBlock card={card}/>
+              <CardBlock card={card}/>
             </section>
         }
       </div>
