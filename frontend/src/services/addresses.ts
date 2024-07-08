@@ -10,7 +10,6 @@ export const createAddress = async (addressData: any) => {
 
 export const getAddress = async (uuid: string) => {
   const response = await axios.get(fullUrl+"/"+uuid);
-  console.log(response);
   return response.data;
 };
 
