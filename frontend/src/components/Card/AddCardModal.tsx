@@ -19,10 +19,10 @@ const notify = (message: string) => toast(message);
 
 export default function AddCardModal({ uuid, isOpen, onClose }: Props) {
     const [cardInfo, setCardInfo] = useState({
-        number: "",
-        name: "",
-        expiry: "",
-        cvc: "",
+        numero: "",
+        nome: "",
+        validade: "",
+        cvv: "",
     });
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,8 +35,8 @@ export default function AddCardModal({ uuid, isOpen, onClose }: Props) {
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        if(!cardInfo.cvc || !cardInfo.expiry || !cardInfo.name || !cardInfo.number ||
-            cardInfo.cvc.includes("_") || cardInfo.expiry.includes("_") || cardInfo.number.includes("_")
+        if(!cardInfo.cvv || !cardInfo.validade || !cardInfo.nome || !cardInfo.numero ||
+            cardInfo.cvv.includes("_") || cardInfo.validade.includes("_") || cardInfo.numero.includes("_")
         ){
             notify("Preencha todos os campos!");
             return;
@@ -49,10 +49,10 @@ export default function AddCardModal({ uuid, isOpen, onClose }: Props) {
         <Modal isOpen={isOpen} onClose={onClose}>
             <div className='flex flex-col space-y-4 items-center justify-center'>
                 <Cards
-                    name={cardInfo.name}
-                    number={cardInfo.number}
-                    expiry={cardInfo.expiry}
-                    cvc={cardInfo.cvc}
+                    name={cardInfo.nome}
+                    number={cardInfo.numero}
+                    expiry={cardInfo.validade}
+                    cvc={cardInfo.cvv}
                 />
                 <form noValidate className="w-3/4 flex flex-col space-y-4 items-center" onSubmit={handleSubmit}>
                     <div className='flex flex-col space-y-4 items-center'>
@@ -63,7 +63,7 @@ export default function AddCardModal({ uuid, isOpen, onClose }: Props) {
                             placeholder="Número do Cartão"
                             mask="9999 9999 9999 9999"
                             onChange={handleInputChange}
-                            value={cardInfo.number}
+                            value={cardInfo.numero}
                         />
                         <input
                             className="w-3/4 p-2 border border-gray-300 rounded text-center text-xl placeholder:text-center"
@@ -71,26 +71,26 @@ export default function AddCardModal({ uuid, isOpen, onClose }: Props) {
                             type="text"
                             placeholder="Nome do Titular"
                             onChange={handleInputChange}
-                            value={cardInfo.name}
+                            value={cardInfo.nome}
                         />
                         <div className="w-3/4 m-0 flex flex-row space-x-6 justify-center">
                             <InputMask
                                 className="w-full p-2 border border-gray-300 rounded text-center text-xl placeholder:text-center"
-                                name="expiry"
+                                name="validade"
                                 type="text"
                                 placeholder="MM/AA"
                                 mask="99/99"
                                 onChange={handleInputChange}
-                                value={cardInfo.expiry}
+                                value={cardInfo.validade}
                             />
                             <InputMask
                                 className="w-full p-2 border border-gray-300 rounded text-center text-xl placeholder:text-center"
-                                name="cvc"
+                                name="cvv"
                                 type="text"
-                                placeholder="CVC"
+                                placeholder="CVV"
                                 mask="999"
                                 onChange={handleInputChange}
-                                value={cardInfo.cvc}
+                                value={cardInfo.cvv}
                             />
                         </div>
                     </div>

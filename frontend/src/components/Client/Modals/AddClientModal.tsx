@@ -11,16 +11,18 @@ interface Props {
   onClose: () => void;
 }
 
+const defaulValue = {
+  nome: '',
+  sobrenome: '',
+  email: '',
+  aniversario: '',
+  telefone: '',
+}
+
 const notify = (message: string) => toast(message);
 
 export default function AddClienteModal({isOpen, onClose}: Props){
-  const [formData, setFormData] = useState({
-    nome: '',
-    sobrenome: '',
-    email: '',
-    aniversario: '',
-    telefone: '',
-  });
+  const [formData, setFormData] = useState(defaulValue);
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -37,11 +39,12 @@ export default function AddClienteModal({isOpen, onClose}: Props){
         
         if (!validated){
           try {
-            const response = await createClient(formData);
-            onClose();
+            await createClient(formData);
+            
           } catch (error) {
             notify("Erro ao adicionar cliente: " + error);
           }
+          setFormData(defaulValue);
           onClose();
         }
         notify(validated);

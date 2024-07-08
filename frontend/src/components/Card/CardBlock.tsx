@@ -4,22 +4,18 @@ import "react-credit-cards-2/dist/es/styles-compiled.css";
 
 interface Props {
   card: {
-    number: string,
-    name: string,
-    expiry: string,
+    numero: string;
+    nome: string;
+    validade: string;
+    cvv: string;
+    client_uuid: string;
   }
-  onRemove: () => void;
 }
 
-export default function CardBlock({ card, onRemove }: Props) {
+export default function CardBlock({ card }: Props) {
   const handleDeleteClick = async () => {
-    await deleteCard(card.number);
-    onRemove();
-  }
-
-  // Verifica se card é válido antes de renderizar Cards
-  if (!card || !card.number || !card.name || !card.expiry) {
-    return null; // Ou renderiza uma mensagem de erro, se preferir
+    console.log(card.numero);
+    await deleteCard(card.numero);
   }
 
   return (
@@ -30,9 +26,9 @@ export default function CardBlock({ card, onRemove }: Props) {
       <div className='mini-credit-card my-2'>
         <Cards
           cvc=""
-          expiry={card.expiry}
-          name={card.name}
-          number={card.number}
+          expiry={card.validade}
+          name={card.nome}
+          number={card.numero}
         />
       </div>
     </aside>
