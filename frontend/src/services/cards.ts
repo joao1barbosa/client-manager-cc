@@ -9,8 +9,16 @@ export const createCard = async (cardData: any) => {
 };
 
 export const getClientCards = async (uuid: string) => {
-  const response = await axios.get(fullUrl+"/"+uuid);
-  return response.data;
+  try {
+    const response = await axios.get(`${fullUrl}/${uuid}`);
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      return error.response.data;
+    } else {
+      throw error;
+    }
+  }
 };
 
 export const deleteCard = async (numero: string) => {

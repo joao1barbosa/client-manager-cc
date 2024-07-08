@@ -14,8 +14,16 @@ export const createClient = async (clientData: any) => {
 };
 
 export const getClient = async (uuid: string) => {
-  const response = await axios.get(fullUrl+'/'+uuid);
-  return response.data;
+  try {
+    const response = await axios.get(`${fullUrl}/${uuid}`);
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      return error.response.data;
+    } else {
+      throw error;
+    }
+  }
 }
 
 export const updateClient = async (uuid: string, clientData: any) => {
