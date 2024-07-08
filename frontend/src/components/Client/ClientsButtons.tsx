@@ -1,5 +1,5 @@
 import { FaPlus } from "react-icons/fa"
-import SearchBar from "./SearchBar";
+import SearchBar from "../SearchBar";
 
 interface Props {
     onAddClick: () => void;

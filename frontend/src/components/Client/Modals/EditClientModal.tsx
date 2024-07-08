@@ -1,8 +1,8 @@
 import { FormEvent } from 'react';
 import { isFormValidated } from '@/utils/validate';
 import toast, { Toaster } from 'react-hot-toast';
-import InputField from '../../InputField';
-import Modal from '../Modal';
+import InputField from '@/components/InputField';
+import Modal from '@/components/Modal';
 
 interface Props {
   uuid: string;

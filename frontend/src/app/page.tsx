@@ -1,9 +1,9 @@
 "use client"
 
 import { useState } from "react";
-import ClientesTable from "@/components/ClientsTable";
-import ClientesButtons from "../components/ClientsButtons";
-import AddClienteModal from "../components/Modals/Client/AddClientModal"
+import ClientesTable from "@/components/Client/ClientsTable";
+import ClientesButtons from "@/components/Client/ClientsButtons";
+import AddClienteModal from "../components/Client/Modals/AddClientModal"
 import { SearchProvider } from "@/contexts/SeachContext";
 import { handleClick } from "@/utils/hadleClick";
 

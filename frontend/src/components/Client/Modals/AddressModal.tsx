@@ -4,9 +4,9 @@
 import InputMask from 'react-input-mask';
 import { FormEvent, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
-import InputField from '../../InputField';
-import UfSelect from '../../UfSelect';
-import Modal from "../Modal";
+import InputField from '@/components/InputField';
+import UfSelect from '@/components/UfSelect';
+import Modal from "@/components/Modal";
 import { searchCep } from '@/services/viacep';
 import { FaSearch } from "react-icons/fa";
 

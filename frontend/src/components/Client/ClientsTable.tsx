@@ -1,8 +1,8 @@
 "use client"
 
-import DeleteConfirmationModal from "./Modals/Client/DeleteConfirmationModal";
-import EditClienteModal from "./Modals/Client/EditClientModal";
-import AddressModal from "./Modals/Client/AddressModal";
+import DeleteConfirmationModal from "./Modals/DeleteConfirmationModal";
+import EditClienteModal from "../Client/Modals/EditClientModal";
+import AddressModal from "../Client/Modals/AddressModal";
 import OptionsButtons from "./OptionsButtons";
 import { useState } from "react";
 import { handleClick } from "@/utils/hadleClick";

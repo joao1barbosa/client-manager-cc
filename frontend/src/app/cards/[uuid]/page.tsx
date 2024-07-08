@@ -2,9 +2,9 @@
 
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
-import AddCardModal from '@/components/Modals/Card/AddCardModal';
+import AddCardModal from '@/components/Card/AddCardModal';
 import { handleClick } from '@/utils/hadleClick';
-import CardBlock from '@/components/CardBlock';
+import CardBlock from '@/components/Card/CardBlock';
 
 export default function Cards() {
   const [isAddCardModalOpen, setIsAddCardModalOpen] = useState<boolean>(false);
