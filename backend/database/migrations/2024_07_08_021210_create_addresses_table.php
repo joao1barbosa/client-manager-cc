@@ -11,7 +11,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('addresses', function (Blueprint $table) {
-            $table->uuid('client_uuid');
+            $table->uuid('client_uuid')->primary();
             $table->foreign('client_uuid')->references('uuid')->on('clients')->onDelete('cascade');
             $table->string('cep');
             $table->string('endereco');
