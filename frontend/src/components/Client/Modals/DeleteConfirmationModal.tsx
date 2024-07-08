@@ -1,14 +1,17 @@
 import Modal from "@/components/Modal";
+import { deleteClient } from "@/services/clients";
 
 interface Props{
     uuid: string;
     isOpen: boolean;
     onClose: () => void;
+    onDelete: () => void;
 }
 
-export default function DeleteConfirmationModal({ uuid, isOpen, onClose }: Props){
-  const haddleDelete = (uuid: string) => {
-    //deletar no bd
+export default function DeleteConfirmationModal({ uuid, isOpen, onClose, onDelete }: Props){
+  const haddleDelete = async (uuid: string) => {
+    await deleteClient(uuid);
+    onDelete();
     onClose();
   }
 

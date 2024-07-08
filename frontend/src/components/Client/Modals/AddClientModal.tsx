@@ -1,5 +1,7 @@
-import { FormEvent } from 'react';
+"use client"
+import { FormEvent, useState } from 'react';
 import { isFormValidated } from '@/utils/validate';
+import { createClient } from '@/services/clients';
 import toast, { Toaster } from 'react-hot-toast';
 import InputField from '@/components/InputField';
 import Modal from '@/components/Modal';
@@ -12,13 +14,34 @@ interface Props {
 const notify = (message: string) => toast(message);
 
 export default function AddClienteModal({isOpen, onClose}: Props){
-    const handleSubmit = (e: FormEvent) => {
+  const [formData, setFormData] = useState({
+    nome: '',
+    sobrenome: '',
+    email: '',
+    aniversario: '',
+    telefone: '',
+  });
+  
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [id]: value,
+    }));
+  };
+  
+  const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         
         const validated = isFormValidated("add");
         
         if (!validated){
-          //inscrever no bd
+          try {
+            const response = await createClient(formData);
+            onClose();
+          } catch (error) {
+            notify("Erro ao adicionar cliente: " + error);
+          }
           onClose();
         }
         notify(validated);
@@ -30,11 +53,26 @@ export default function AddClienteModal({isOpen, onClose}: Props){
             <h2 className="font-bold text-xl">Adicionar Cliente</h2>
           </div>
             <form noValidate onSubmit={handleSubmit}>
-              <InputField id="nome" type="text" label="Nome" placeholder="Nome"/>
-              <InputField id="sobrenome" type="text" label="Sobrenome"placeholder="Sobrenome"/>
-              <InputField id="email" type="email" label="Email" placeholder="Email"/>
-              <InputField id="aniversario" type="text" label="Data de Nascimento"/>
-              <InputField id="telefone" type="text" label="Telefone"/>
+              <InputField 
+                id="nome" type="text" label="Nome" placeholder="Nome"
+                value={formData.nome} onChange={handleChange}
+              />
+              <InputField 
+                id="sobrenome" type="text" label="Sobrenome"placeholder="Sobrenome"
+                value={formData.sobrenome} onChange={handleChange}
+              />
+              <InputField 
+                id="email" type="email" label="Email" placeholder="Email"
+                value={formData.email} onChange={handleChange}
+              />
+              <InputField 
+                id="aniversario" type="text" label="Data de Nascimento"
+                value={formData.aniversario} onChange={handleChange}
+              />
+              <InputField 
+                id="telefone" type="text" label="Telefone"
+                value={formData.telefone} onChange={handleChange}
+              />
 
               <div className="flex justify-center">
                 <button

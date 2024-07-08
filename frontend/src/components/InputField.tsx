@@ -26,6 +26,8 @@ export default function InputField({id, type, label, placeholder, value, onChang
                     type={type}
                     placeholder="DD/MM/AAAA"
                     pattern="\d{2}/\d{2}/\d{4}"
+                    value={value}
+                    onChange={onChange}
                />
             : isFone ?
                 <InputMask
@@ -34,6 +36,8 @@ export default function InputField({id, type, label, placeholder, value, onChang
                     type={type}
                     placeholder="(xx) xxxxx-xxxx"
                     mask="(99) 99999-9999"
+                    value={value}
+                    onChange={onChange}
                 />
             :
                 <input

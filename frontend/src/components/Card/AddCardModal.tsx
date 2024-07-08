@@ -3,19 +3,21 @@
 //@ts-ignore
 import InputMask from 'react-input-mask';
 import { FormEvent, useState } from 'react';
+import { createCard } from '@/services/cards';
 import toast, { Toaster } from 'react-hot-toast';
 import Cards from 'react-credit-cards-2';
 import Modal from "../Modal";
 import "react-credit-cards-2/dist/es/styles-compiled.css";
 
 interface Props {
+    uuid: string;
     isOpen: boolean;
     onClose: () => void;
 }
 
 const notify = (message: string) => toast(message);
 
-export default function AddCardModal({ isOpen, onClose }: Props) {
+export default function AddCardModal({ uuid, isOpen, onClose }: Props) {
     const [cardInfo, setCardInfo] = useState({
         number: "",
         name: "",
@@ -31,7 +33,7 @@ export default function AddCardModal({ isOpen, onClose }: Props) {
         }));
     };
 
-    const handleSubmit = (e: FormEvent) => {
+    const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         if(!cardInfo.cvc || !cardInfo.expiry || !cardInfo.name || !cardInfo.number ||
             cardInfo.cvc.includes("_") || cardInfo.expiry.includes("_") || cardInfo.number.includes("_")
@@ -39,8 +41,7 @@ export default function AddCardModal({ isOpen, onClose }: Props) {
             notify("Preencha todos os campos!");
             return;
         }
-
-        //increver no bd
+        await createCard({...cardInfo, client_uuid: uuid});
         onClose();
     }
 

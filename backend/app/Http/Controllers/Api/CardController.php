@@ -9,11 +9,6 @@ use App\Models\Card;
 
 class CardController extends Controller
 {
-    public function index()
-    {
-        return response()->json(Card::all(), 200);
-    }
-
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -31,30 +26,15 @@ class CardController extends Controller
         return response()->json($card, 201);
     }
 
-    public function show($numero)
+    public function show($client_uuid)
     {
-        $card = Card::find($numero);
+        $cards = Card::where('client_uuid', $client_uuid)->get();
 
-        if (is_null($card)) {
-            return response()->json(['message' => 'Cartão não encontrado'], 404);
+        if ($cards->isEmpty()) {
+            return response()->json(['message' => 'Nenhum cartão encontrado para este cliente'], 404);
         }
 
-        return response()->json($card, 200);
-    }
-
-    public function update(Request $request, $numero)
-    {
-        $card = Card::find($numero);
-
-        $validator = Validator::make($request->all(), [
-            'numero' => 'sometimes|string|max:20',
-            'validade' => 'sometimes|string|max:6',
-            'cvv' => 'sometrimes|string|max:3',
-        ]);
-
-        $card->update($request->all());
-
-        return response()->json($card, 200);
+        return response()->json($cards, 200);
     }
 
     public function destroy($numero)

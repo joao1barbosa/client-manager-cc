@@ -9,18 +9,18 @@ class Address extends Model
 {
     use HasFactory;
 
-    protected $primary = 'uuid';
+    protected $primaryKey = 'client_uuid';
     protected $keyType = 'string';
     public $incrementing = false;
 
     protected $fillable = [
         'client_uuid',
         'cep',
-        'endereco',
-        'numero',
+        'logradouro',
+        'unidade',
         'complemento',
         'bairro',
-        'cidade',
+        'localidade',
         'uf'
     ];
 

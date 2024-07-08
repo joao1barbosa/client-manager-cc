@@ -1,5 +1,3 @@
-"use client"
-
 import DeleteConfirmationModal from "./Modals/DeleteConfirmationModal";
 import EditClienteModal from "../Client/Modals/EditClientModal";
 import AddressModal from "../Client/Modals/AddressModal";
@@ -19,14 +17,17 @@ interface Client{
 
 interface Props{
     clients: Client[];
+    onChange: () => void;
 }
 
-export default function ClientesTable({ clients }: Props) {
+type ModalType = "delete" | "edit" | "address" | null;
+
+export default function ClientesTable({ clients, onChange }: Props) {
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
     const [isAddressModalOpen, setIsAddressModalOpen] = useState<boolean>(false);
 
-    const [currentClient, setCurrentClient] = useState<string>("");
+    const [currentClient, setCurrentClient] = useState<{ uuid: string; modalType: ModalType }>({ uuid: "", modalType: null });
     
     const [currentPage, setCurrentPage] = useState<number>(1);
     const clientsPerPage = 12;
@@ -50,9 +51,10 @@ export default function ClientesTable({ clients }: Props) {
     const handleOptionClick = (
         func: (value: boolean) => void, 
         value: boolean, 
-        uuid: string
+        uuid: string,
+        modalType: ModalType
     ) => {
-        setCurrentClient(uuid);
+        setCurrentClient({ uuid, modalType });
         handleClick(func, value);
     }
 
@@ -65,7 +67,7 @@ export default function ClientesTable({ clients }: Props) {
                                 <th className="py-2 px-4 border-b">Nome</th>
                                 <th className="py-2 px-4 border-b">Sobrenome</th>
                                 <th className="py-2 px-4 border-b">Email</th>
-                                <th className="py-2 px-4 border-b">Aniversário</th>
+                                <th className="py-2 px-4 border-b">Data de Nascimento</th>
                                 <th className="py-2 px-4 border-b">Telefone</th>
                                 <th className="py-2 px-4 border-b">Opções</th>
                             </tr>
@@ -81,9 +83,9 @@ export default function ClientesTable({ clients }: Props) {
                                     <th className="py-2 pr-0 border-b">
                                         <OptionsButtons
                                             uuid={client.uuid}
-                                            onDeleteClick={() => handleOptionClick(setIsDeleteModalOpen, true, client.uuid)}
-                                            onEditClick={() => handleClick(setIsEditModalOpen, true)}
-                                            onAddressClick={() => handleClick(setIsAddressModalOpen, true)}
+                                            onDeleteClick={() => handleOptionClick(setIsDeleteModalOpen, true, client.uuid, "delete")}
+                                            onEditClick={() => handleOptionClick(setIsEditModalOpen, true, client.uuid, "edit")}
+                                            onAddressClick={() => handleOptionClick(setIsAddressModalOpen, true, client.uuid, "address")}
                                         />
                                     </th>
                                 </tr>
@@ -108,9 +110,9 @@ export default function ClientesTable({ clients }: Props) {
                     ))}
                 </div>
 
-            <DeleteConfirmationModal uuid={currentClient} isOpen={isDeleteModalOpen} onClose={() => handleClick(setIsDeleteModalOpen, false)} />
-            <EditClienteModal uuid={currentClient} isOpen={isEditModalOpen} onClose={() => handleClick(setIsEditModalOpen, false)} />
-            <AddressModal uuid={currentClient} isOpen={isAddressModalOpen} onClose={() => handleClick(setIsAddressModalOpen, false)} />
+            <DeleteConfirmationModal uuid={currentClient.uuid} isOpen={isDeleteModalOpen} onClose={() => handleClick(setIsDeleteModalOpen, false)} onDelete={onChange} />
+            <EditClienteModal uuid={currentClient.uuid} isOpen={isEditModalOpen} onClose={() => handleClick(setIsEditModalOpen, false)} onEdit={onChange}/>
+            <AddressModal uuid={currentClient.modalType === "address" ? currentClient.uuid : ""} isOpen={isAddressModalOpen} onClose={() => handleClick(setIsAddressModalOpen, false)} />
         </>
     );
 }

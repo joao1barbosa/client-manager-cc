@@ -6,4 +6,4 @@ use App\Http\Controllers\Api\AddressController;
 
 Route::apiResource('clients', ClientController::class);
 Route::apiResource('cards', CardController::class);
-Route::apiResource('address', AddressController::class);
+Route::apiResource('addresses', AddressController::class);

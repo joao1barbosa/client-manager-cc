@@ -1,5 +1,8 @@
-import { FormEvent } from 'react';
+"use client"
+
+import { FormEvent, useState } from 'react';
 import { isFormValidated } from '@/utils/validate';
+import { updateClient } from '@/services/clients';
 import toast, { Toaster } from 'react-hot-toast';
 import InputField from '@/components/InputField';
 import Modal from '@/components/Modal';
@@ -8,18 +11,52 @@ interface Props {
   uuid: string;
   isOpen: boolean;
   onClose: () => void;
+  onEdit: () => void;
 }
 
 const notify = (message: string) => toast(message);
 
-export default function EditClienteModal({ uuid, isOpen, onClose }: Props){
-    const handleSubmit = (e: FormEvent) => {
+const defaultFormData = {
+  nome: '',
+  sobrenome: '',
+  email: '',
+  aniversario: '',
+  telefone: '',
+};
+
+export default function EditClienteModal({ uuid, isOpen, onClose, onEdit }: Props){
+  const [formData, setFormData] = useState(defaultFormData);
+  
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [id]: value,
+    }));
+  };
+  
+  const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         
         const validated = isFormValidated("edit");
         
         if (!validated){
-          //editar no bd
+          // Remover campos vazios do formData antes de enviar a requisição
+          const filteredFormData = Object.keys(formData).reduce((acc, key) => {
+            if (formData[key as keyof typeof formData] !== '') {
+              acc[key as keyof typeof formData] = formData[key as keyof typeof formData];
+            }
+            return acc;
+          }, {} as { [key in keyof typeof formData]?: typeof formData[key] });
+          
+          try {
+            const response = await updateClient(uuid, filteredFormData);
+            onEdit();
+            onClose();
+            setFormData(defaultFormData);
+          } catch (error) {
+            notify("Erro ao adicionar cliente: " + error);
+          }
           onClose();
           return;
         }
@@ -32,11 +69,26 @@ export default function EditClienteModal({ uuid, isOpen, onClose }: Props){
             <h2 className="font-bold text-xl">Editar Cliente</h2>
           </div>
             <form noValidate onSubmit={handleSubmit}>
-              <InputField id="nome" type="text" label="Nome" placeholder="Nome"/>
-              <InputField id="sobrenome" type="text" label="Sobrenome"placeholder="Sobrenome"/>
-              <InputField id="email" type="email" label="Email" placeholder="Email"/>
-              <InputField id="aniversario" type="text" label="Data de Nascimento"/>
-              <InputField id="telefone" type="text" label="Telefone"/>
+              <InputField 
+                id="nome" type="text" label="Nome" placeholder="Nome"
+                value={formData.nome} onChange={handleChange}
+              />
+              <InputField 
+                id="sobrenome" type="text" label="Sobrenome"placeholder="Sobrenome"
+                value={formData.sobrenome} onChange={handleChange}
+              />
+              <InputField 
+                id="email" type="email" label="Email" placeholder="Email"
+                value={formData.email} onChange={handleChange}
+              />
+              <InputField 
+                id="aniversario" type="text" label="Data de Nascimento"
+                value={formData.aniversario} onChange={handleChange}
+              />
+              <InputField 
+                id="telefone" type="text" label="Telefone"
+                value={formData.telefone} onChange={handleChange}
+              />
 
               <div className="flex justify-center">
                 <button

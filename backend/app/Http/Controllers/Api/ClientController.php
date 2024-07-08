@@ -1,7 +1,6 @@
 <?php
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -28,34 +27,33 @@ class ClientController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        $cliente = Client::create($request->all());
-        return response()->json($cliente, 201);
+        $client = Client::create($request->all());
+        return response()->json($client, 201);
 
     }
 
     public function show($uuid)
     {
-        $cliente = Client::find($uuid);
+        $client = Client::find($uuid);
 
-        if (is_null($cliente)) {
-            return response()->json(['message' => 'Cliente não encontrado'], 404);
+        if (is_null($client)) {
+            return response()->json([], 404);
         }
-
-        return response()->json($cliente, 200);
+        return response()->json($client, 200);
     }
 
     public function update(Request $request, $uuid)
     {
-        $cliente = Client::find($uuid);
+        $client = Client::where('uuid', $uuid)->first();
 
-        if (is_null($cliente)) {
+        if (is_null($client)) {
             return response()->json(['message' => 'Cliente não encontrado'], 404);
         }
 
         $validator = Validator::make($request->all(), [
             'nome' => 'sometimes|string|max:255',
             'sobrenome' => 'sometimes|string|max:255',
-            'email' => 'sometimes|string|email|max:255|unique:clients',
+            'email' => 'sometimes|string|email|max:255|unique:clients,email,' . $client->id . ',uuid',
             'aniversario' => 'sometimes|string|max:10',
             'telefone' => 'sometimes|string|max:15',
         ]);
@@ -64,19 +62,19 @@ class ClientController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        $cliente->update($request->all());
-        return response()->json($cliente, 200);
+        $client->update($request->all());
+        return response()->json($client, 200);
     }
 
     public function destroy($uuid)
     {
-        $cliente = Client::find($uuid);
+        $client = Client::where('uuid', $uuid)->first();
 
-        if (is_null($cliente)) {
+        if (is_null($client)) {
             return response()->json(['message' => 'Cliente não encontrado'], 404);
         }
 
-        $cliente->delete();
+        $client->delete();
         return response()->json(['message' => 'Cliente deletado com sucesso'], 204);
     }
 }

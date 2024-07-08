@@ -9,6 +9,7 @@ class Client extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'uuid';
     protected $keyType = 'string';
     public $incrementing = false;
     protected $fillable = [

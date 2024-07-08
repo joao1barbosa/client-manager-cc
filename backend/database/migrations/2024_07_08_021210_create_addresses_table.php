@@ -14,11 +14,11 @@ return new class extends Migration {
             $table->uuid('client_uuid')->primary();
             $table->foreign('client_uuid')->references('uuid')->on('clients')->onDelete('cascade');
             $table->string('cep');
-            $table->string('endereco');
-            $table->string('numero')->nullable();
+            $table->string('logradouro');
+            $table->string('unidade')->nullable();
             $table->string('complemento')->nullable();
             $table->string('bairro');
-            $table->string('cidade');
+            $table->string('localidade');
             $table->string('uf', 2);
             $table->timestamps();
         });

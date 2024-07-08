@@ -1,3 +1,4 @@
+import { deleteCard } from '@/services/cards';
 import Cards from 'react-credit-cards-2';
 import "react-credit-cards-2/dist/es/styles-compiled.css";
 
@@ -11,8 +12,8 @@ interface Props {
 }
 
 export default function CardBlock({ card, onRemove }: Props) {
-    const handleDeleteClick = () => {
-        //deletear no banco
+    const handleDeleteClick = async() => {
+        await deleteCard(card.number);
         onRemove();
     }
 
