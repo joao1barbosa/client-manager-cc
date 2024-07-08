@@ -78,7 +78,7 @@ export default function AddressModal({ uuid, isOpen, onClose }: Props){
                 notify("Formato errado de cep!");
                 return;
             }
-            //inscrever no bd
+            // se pesquisa por endereço usando uuid retornar null -> criar, senão -> editar
             onClose();
         }
     }
@@ -155,7 +155,7 @@ export default function AddressModal({ uuid, isOpen, onClose }: Props){
                         type="submit"
                         className="bg-orange-400 text-white px-4 py-2 rounded-md hover:bg-orange-600 ml-2"
                     >
-                        Adicionar
+                        Salvar
                     </button>
                 </div>
             </form>
