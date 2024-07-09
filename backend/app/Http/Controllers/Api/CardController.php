@@ -13,6 +13,7 @@ class CardController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'numero' => 'required|unique:cards',
+            'nome' => 'required',
             'validade' => 'required',
             'cvv' => 'required',
             'client_uuid' => 'required|exists:clients,uuid',
@@ -31,7 +32,7 @@ class CardController extends Controller
         $cards = Card::where('client_uuid', $client_uuid)->get();
 
         if ($cards->isEmpty()) {
-            return response()->json(['message' => 'Nenhum cartão encontrado para este cliente'], 404);
+            return response()->json([], 404);
         }
 
         return response()->json($cards, 200);

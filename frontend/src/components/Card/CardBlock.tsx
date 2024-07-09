@@ -28,7 +28,7 @@ export default function CardBlock({ card }: Props) {
           cvc=""
           expiry={card.validade}
           name={card.nome}
-          number={card.numero}
+          number={card.numero.replaceAll("%", " ")}
         />
       </div>
     </aside>

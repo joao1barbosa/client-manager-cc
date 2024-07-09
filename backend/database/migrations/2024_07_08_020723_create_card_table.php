@@ -12,6 +12,7 @@ return new class extends Migration {
     {
         Schema::create('cards', function (Blueprint $table) {
             $table->string('numero')->primary();
+            $table->string('nome');
             $table->string('validade');
             $table->string('cvv');
             $table->uuid('client_uuid');

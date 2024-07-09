@@ -15,6 +15,7 @@ class Card extends Model
 
     protected $fillable = [
         'numero',
+        'nome',
         'validade',
         'cvv',
         'client_uuid'

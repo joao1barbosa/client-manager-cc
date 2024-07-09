@@ -15,10 +15,17 @@ interface Props {
     onClose: () => void;
 }
 
+interface Card {
+    numero?: string;
+    nome: string;
+    validade: string;
+    cvv: string;
+}
+
 const notify = (message: string) => toast(message);
 
 export default function AddCardModal({ uuid, isOpen, onClose }: Props) {
-    const [cardInfo, setCardInfo] = useState({
+    const [cardInfo, setCardInfo] = useState<Card>({
         numero: "",
         nome: "",
         validade: "",
@@ -41,7 +48,9 @@ export default function AddCardModal({ uuid, isOpen, onClose }: Props) {
             notify("Preencha todos os campos!");
             return;
         }
-        await createCard({...cardInfo, client_uuid: uuid});
+        const replacedNumero = cardInfo.numero.replaceAll(" ", "%");
+        delete cardInfo.numero;
+        await createCard({numero: replacedNumero,...cardInfo, client_uuid: uuid});
         onClose();
     }
 
@@ -50,7 +59,7 @@ export default function AddCardModal({ uuid, isOpen, onClose }: Props) {
             <div className='flex flex-col space-y-4 items-center justify-center'>
                 <Cards
                     name={cardInfo.nome}
-                    number={cardInfo.numero}
+                    number={cardInfo.numero || ""}
                     expiry={cardInfo.validade}
                     cvc={cardInfo.cvv}
                 />
@@ -58,7 +67,7 @@ export default function AddCardModal({ uuid, isOpen, onClose }: Props) {
                     <div className='flex flex-col space-y-4 items-center'>
                         <InputMask
                             className="w-3/4 p-2 border border-gray-300 rounded text-center text-xl placeholder:text-center"
-                            name="number"
+                            name="numero"
                             type="text"
                             placeholder="Número do Cartão"
                             mask="9999 9999 9999 9999"
@@ -67,7 +76,7 @@ export default function AddCardModal({ uuid, isOpen, onClose }: Props) {
                         />
                         <input
                             className="w-3/4 p-2 border border-gray-300 rounded text-center text-xl placeholder:text-center"
-                            name="name"
+                            name="nome"
                             type="text"
                             placeholder="Nome do Titular"
                             onChange={handleInputChange}
