@@ -40,7 +40,7 @@ class CardController extends Controller
 
     public function destroy($numero)
     {
-        $card = Card::find($numero);
+        $card = Card::where('numero', $numero)->first();
 
         if (is_null($card)) {
             return response()->json(['message' => 'Cartão não encontrato'], 404);

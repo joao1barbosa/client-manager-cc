@@ -9,7 +9,7 @@ class Card extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'client_uuid';
+    protected $primaryKey = 'numero';
     protected $keyType = 'string';
     public $incrementing = false;
 

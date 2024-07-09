@@ -30,7 +30,7 @@ export default function CardBlock({ card, onRemove }: Props) {
           cvc=""
           expiry={card.validade}
           name={card.nome}
-          number={card.numero.replaceAll("%", " ")}
+          number={card.numero.replaceAll("%", "-")}
         />
       </div>
     </aside>

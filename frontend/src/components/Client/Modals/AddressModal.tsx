@@ -43,9 +43,8 @@
         const [addressData, setAddressData] = useState<AddressData>(defaultValue);
         const [initialAddressData, setInitialAddressData] =  useState<AddressData>(defaultValue);
         const [edited, setEdited] = useState<boolean>(false);
-        const [cep, setCep] = useState(initialAddressData.cep);
+        const [cep, setCep] = useState("");
 
-        //Limpa os estados quando o modal é aberto
         useEffect(() => {
             if(isOpen) {
                 setEdited(false);
@@ -71,6 +70,7 @@
                 const response = await getAddress(uuid);
                 if (response) {
                     setAddressData(response);
+                    setCep(addressData.cep);
                     setInitialAddressData(response);
                 }
             } catch (error) {

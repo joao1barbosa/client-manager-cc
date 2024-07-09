@@ -48,7 +48,7 @@ export default function AddCardModal({ uuid, isOpen, onClose }: Props) {
             notify("Preencha todos os campos!");
             return;
         }
-        const replacedNumero = cardInfo.numero.replaceAll(" ", "%");
+        const replacedNumero = cardInfo.numero.replaceAll(" ", "-");
         delete cardInfo.numero;
         await createCard({numero: replacedNumero,...cardInfo, client_uuid: uuid});
         onClose();
