@@ -36,6 +36,7 @@ Este projeto consiste na solução de um desafio técnico, que se trata de um CR
 ## 🌐 Variáveis Ambiente
 
 Para fins de praticidade e, visto que é um projeto que não irá para produção, optei por deixar as variáveis de ambiente padrões.
+
 Logo, a única configuração necessária é mudar o nome do arquivo **.env.example** para **.env**.
 
 ## 🏁 Dependências
@@ -80,19 +81,29 @@ Digite o comando cd ../backend seguido de ./vendor/bin/sail down para parar o ba
 ### Endpoints de Clientes
 
 **GET /clients:** Lista todos os clientes.
+
 **POST /clients:** Cria um novo cliente.
+
 **GET /clients/{uuid}:** Retorna um cliente específico baseado no UUID passado como parâmetro.
+
 **PUT /clients/{uuid}:** Edita um cliente específico baseado no UUID.
+
 **DELETE /clients/{uuid}:** Deleta um cliente específico baseado no UUID.
+
 
 ### Endpoints de Cartões
 
 **POST /cards:** Cria um novo cartão e o conecta a um cliente.
+
 **GET /cards/{uuid}:** Retorna uma lista de cartões vinculados ao UUID passado como parâmetro.
+
 **DELETE /cards/{numero}:** Deleta um cartão que possui o número passado como parâmetro.
+
 
 ### Endpoints de Endereços
 
 **POST /addresses:** Cria um novo endereço e o conecta a um cliente.
+
 **GET /addresses/{uuid}:** Retorna o endereço vinculado ao UUID passado como parâmetro.
+
 **PUT /addresses/{uuid}:** Edita o endereço específico baseado no UUID.
