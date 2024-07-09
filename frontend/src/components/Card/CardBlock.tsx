@@ -10,12 +10,14 @@ interface Props {
     cvv: string;
     client_uuid: string;
   }
+  onRemove: () => void; // Função de callback para remover o cartão
 }
 
-export default function CardBlock({ card }: Props) {
+export default function CardBlock({ card, onRemove }: Props) {
   const handleDeleteClick = async () => {
     console.log(card.numero);
     await deleteCard(card.numero);
+    onRemove(); // Chamando a função de callback para notificar a remoção do cartão
   }
 
   return (

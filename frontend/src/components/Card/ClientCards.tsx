@@ -1,5 +1,3 @@
-"use client"
-
 import { useEffect, useState } from 'react';
 import CardBlock from '@/components/Card/CardBlock';
 import AddCardButton from '@/components/Card/AddCardButton';
@@ -32,6 +30,12 @@ export default function ClientCards({ uuid, setModal }: Props) {
     fetchCards();
   }, [uuid]);
 
+  const handleRemoveCard = async () => {
+    // Refetch cards after removing a card
+    const cardsData = await getClientCards(uuid);
+    setCards(cardsData);
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -40,7 +44,7 @@ export default function ClientCards({ uuid, setModal }: Props) {
     <div className='flex flex-row h-full w-full justify-center items-center'>
       {cards.length === 0 ? (
         <div className='flex flex-col space-y-4'>
-          <h1 className='font-semibold text-xl'>Nenhum Cartão de Credito Cadastrado</h1>
+          <h1 className='font-semibold text-xl'>Nenhum Cartão de Crédito Cadastrado</h1>
           <AddCardButton onClick={setModal} />
         </div>
       ) : (
@@ -50,7 +54,11 @@ export default function ClientCards({ uuid, setModal }: Props) {
           </section>
           <section className='w-full h-full flex flex-wrap overflow-y-auto content-start justify-center my-2'>
             {cards.map((card, index) => (
-              <CardBlock key={index} card={card} />
+              <CardBlock
+                key={index}
+                card={card}
+                onRemove={handleRemoveCard} // Passando a função de callback para remover o cartão
+              />
             ))}
           </section>
         </div>
