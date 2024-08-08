@@ -30,7 +30,7 @@ class ClientRequest extends FormRequest
     }
 
     /**
-     * Retorna as regras de validação para os dados do usuário.
+     * Retorna as regras de validação para os dados do cliente.
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */

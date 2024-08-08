@@ -33,7 +33,7 @@ class ClientController extends Controller
     /**
      * Este método retorna os detalhes de um cliente específico em formato JSON.
      *
-     * @example GET /api/clients/example_uuid
+     * @example GET /api/clients/{uuid}
      * @param  $uuid O uuid do client que está buscando no banco de dados
      * @return \Illuminate\Http\JsonResponse
      */
@@ -88,6 +88,7 @@ class ClientController extends Controller
     /**
      * Atualiza os dados de um cliente existente com base no uuid fornecido na requisição.
      *
+     * @example PUT /api/clients/{uuid} Enviando o json com os dados do cliente a ser atualizado.
      * @param  \Illuminate\Http\Request;  $request O objeto de requisição contendo os dados do cliente.
      * @param  $uuid O uuid do client que está buscando no banco de dados.
      * @return \Illuminate\Http\JsonResponse
@@ -134,6 +135,7 @@ class ClientController extends Controller
     /**
      * Exclui cliente no banco de dados.
      *
+     * @example POST /api/clients/{uuid}
      * @param  $uuid O uuid do client que está buscando no banco de dados.
      * @return \Illuminate\Http\JsonResponse
      */
