@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\ClientController;
+use App\Http\Controllers\Api\CardController;
+use App\Http\Controllers\Api\AddressController;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::apiResource('clients', ClientController::class);
+Route::apiResource('cards', CardController::class);
+Route::apiResource('addresses', AddressController::class);
