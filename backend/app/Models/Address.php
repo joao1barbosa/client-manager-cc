@@ -15,14 +15,14 @@ class Address extends Model
     protected $keyType = 'string';
 
     protected $fillable = [
-        'client_uuid',
         'cep',
         'logradouro',
         'unidade',
         'complemento',
         'bairro',
         'localidade',
-        'uf'
+        'uf',
+        'client_uuid'
     ];
 
     public function client(): BelongsTo
