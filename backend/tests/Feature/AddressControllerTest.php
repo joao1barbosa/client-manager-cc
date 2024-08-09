@@ -54,12 +54,12 @@ class AddressControllerTest extends TestCase
     {
         $data = [
             'cep' => '65901192',
-            'logradouro' => '275 Reynolds Parkway Suite 464',
-            'unidade' => '61882',
-            'complemento' => 'Apt 4B',
-            'bairro' => 'burgh',
-            'localidade' => 'East Zitahaven',
-            'uf' => 'TN',
+            'logradouro' => 'Rua das Laranjeiras',
+            'unidade' => '618-A',
+            'complemento' => 'Esquina com Avenida dos Patos',
+            'bairro' => 'Vila Nova',
+            'localidade' => 'Belém',
+            'uf' => 'PA',
             'client_uuid' => $this->client->uuid,
         ];
 
@@ -86,13 +86,13 @@ class AddressControllerTest extends TestCase
         $address = Address::factory()->create(['client_uuid' => $this->client->uuid]);
 
         $data = [
-            'cep' => '27506902',
-            'logradouro' => '75644 Howe Village Suite 580',
-            'unidade' => '87153',
-            'complemento' => 'Suite 9',
-            'bairro' => 'haven',
-            'localidade' => 'West Alexandre',
-            'uf' => 'NV',
+            'cep' => '65901192',
+            'logradouro' => 'Rua das Cerejeiras',
+            'unidade' => '626',
+            'complemento' => 'Esquina com Avenida dos Ganços',
+            'bairro' => 'Vila Nova',
+            'localidade' => 'Palmas',
+            'uf' => 'TO',
         ];
 
         $response = $this->put('/api/addresses/' . $address->client_uuid, $data);
@@ -104,13 +104,13 @@ class AddressControllerTest extends TestCase
     public function test_update_address_not_found()
     {
         $data = [
-            'cep' => '74721123',
-            'logradouro' => '75644 Howe Village Suite 580',
-            'unidade' => '87153',
-            'complemento' => 'Suite 9',
-            'bairro' => 'haven',
-            'localidade' => 'West Alexandre',
-            'uf' => 'NV',
+            'cep' => '65901192',
+            'logradouro' => 'Rua das Cerejeiras',
+            'unidade' => '626',
+            'complemento' => 'Esquina com Avenida dos Ganços',
+            'bairro' => 'Vila Nova',
+            'localidade' => 'Palmas',
+            'uf' => 'TO',
         ];
 
         $response = $this->put('/api/addresses/invalid-uuid', $data);
