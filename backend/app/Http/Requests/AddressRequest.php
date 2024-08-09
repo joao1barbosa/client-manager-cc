@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Rule;
 
 class AddressRequest extends FormRequest
 {
@@ -36,7 +37,9 @@ class AddressRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $client_uuid = $this->route('client_uuid');
+
+        $rules = [
             'cep' => 'required|string|max:8',
             'logradouro' => 'required|string|max:255',
             'unidade' => 'nullable|string|max:20',
@@ -44,8 +47,13 @@ class AddressRequest extends FormRequest
             'bairro' => 'required|string|max:50',
             'localidade' => 'required|string|max:50',
             'uf' => 'required|string|max:2',
-            'client_uuid' => 'required|exists:clients,uuid',
         ];
+
+        if ($this->isMethod('post')) {
+            $rules['client_uuid'] = 'required|exists:clients,uuid|unique:addresses,client_uuid';
+        }
+
+        return $rules;
     }
 
     /**
@@ -65,6 +73,7 @@ class AddressRequest extends FormRequest
             'cep.max' => 'O campo cep deve ter um cep válido.',
             'uf.max' => 'O campo uf deve ter :max caracteres',
             'client_uuid.exists' => 'O UUID do cliente informado não existe.',
+            'client_uuid.unique' => 'Este cliente já possui um endereço cadastrado.',
         ];
     }
 }
