@@ -17,11 +17,10 @@ class CardControllerTest extends TestCase
     {
         parent::setUp();
 
-        // Criação de um cliente válido para associar ao endereço
+        // Criação de um cliente válido para associar ao cartão
         $this->client = Client::factory()->create();
     }
 
-    /** @test */
     public function it_lists_cards_by_client()
     {
         Card::factory()->count(5)->create(['client_uuid' => $this->client->uuid]);
