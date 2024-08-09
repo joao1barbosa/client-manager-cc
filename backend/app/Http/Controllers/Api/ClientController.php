@@ -135,7 +135,7 @@ class ClientController extends Controller
     /**
      * Exclui cliente no banco de dados.
      *
-     * @example POST /api/clients/{uuid}
+     * @example DELETE /api/clients/{uuid}
      * @param  $uuid O uuid do cliente que está buscando no banco de dados.
      * @return \Illuminate\Http\JsonResponse
      */
