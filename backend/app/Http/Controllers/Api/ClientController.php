@@ -95,7 +95,7 @@ class ClientController extends Controller
      */
     public function update(ClientRequest $request, $uuid): JsonResponse
     {
-        $client = Client::where('uuid', $uuid)->first();
+        $client = Client::where('uuid', $uuid)->firstOrFail();
 
         if (is_null($client)) {
             return response()->json([
@@ -141,7 +141,7 @@ class ClientController extends Controller
      */
     public function destroy($uuid): JsonResponse
     {
-        $client = Client::where('uuid', $uuid)->first();
+        $client = Client::where('uuid', $uuid)->firstOrFail();
         try {
 
             $client->delete();
