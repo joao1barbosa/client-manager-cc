@@ -13,11 +13,11 @@ RUN yarn install
 # Copie o restante dos arquivos
 COPY . .
 
-# Construa o projeto
-RUN yarn build
+# # Construa o projeto
+# RUN yarn build
 
 # Exponha a porta
 EXPOSE 3000
 
 # Comando para iniciar a aplicação
-CMD ["yarn", "start"]
+CMD ["yarn", "dev"]
