@@ -85,7 +85,14 @@ class CardController extends Controller
      */
     public function destroy($uuid): JsonResponse
     {
-        $card = Card::where('uuid', $uuid)->firstOrFail();
+        $card = Card::where('uuid', $uuid)->firstOr(function () {
+            return ['message' => "Informe um uuid de cliente válido!"];
+        });
+
+        if (isset($card['message'])) {
+            return response()->json($card, 400);
+        }
+
         try {
             $card->delete();
 
