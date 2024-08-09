@@ -44,6 +44,7 @@ class AddressRequest extends FormRequest
             'bairro' => 'required|string|max:50',
             'localidade' => 'required|string|max:50',
             'uf' => 'required|string|max:2',
+            'client_uuid' => 'required|exists:clients,uuid',
         ];
     }
 
@@ -60,8 +61,10 @@ class AddressRequest extends FormRequest
             'bairro.required' => 'O campo bairro é obrigatório.',
             'localidade.required' => 'O campo localidade é obrigatório.',
             'uf.required' => 'O campo uf é obrigatório.',
+            'client_uuid.required' => 'O UUID do cliente é obrigatório.',
             'cep.max' => 'O campo cep deve ter um cep válido.',
             'uf.max' => 'O campo uf deve ter :max caracteres',
+            'client_uuid.exists' => 'O UUID do cliente informado não existe.',
         ];
     }
 }
