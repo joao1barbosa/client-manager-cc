@@ -34,7 +34,7 @@ class ClientController extends Controller
      * Este método retorna os detalhes de um cliente específico em formato JSON.
      *
      * @example GET /api/clients/{uuid}
-     * @param  $uuid O uuid do client que está buscando no banco de dados
+     * @param  $uuid O uuid do cliente que está buscando no banco de dados
      * @return \Illuminate\Http\JsonResponse
      */
     public function show($uuid): JsonResponse
