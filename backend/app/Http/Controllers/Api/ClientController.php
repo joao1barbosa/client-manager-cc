@@ -50,10 +50,10 @@ class ClientController extends Controller
     }
 
     /**
-     * Cria novo client com os dados fornecidos na requisição.
+     * Cria novo cliente com os dados fornecidos na requisição.
      *
      * @example POST /api/clients/ Enviando o json com os dados do cliente a ser criado.
-     * @param  \Illuminate\Http\Request;  $request O objeto de requisição contendo os dados do cliente.
+     * @param  \App\Http\Requests\ClientRequest  $request O objeto de requisição contendo os dados do cliente.
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(ClientRequest $request): JsonResponse
@@ -89,7 +89,7 @@ class ClientController extends Controller
      * Atualiza os dados de um cliente existente com base no uuid fornecido na requisição.
      *
      * @example PUT /api/clients/{uuid} Enviando o json com os dados do cliente a ser atualizado.
-     * @param  \Illuminate\Http\Request;  $request O objeto de requisição contendo os dados do cliente.
+     * @param  \App\Http\Requests\ClientRequest  $request O objeto de requisição contendo os dados do cliente.
      * @param  $uuid O uuid do client que está buscando no banco de dados.
      * @return \Illuminate\Http\JsonResponse
      */
@@ -136,7 +136,7 @@ class ClientController extends Controller
      * Exclui cliente no banco de dados.
      *
      * @example POST /api/clients/{uuid}
-     * @param  $uuid O uuid do client que está buscando no banco de dados.
+     * @param  $uuid O uuid do cliente que está buscando no banco de dados.
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($uuid): JsonResponse
