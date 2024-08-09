@@ -39,7 +39,7 @@ class AddressRequest extends FormRequest
         $client_uuid = $this->route('client_uuid');
 
         $rules = [
-            'cep' => 'required|string|max:8',
+            'cep' => 'required|string|min:8|max:8',
             'logradouro' => 'required|string|max:255',
             'unidade' => 'nullable|string|max:20',
             'complemento' => 'nullable|string|max:255',
@@ -70,6 +70,7 @@ class AddressRequest extends FormRequest
             'uf.required' => 'O campo uf é obrigatório.',
             'client_uuid.required' => 'O UUID do cliente é obrigatório.',
             'cep.max' => 'O campo cep deve ter um cep válido.',
+            'cep.min' => 'O campo cep deve ter um cep válido.',
             'uf.max' => 'O campo uf deve ter :max caracteres',
             'client_uuid.exists' => 'O UUID do cliente informado não existe.',
             'client_uuid.unique' => 'Este cliente já possui um endereço cadastrado.',

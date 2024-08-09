@@ -20,16 +20,10 @@ class AddressController extends Controller
      */
     public function show($client_uuid): JsonResponse
     {
-
-        $address = Address::where('client_uuid', $client_uuid)->firstOrFail();
-
-        if (is_null($client_uuid)) {
-            return response()->json([
-                'message' => "Endereço não cadastrado!",
-            ], 404);
-        }
-
-        return response()->json($address, 200);
+        $address = Address::where('client_uuid', $client_uuid)->firstOr(function () {
+            return ['message' => 'Endereço não encontrado!'];
+        });
+        return response()->json($address, (isset($address['message']) ? 404 : 200));
     }
 
     /**
@@ -81,12 +75,12 @@ class AddressController extends Controller
      */
     public function update(AddressRequest $request, $client_uuid): JsonResponse
     {
-        $address = Address::where('client_uuid', $client_uuid)->firstOrFail();
+        $address = Address::where('client_uuid', $client_uuid)->firstOr(function () {
+            return ['message' => "Informe um uuid de cliente válido!"];
+        });
 
-        if (is_null($address)) {
-            return response()->json([
-                'message' => "Informe um uuid de cliente válido!",
-            ], 400);
+        if (isset($address['message'])) {
+            return response()->json($address, 400);
         }
 
         // Iniciar a operação
@@ -129,7 +123,13 @@ class AddressController extends Controller
      */
     public function destroy($client_uuid): JsonResponse
     {
-        $address = Address::where('client_uuid', $client_uuid)->firstOrFail();
+        $address = Address::where('client_uuid', $client_uuid)->firstOr(function () {
+            return ['message' => "Informe um uuid de cliente válido!"];
+        });
+
+        if (isset($address['message'])) {
+            return response()->json($address, 400);
+        }
 
         try {
 

@@ -27,7 +27,7 @@ class ClientController extends Controller
 
         $clients = Client::paginate($perPage);
 
-        return response()->json([$clients], 200);
+        return response()->json($clients, 200);
     }
 
     /**
