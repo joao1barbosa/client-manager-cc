@@ -2,16 +2,17 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Card extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'numero';
-    protected $keyType = 'string';
+    protected $primaryKey = 'uuid';
     public $incrementing = false;
+    protected $keyType = 'string';
 
     protected $fillable = [
         'numero',
@@ -21,9 +22,17 @@ class Card extends Model
         'client_uuid'
     ];
 
-    public function client()
+    public function client(): BelongsTo
     {
         return $this->belongsTo(Client::class, 'client_uuid', 'uuid');
     }
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->uuid = (string) \Illuminate\Support\Str::uuid();
+        });
+    }
 }

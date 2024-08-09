@@ -4,28 +4,31 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+class CreateCardsTable extends Migration
+{
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('cards', function (Blueprint $table) {
-            $table->string('numero')->primary();
+            $table->uuid('uuid')->primary();
+            $table->uuid('client_uuid');
+            $table->string('numero');
             $table->string('nome');
             $table->string('validade');
             $table->string('cvv');
-            $table->uuid('client_uuid');
-            $table->foreign('client_uuid')->references('uuid')->on('clients')->onDelete('cascade');
             $table->timestamps();
+
+            $table->foreign('client_uuid')->references('uuid')->on('clients')->onDelete('cascade');
         });
     }
 
     /**
      * Reverse the migrations.
      */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('cards');
     }
-};
+}

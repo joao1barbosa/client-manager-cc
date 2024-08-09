@@ -2,69 +2,145 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\AddressRequest;
+use Illuminate\Http\JsonResponse;
 use App\Models\Address;
+use Exception;
+use Illuminate\Support\Facades\DB;
 
 class AddressController extends Controller
 {
-    public function store(Request $request)
+    /**
+     * Este método retorna o endereço de um cliente específico em formato JSON.
+     *
+     * @example GET /api/addresses/{client_uuid}
+     * @param  $client_uuid O uuid do cliente o qual está buscando o endereço
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show($client_uuid): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'cep' => 'required|string|max:8',
-            'logradouro' => 'required|string|max:255',
-            'unidade' => 'nullable|string|max:20',
-            'complemento' => 'nullable|string|max:255',
-            'bairro' => 'required|string|max:50',
-            'localidade' => 'required|string|max:50',
-            'uf' => 'required|string|max:2',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
-        }
-
-        $address = Address::create($request->all());
-        return response()->json($address, 201);
+        $address = Address::where('client_uuid', $client_uuid)->firstOr(function () {
+            return ['message' => 'Endereço não encontrado!'];
+        });
+        return response()->json($address, (isset($address['message']) ? 404 : 200));
     }
 
-    public function show($uuid)
+    /**
+     * Cria novo endereço com os dados fornecidos na requisição.
+     *
+     * @example POST /api/addresses/ Enviando o json com os dados do cliente a ser criado.
+     * @param  \App\Http\Requests\AddressRequest  $request O objeto de requisição contendo os dados do endereço.
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(AddressRequest $request): JsonResponse
     {
-        $address = Address::find($uuid);
+        // Inicia a operação
+        DB::beginTransaction();
 
-        if (is_null($address)) {
-            return response()->json([], 404);
+        try {
+            // Cadastra endereço no banco de dados
+            $address = Address::create([
+                'cep' => $request->cep,
+                'logradouro' => $request->logradouro,
+                'unidade' => $request->unidade,
+                'complemento' => $request->complemento,
+                'bairro' => $request->bairro,
+                'localidade' => $request->localidade,
+                'uf' => $request->uf,
+                'client_uuid' => $request->client_uuid,
+            ]);
+
+            // Conclui a operação
+            DB::commit();
+
+            return response()->json($address, 201);
+        } catch (Exception $e) {
+            // Não conclui a operação
+            DB::rollBack();
+
+            return response()->json([
+                'message' => "Endereço não cadastrado!",
+            ], 400);
         }
-
-        return response()->json($address, 200);
     }
 
-    public function update(Request $request, $uuid)
+    /**
+     * Atualiza os dados de um endereço existente com base no client_uuid fornecido na requisição.
+     *
+     * @example PUT /api/addresses/{client_uuid} Enviando o json com os dados do endereço a ser atualizado.
+     * @param  \App\Http\Requests\AddressRequest  $request O objeto de requisição contendo os dados do endereço.
+     * @param  $client_uuid O uuid do cliente o qual deseja o endereço.
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(AddressRequest $request, $client_uuid): JsonResponse
     {
-        $address = Address::find($uuid);
+        $address = Address::where('client_uuid', $client_uuid)->firstOr(function () {
+            return ['message' => "Informe um uuid de cliente válido!"];
+        });
 
-        if (is_null($address)) {
-            return response()->json(['message' => 'Endereço não encontrado'], 404);
-
+        if (isset($address['message'])) {
+            return response()->json($address, 400);
         }
 
-        $validator = Validator::make($request->all(), [
-            'cep' => 'required|string|max:8',
-            'logradouro' => 'required|string|max:255',
-            'unidade' => 'nullable|string|max:20',
-            'complemento' => 'nullable|string|max:255',
-            'bairro' => 'required|string|max:50',
-            'localidade' => 'required|string|max:50',
-            'uf' => 'required|string|max:2',
-        ]);
+        // Iniciar a operação
+        DB::beginTransaction();
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
+        try {
+
+            // Editar o registro no banco de dados
+            $address->update([
+                'cep' => $request->cep,
+                'logradouro' => $request->logradouro,
+                'unidade' => $request->unidade,
+                'complemento' => $request->complemento,
+                'bairro' => $request->bairro,
+                'localidade' => $request->localidade,
+                'uf' => $request->uf,
+            ]);
+
+            // Conclui a operação
+            DB::commit();
+
+            return response()->json($address, 200);
+        } catch (Exception $e) {
+
+            // Não conclui a operação
+            DB::rollBack();
+
+            return response()->json([
+                'message' => "Endereço não editado!",
+            ], 400);
         }
-
-        $address->update($request->all());
-        return response()->json($address, 200);
     }
 
+    /**
+     * Exclui o endereço no banco de dados.
+     *
+     * @example DELETE /api/address/{client_uuid}
+     * @param  $client_uuid O uuid do cliente o qual deseja o endereço.
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy($client_uuid): JsonResponse
+    {
+        $address = Address::where('client_uuid', $client_uuid)->firstOr(function () {
+            return ['message' => "Informe um uuid de cliente válido!"];
+        });
+
+        if (isset($address['message'])) {
+            return response()->json($address, 400);
+        }
+
+        try {
+
+            $address->delete();
+
+            return response()->json($address, 200);
+
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => "Cliente não apagado!",
+            ], 400);
+        }
+    }
 }

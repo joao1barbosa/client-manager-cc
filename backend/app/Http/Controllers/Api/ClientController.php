@@ -1,80 +1,157 @@
 <?php
+
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ClientRequest;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use App\Models\Client;
+use Exception;
+use Illuminate\Support\Facades\DB;
+
 
 class ClientController extends Controller
 {
-    public function index()
+    /**
+     * Este método recupera uma lista paginada de clientes do banco de dados
+     * e a retorna como uma resposta JSON.
+     *
+     * @example GET /api/clients?per_page=15&page=2
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index(Request $request): JsonResponse
     {
-        return response()->json(Client::all(), 200);
+        //Obtem o número de elementos por página da requisição, se não for enviado o padrão é 10
+        $perPage = $request->input('per_page', 10);
+
+        $clients = Client::paginate($perPage);
+
+        return response()->json($clients, 200);
     }
 
-    public function store(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'nome' => 'required|string|max:255',
-            'sobrenome' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:clients',
-            'aniversario' => 'required|string|max:10',
-            'telefone' => 'required|string|max:15',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
-        }
-
-        $client = Client::create($request->all());
-        return response()->json($client, 201);
-
-    }
-
-    public function show($uuid)
+    /**
+     * Este método retorna os detalhes de um cliente específico em formato JSON.
+     *
+     * @example GET /api/clients/{uuid}
+     * @param  $uuid O uuid do cliente que está buscando no banco de dados
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show($uuid): JsonResponse
     {
         $client = Client::find($uuid);
 
         if (is_null($client)) {
-            return response()->json([], 404);
+            return response()->json([
+                'message' => "Cliente não cadastrado!",
+            ], 404);
         }
         return response()->json($client, 200);
     }
 
-    public function update(Request $request, $uuid)
+    /**
+     * Cria novo cliente com os dados fornecidos na requisição.
+     *
+     * @example POST /api/clients/ Enviando o json com os dados do cliente a ser criado.
+     * @param  \App\Http\Requests\ClientRequest  $request O objeto de requisição contendo os dados do cliente.
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(ClientRequest $request): JsonResponse
     {
-        $client = Client::where('uuid', $uuid)->first();
+        // Inicia a operação
+        DB::beginTransaction();
 
-        if (is_null($client)) {
-            return response()->json(['message' => 'Cliente não encontrado'], 404);
+        try {
+            // Cadastra cliente no banco de dados
+            $client = Client::create([
+                'nome' => $request->nome,
+                'sobrenome' => $request->sobrenome,
+                'email' => $request->email,
+                'aniversario' => $request->aniversario,
+                'telefone' => $request->telefone,
+            ]);
+
+            // Conclui a operação
+            DB::commit();
+
+            return response()->json($client, 201);
+        } catch (Exception $e) {
+            // Não conclui a operação
+            DB::rollBack();
+
+            return response()->json([
+                'message' => "Cliente não cadastrado!",
+            ], 400);
         }
-
-        $validator = Validator::make($request->all(), [
-            'nome' => 'sometimes|string|max:255',
-            'sobrenome' => 'sometimes|string|max:255',
-            'email' => 'sometimes|string|email|max:255|unique:clients,email,' . $client->id . ',uuid',
-            'aniversario' => 'sometimes|string|max:10',
-            'telefone' => 'sometimes|string|max:15',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
-        }
-
-        $client->update($request->all());
-        return response()->json($client, 200);
     }
 
-    public function destroy($uuid)
+    /**
+     * Atualiza os dados de um cliente existente com base no uuid fornecido na requisição.
+     *
+     * @example PUT /api/clients/{uuid} Enviando o json com os dados do cliente a ser atualizado.
+     * @param  \App\Http\Requests\ClientRequest  $request O objeto de requisição contendo os dados do cliente.
+     * @param  $uuid O uuid do client que está buscando no banco de dados.
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(ClientRequest $request, $uuid): JsonResponse
     {
-        $client = Client::where('uuid', $uuid)->first();
+        $client = Client::where('uuid', $uuid)->firstOrFail();
 
         if (is_null($client)) {
-            return response()->json(['message' => 'Cliente não encontrado'], 404);
+            return response()->json([
+                'message' => "Informe um uuid válido!",
+            ], 400);
         }
 
-        $client->delete();
-        return response()->json(['message' => 'Cliente deletado com sucesso'], 204);
+        // Iniciar a operação
+        DB::beginTransaction();
+
+        try {
+
+            // Editar o registro no banco de dados
+            $client->update([
+                'nome' => $request->nome,
+                'sobrenome' => $request->sobrenome,
+                'email' => $request->email,
+                'aniversario' => $request->aniversario,
+                'telefone' => $request->telefone,
+            ]);
+
+            // Conclui a operação
+            DB::commit();
+
+            return response()->json($client, 200);
+        } catch (Exception $e) {
+
+            // Não conclui a operação
+            DB::rollBack();
+
+            return response()->json([
+                'message' => "Cliente não editado!",
+            ], 400);
+        }
+    }
+
+    /**
+     * Exclui cliente no banco de dados.
+     *
+     * @example DELETE /api/clients/{uuid}
+     * @param  $uuid O uuid do cliente que está buscando no banco de dados.
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy($uuid): JsonResponse
+    {
+        $client = Client::where('uuid', $uuid)->firstOrFail();
+        try {
+
+            $client->delete();
+
+            return response()->json($client, 200);
+
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => "Cliente não apagado!",
+            ], 400);
+        }
     }
 }
