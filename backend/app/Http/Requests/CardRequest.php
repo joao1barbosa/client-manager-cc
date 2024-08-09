@@ -60,7 +60,7 @@ class CardRequest extends FormRequest
             'client_uuid.required' => 'O UUID do cliente é obrigatório.',
             'numero.unique' => 'Este número de cartão já está cadastrado.',
             'client_uuid.exists' => 'O UUID do cliente informado não existe.',
-            'numero.max' => 'O campo número deve ter um número de cartão válido',
+            'numero.max' => 'O campo número deve ter um número de cartão válido.',
         ];
     }
 }
