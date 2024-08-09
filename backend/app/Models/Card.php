@@ -26,4 +26,13 @@ class Card extends Model
     {
         return $this->belongsTo(Client::class, 'client_uuid', 'uuid');
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->uuid = (string) \Illuminate\Support\Str::uuid();
+        });
+    }
 }
