@@ -34,7 +34,7 @@ class ClientController extends Controller
         $perPage = $request->input('per_page', 10);
         $clients = Client::paginate($perPage);
 
-        $formattedResponse = $this->responseFormatter->format($clients->toArray());
+        $formattedResponse = $this->responseFormatter->format($clients->toArray(), 'client');
 
         return response()->json($formattedResponse, 200);
     }
@@ -80,7 +80,7 @@ class ClientController extends Controller
             $clients = Client::where('nome', 'like', "%{$name}%")
                 ->paginate($request->input('per_page', 10));
 
-            $formattedResponse = $this->responseFormatter->format($clients->toArray());
+            $formattedResponse = $this->responseFormatter->format($clients->toArray(), 'client');
 
             return response()->json($formattedResponse, 200);
         } catch (Exception $e) {
