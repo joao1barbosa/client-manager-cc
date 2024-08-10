@@ -46,7 +46,7 @@ class CardController extends Controller
             ], 404);
         }
 
-        $formattedResponse = $this->responseFormatter->format($cards->toArray());
+        $formattedResponse = $this->responseFormatter->format($cards->toArray(), 'card');
 
         return response()->json($formattedResponse, 200);
     }

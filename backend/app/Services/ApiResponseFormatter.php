@@ -29,18 +29,36 @@ class ApiResponseFormatter
      * @param array $response
      * @return array
      */
-    public function format(array $response): array
+    public function format(array $response, $model): array
     {
-        $filteredData = array_map(function ($item) {
-            return [
-                'uuid' => $item['uuid'],
-                'nome' => $item['nome'],
-                'sobrenome' => $item['sobrenome'],
-                'email' => $item['email'],
-                'aniversario' => $item['aniversario'],
-                'telefone' => $item['telefone']
-            ];
-        }, $response['data']);
+        $filteredData = [];
+
+        if ($model === 'client') {
+            $filteredData = array_map(function ($item) {
+                return [
+                    'uuid' => $item['uuid'],
+                    'nome' => $item['nome'],
+                    'sobrenome' => $item['sobrenome'],
+                    'email' => $item['email'],
+                    'aniversario' => $item['aniversario'],
+                    'telefone' => $item['telefone']
+                ];
+            }, $response['data']);
+        }
+
+        if ($model === 'card') {
+            $filteredData = array_map(function ($item) {
+                return [
+                    'uuid' => $item['uuid'],
+                    'numero' => $item['numero'],
+                    'nome' => $item['nome'],
+                    'validade' => $item['validade'],
+                    'cvv' => $item['cvv'],
+                    'client_uuid' => $item['client_uuid']
+                ];
+            }, $response['data']);
+        }
+
 
         return [
             'first' => 1,
