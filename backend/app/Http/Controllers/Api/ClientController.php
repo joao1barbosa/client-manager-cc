@@ -9,10 +9,18 @@ use Illuminate\Http\JsonResponse;
 use App\Models\Client;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use App\Services\ApiResponseFormatter;
 
 
 class ClientController extends Controller
 {
+    protected $responseFormatter;
+
+    public function __construct(ApiResponseFormatter $responseFormatter)
+    {
+        $this->responseFormatter = $responseFormatter;
+    }
+
     /**
      * Este método recupera uma lista paginada de clientes do banco de dados
      * e a retorna como uma resposta JSON.
@@ -24,10 +32,11 @@ class ClientController extends Controller
     {
         //Obtem o número de elementos por página da requisição, se não for enviado o padrão é 10
         $perPage = $request->input('per_page', 10);
-
         $clients = Client::paginate($perPage);
 
-        return response()->json($clients, 200);
+        $formattedResponse = $this->responseFormatter->format($clients->toArray());
+
+        return response()->json($formattedResponse, 200);
     }
 
     /**
@@ -47,6 +56,38 @@ class ClientController extends Controller
             ], 404);
         }
         return response()->json($client, 200);
+    }
+
+    /**
+     * Realiza uma busca de clientes pelo nome, retornando todos os clientes que combinam, mesmo que parcialmente.
+     *
+     * @example GET /api/clients/search?name=João&per_page=15&page=2
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function search(Request $request): JsonResponse
+    {
+        $name = $request->input('name');
+
+        if (is_null($name)) {
+            return response()->json([
+                'message' => "Parâmetro 'name' é obrigatório para a busca.",
+            ], 400);
+        }
+
+        try {
+            // Busca clientes cujo nome combina com o parâmetro fornecido
+            $clients = Client::where('nome', 'like', "%{$name}%")
+                ->paginate($request->input('per_page', 10));
+
+            $formattedResponse = $this->responseFormatter->format($clients->toArray());
+
+            return response()->json($formattedResponse, 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => "Erro ao realizar a busca de clientes.",
+            ], 500);
+        }
     }
 
     /**

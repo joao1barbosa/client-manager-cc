@@ -9,10 +9,18 @@ use Illuminate\Http\JsonResponse;
 use App\Models\Card;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use App\Services\ApiResponseFormatter;
 
 
 class CardController extends Controller
 {
+    protected $responseFormatter;
+
+    public function __construct(ApiResponseFormatter $responseFormatter)
+    {
+        $this->responseFormatter = $responseFormatter;
+    }
+
     /**
      * Lista os cartões vinculados a um cliente específico com paginação.
      *
@@ -28,8 +36,9 @@ class CardController extends Controller
          * a resposta de acordo com o que foi passado na requisição, se não
          * utiliza 20 como padrão.
          */
+        $perPage = $request->input('per_page', 20);
         $cards = Card::where('client_uuid', $client_uuid)
-            ->paginate($request->input('per_page', 20));
+            ->paginate($perPage);
 
         if ($cards->isEmpty()) {
             return response()->json([
@@ -37,7 +46,9 @@ class CardController extends Controller
             ], 404);
         }
 
-        return response()->json($cards, 200);
+        $formattedResponse = $this->responseFormatter->format($cards->toArray());
+
+        return response()->json($formattedResponse, 200);
     }
 
     /**
