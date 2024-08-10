@@ -14,9 +14,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html>
+    <html className="">
       <body className={inter.className}>
-        <main> 
+        <main className="board flex flex-col space-y-4">
           {children}
         </main>
       </body>
