@@ -11,6 +11,27 @@ class ClientControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        Client::factory()->create([
+            'nome' => 'Maria',
+            'sobrenome' => 'Silva',
+            'email' => 'maria@email.com',
+            'aniversario' => '10/03/2002',
+            'telefone' => '(99) 99112-9883'
+        ]);
+
+        Client::factory()->create([
+            'nome' => 'Luiza',
+            'sobrenome' => 'Sousa',
+            'email' => 'Luiza@email.com',
+            'aniversario' => '19/03/2000',
+            'telefone' => '(96) 99322-9333'
+        ]);
+    }
+
     /** @test */
     public function it_can_list_clients_with_pagination()
     {
@@ -20,20 +41,16 @@ class ClientControllerTest extends TestCase
 
         $response->assertStatus(200)
             ->assertJsonStructure([
+                'first',
+                'prev',
+                'next',
+                'last',
+                'page',
+                'pages',
+                'items',
                 'data' => [
                     '*' => ['uuid', 'nome', 'sobrenome', 'email', 'aniversario', 'telefone']
                 ],
-                'links',
-                'current_page',
-                'from',
-                'last_page',
-                'links',
-                'next_page_url',
-                'path',
-                'per_page',
-                'prev_page_url',
-                'to',
-                'total',
             ]);
     }
 
@@ -79,6 +96,56 @@ class ClientControllerTest extends TestCase
 
         $response->assertStatus(201)
             ->assertJson($data);
+    }
+
+    public function it_can_search_clients_by_name()
+    {
+
+        $response = $this->json('GET', '/api/clients/search', ['name' => 'Mari']);
+
+        $response
+            ->assertStatus(200)
+            ->assertJsonFragment([
+                'nome' => 'Maria',
+                'sobrenome' => 'Silva',
+                'email' => 'maria@email.com',
+                'aniversario' => '10/03/2002',
+                'telefone' => '(99) 99112-9883'
+            ])
+            ->assertJsonMissing([
+                'nome' => 'Luiza',
+                'sobrenome' => 'Sousa',
+                'email' => 'Luiza@email.com',
+                'aniversario' => '19/03/2000',
+                'telefone' => '(96) 99322-9333'
+            ]);
+    }
+
+    /** @test */
+    public function it_returns_empty_array_when_no_clients_found()
+    {
+        $response = $this->json('GET', '/api/clients/search', ['name' => 'Nonexistent']);
+
+        $response
+            ->assertStatus(200)
+            ->assertJson([
+                'data' => [],
+                'items' => 0,
+                'page' => 1,
+                'pages' => 1,
+            ]);
+    }
+
+    /** @test */
+    public function it_handles_invalid_search_query()
+    {
+        $response = $this->json('GET', '/api/clients/search', ['invalid_field' => 'value']);
+
+        $response
+            ->assertStatus(400)
+            ->assertJson([
+                'message' => "Parâmetro 'name' é obrigatório para a busca.",
+            ]);
     }
 
     /** @test */

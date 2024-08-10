@@ -29,29 +29,25 @@ class CardControllerTest extends TestCase
 
         $response->assertStatus(200)
             ->assertJsonStructure([
+                'first',
+                'prev',
+                'next',
+                'last',
+                'page',
+                'pages',
+                'items',
                 'data' => [
                     '*' => ['uuid', 'numero', 'nome', 'validade', 'cvv', 'client_uuid'],
                 ],
-                'links',
-                'current_page',
-                'from',
-                'last_page',
-                'links',
-                'next_page_url',
-                'path',
-                'per_page',
-                'prev_page_url',
-                'to',
-                'total',
             ]);
     }
 
     /** @test */
     public function it_returns_404_if_no_cards_found_for_client()
     {
-        $clientUuid = 'invalid-uuid';
+        $client_uuid = 'invalid-uuid';
 
-        $response = $this->get("/api/clients/{$clientUuid}/cards");
+        $response = $this->get("/api/clients/{$client_uuid}/cards");
 
         $response->assertStatus(404)
             ->assertJson([
