@@ -1,5 +1,6 @@
 'use client'
-import { OptionButton } from "@/components/ui/optionButton";
+import { useEffect, useRef, useState } from 'react';
+import { OptionButton } from '@/components/ui/optionButton';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
@@ -27,26 +28,58 @@ export interface Client {
 }
 
 export default function Home() {
+  const [clientsPerPage, setClientsPerPage] = useState<number>(10);
   const searchParams = useSearchParams();
   const router = useRouter();
   const currentPage = parseInt(searchParams.get('page') || '1');
-
-  const handlePageChange = (page: number) => {
-    const newUrl = new URL(window.location.href);
-    newUrl.searchParams.set('page', page.toString());
-    router.push(newUrl.toString());
-  };
-
+  const tableRef = useRef<HTMLDivElement>(null);
+  let qtdClients = 0;
+  
   const { data: clientsResponse, isLoading } = useQuery<ClientResponse>({
-    queryKey:['get-clients', currentPage],
+    queryKey:['get-clients', currentPage, clientsPerPage],
     queryFn: async() => {
-      const response = await fetch(`http://localhost:8000/api/clients?per_page=10&page=${currentPage}`);
+      const response = await fetch(`http://localhost:8000/api/clients?per_page=${clientsPerPage}&page=${currentPage}`);
       const data = await response.json();
 
       return data;
     },
     placeholderData: keepPreviousData
   });
+
+  // Função para calcular o numero de clientes por página
+  const calculateClientsPerPage = () => {
+    if (tableRef.current) {
+      const tableHeight = tableRef.current.clientHeight;
+      const rowHeight = 58; //tamanho de cada linha da tabela
+      setClientsPerPage(Math.floor(tableHeight / rowHeight));
+    }
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      // Atrasa o cálculo para garantir a renderização completa
+      setTimeout(() => {
+        requestAnimationFrame(calculateClientsPerPage);
+      }, 50);
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [tableRef]);
+
+  useEffect(() => {
+    calculateClientsPerPage();
+  }, [clientsResponse]);
+
+  const handlePageChange = (page: number) => {
+    const newUrl = new URL(window.location.href);
+    newUrl.searchParams.set('page', page.toString());
+    router.push(newUrl.toString());
+  };
 
   if(isLoading){
     return (
@@ -55,15 +88,15 @@ export default function Home() {
   }
 
   return (
-  <>
-      <section className="flex flex-row justify-between items-center">
+  <div className="flex flex-col h-screen">
+      <section className="flex flex-row justify-between items-center pb-3">
         <h1 className="text-5xl">Clientes</h1>
         <div>
           <OptionButton icon={<Plus/>}/>
         </div>
       </section>
-      <section className="flex flex-col">
-        <div className="max-h-[600px] overflow-y-scroll overflow-x-hidden flex-grow">
+      <section className="flex flex-col flex-grow overflow-hidden">
+        <div ref={tableRef} className="flex-grow overflow-y-auto">
         <Table>
           <TableHeader>
             <TableRow>
@@ -76,6 +109,7 @@ export default function Home() {
           </TableHeader>
           <TableBody>
               {clientsResponse?.data.map((client) => {
+                qtdClients++;
                 return(
                   <TableRow key ={client.uuid}>
                     <TableCell>{client.nome}</TableCell>
@@ -95,8 +129,9 @@ export default function Home() {
           page = {currentPage}
           items={clientsResponse.items}
           onPageChange={handlePageChange}
+          qtdAtual={qtdClients}
         />}
       </section>
-    </>
+    </div>
   );
 }
