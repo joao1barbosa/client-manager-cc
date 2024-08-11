@@ -8,12 +8,19 @@ export function ThemeToggleButton() {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
 
   useEffect(() => {
-    setIsDarkMode(document.documentElement.classList.contains('dark'));
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme){
+      const isDark = savedTheme === 'dark';
+      document.documentElement.classList.toggle('dark', isDark);
+      setIsDarkMode(isDark);
+    }
   }, []);
 
   const toggleTheme = () => {
-    document.documentElement.classList.toggle('dark');
-    setIsDarkMode((prev) => !prev);
+    const newIsDarkMode = !isDarkMode;
+    document.documentElement.classList.toggle('dark', newIsDarkMode);
+    setIsDarkMode(newIsDarkMode);
+    localStorage.setItem('theme', newIsDarkMode ? 'dark' : 'light');
   };
 
   return (
@@ -24,13 +31,11 @@ export function ThemeToggleButton() {
         className='fixed top-4 right-4 z-50'
     >
         {
-        isDarkMode ? 
-            <Moon/> 
+        !isDarkMode ? 
+            <Sun/> 
         :
-            <Sun/>
+            <Moon/>
         }
     </Button>
   );
 };
-
-export default ThemeToggleButton;
