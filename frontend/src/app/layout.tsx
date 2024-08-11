@@ -1,8 +1,7 @@
 'use client'
 import { Inter } from "next/font/google";
-import { ThemeToggleButton } from '@/components/ui/themeToggleButton';
+import { App } from "@/components/app";
 import "./globals.css";
-import { QueryProvider } from '@/components/queryProvider';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,12 +29,9 @@ export default function RootLayout({
           />
         </head>
         <body className={inter.className}>
-          <QueryProvider>
-            <ThemeToggleButton/>
-            <main className="board flex flex-col space-y-4">
+            <App>
               {children}
-            </main>
-          </QueryProvider>
+            </App>
         </body>
       </html>
   );

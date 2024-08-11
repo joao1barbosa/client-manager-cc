@@ -1,9 +1,10 @@
 'use client'
 import { OptionButton } from "@/components/ui/optionButton";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
 import { Pagination } from "@/components/pagination";
+import { useSearchParams, useRouter } from 'next/navigation';
 
 export interface ClientResponse {
   first: number
@@ -25,19 +26,26 @@ export interface Client {
   telefone: string
 }
 
-
-
 export default function Home() {
-  const { data: clientsResponse, isLoading } = useQuery<ClientResponse>({
-    queryKey:['get-clients'],
-    queryFn: async() => {
-      const response = await fetch('http://localhost:8000/api/clients?per_page=15&page=1');
-      const data = await response.json();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const currentPage = parseInt(searchParams.get('page') || '1');
 
-      console.log(data);
+  const handlePageChange = (page: number) => {
+    const newUrl = new URL(window.location.href);
+    newUrl.searchParams.set('page', page.toString());
+    router.push(newUrl.toString());
+  };
+
+  const { data: clientsResponse, isLoading } = useQuery<ClientResponse>({
+    queryKey:['get-clients', currentPage],
+    queryFn: async() => {
+      const response = await fetch(`http://localhost:8000/api/clients?per_page=10&page=${currentPage}`);
+      const data = await response.json();
 
       return data;
     },
+    placeholderData: keepPreviousData
   });
 
   if(isLoading){
@@ -55,7 +63,7 @@ export default function Home() {
         </div>
       </section>
       <section className="flex flex-col">
-        <div className="max-h-[600px] overflow-y-scroll overflow-x-hidden">
+        <div className="max-h-[600px] overflow-y-scroll overflow-x-hidden flex-grow">
         <Table>
           <TableHeader>
             <TableRow>
@@ -84,8 +92,9 @@ export default function Home() {
 
         {clientsResponse && <Pagination
           pages={clientsResponse.pages}
-          page = {1}
+          page = {currentPage}
           items={clientsResponse.items}
+          onPageChange={handlePageChange}
         />}
       </section>
     </>
