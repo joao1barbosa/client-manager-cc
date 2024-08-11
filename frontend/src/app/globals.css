@@ -101,12 +101,14 @@
     font-size: large;
     text-align: center !important;
   }
+
 }
 
 /* Responsividade */
 @media (max-width: 768px) {
   .board {
     padding: 1rem;
+    margin-top: 3vh;
     width: 95%;
     height: 90%;
   }

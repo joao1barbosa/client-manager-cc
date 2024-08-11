@@ -1,12 +1,14 @@
 import { Button } from "@/components/ui/button";
 
-export function OptionButton({
-    icon,
-  }: Readonly<{
-    icon: React.ReactNode;
-}>) {
+interface OptionButtonProps{
+    icon: React.ReactNode
+    size?: string
+    disable?: boolean
+}
+
+export function OptionButton({ icon, size, disable }: OptionButtonProps) {
     return (
-        <Button className='optButton' size="icon" variant='outline'>
+        <Button className={`optButton ${size}`} size="icon" variant='outline' disabled={disable}>
             {icon}
         </Button>
     );
