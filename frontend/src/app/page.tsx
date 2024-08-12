@@ -85,6 +85,7 @@ export default function Home() {
               <TableHead className="tableHead">Sobrenome</TableHead>
               <TableHead className="tableHead">Email</TableHead>
               <TableHead className="tableHead">Data de Nascimento</TableHead>
+              <TableHead className="tableHead">Telefone</TableHead>
               <TableHead className="tableHead">Opções</TableHead> 
             </TableRow>
           </TableHeader>
@@ -97,6 +98,7 @@ export default function Home() {
                     <TableCell>{client.sobrenome}</TableCell>
                     <TableCell>{client.email}</TableCell>
                     <TableCell>{client.aniversario}</TableCell>
+                    <TableCell>{client.telefone}</TableCell>
                     <TableCell className='p-0.5'>
                       <OptionButtons uuid={client.uuid}/>
                     </TableCell>

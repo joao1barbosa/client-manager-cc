@@ -9,28 +9,24 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { MyButton } from "../ui/my-button";
-import { Trash } from "lucide-react";
+
 
 interface DeleteDialogProps{
-    size: string;
+  button: React.ReactNode;
+  to: 'client' | 'card';
 }
   
-export function DeleteDialog({size}: DeleteDialogProps) {
+export function DeleteDialog({ button, to }: DeleteDialogProps) {
     return (
       <AlertDialog>
         <AlertDialogTrigger asChild>
-            <MyButton 
-                icon={<Trash/>}
-                size={size}
-            />
+            {button}
         </AlertDialogTrigger>
-        <AlertDialogContent className="dialog">
+        <AlertDialogContent className="dialog max-w-[41vw]">
           <AlertDialogHeader>
             <AlertDialogTitle>Você tem certeza?</AlertDialogTitle>
             <AlertDialogDescription>
-                Essa ação não pode ser desfeita. Isso apagará permanetemente o
-                registro do cliente.
+                Essa ação não pode ser desfeita. Isso apagará o registo permanetemente.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
