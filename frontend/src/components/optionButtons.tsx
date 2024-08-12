@@ -1,6 +1,6 @@
 import { MyButton } from "./ui/myButton";
 import { MapPin, CreditCard, Pencil } from 'lucide-react';
-import { DeleteDialog } from "./dialogs/deleteDialog";
+import { DeleteDialog } from "./dialog/deleteDialog";
 
 interface OptionButtonsProps{
     uuid: string;

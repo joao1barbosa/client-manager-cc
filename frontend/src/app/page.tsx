@@ -5,7 +5,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { Pagination } from "@/components/pagination";
 import { useSearchParams, useRouter } from 'next/navigation';
-import { AddDialog } from '@/components/dialogs/addDialog';
+import { AddDialog } from '@/components/dialog/addDialog';
+import { Client } from '@/types/Client';
 
 export interface ClientResponse {
   first: number
@@ -16,15 +17,6 @@ export interface ClientResponse {
   pages: number
   items: number
   data: Client[]
-}
-
-export interface Client {
-  uuid: string
-  nome: string
-  sobrenome: string
-  email: string
-  aniversario: string
-  telefone: string
 }
 
 export default function Home() {
