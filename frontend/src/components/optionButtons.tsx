@@ -1,5 +1,6 @@
 import { MyButton } from "./ui/myButton";
-import { MapPin, CreditCard, Pencil, Trash } from 'lucide-react';
+import { MapPin, CreditCard, Pencil } from 'lucide-react';
+import { DeleteDialog } from "./dialogs/deleteDialog";
 
 interface OptionButtonsProps{
     uuid: string;
@@ -22,10 +23,7 @@ export function OptionButtons ({ uuid }: OptionButtonsProps) {
                 icon={<Pencil/>}
                 size={buttonSize}    
             />
-            <MyButton 
-                icon={<Trash/>}
-                size={buttonSize}
-            />
+            <DeleteDialog size={buttonSize}/>
         </div>
     );
 }

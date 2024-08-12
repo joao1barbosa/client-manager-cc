@@ -1,3 +1,4 @@
+'use client'
 import { MyButton } from "../ui/myButton";
 import { Button } from "../ui/button";
 import {
@@ -12,18 +13,22 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Plus } from "lucide-react";
+import { DialogClose } from "@radix-ui/react-dialog";
+import { useState } from "react";
 
 export function AddDialog(){
+    const [alert, setAlert] = useState<string>('');
+
     return(
         <Dialog>
             <DialogTrigger asChild>
                 <MyButton icon={<Plus/>}/>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-[425px] dialog">
                 <DialogHeader>
-                <DialogTitle>Edit profile</DialogTitle>
-                <DialogDescription>
-                    Descriptions
+                <DialogTitle>Adicionar Cliente</DialogTitle>
+                <DialogDescription className="text-red-700">
+                    {alert}
                 </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
@@ -49,7 +54,12 @@ export function AddDialog(){
                 </div>
                 </div>
                 <DialogFooter>
-                <Button type="submit">Save changes</Button>
+                    <DialogClose asChild>
+                        <Button type='button' variant='outline'>
+                            Cancelar
+                        </Button>
+                    </DialogClose>
+                    <Button type="submit">Save changes</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
