@@ -1,6 +1,6 @@
 'use client'
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react";
-import { MyButton } from "./ui/myButton";
+import { MyButton } from "./ui/my-button";
 import { useState, useEffect } from "react";
 
 interface PaginationProps {

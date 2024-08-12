@@ -9,7 +9,7 @@ interface MyButtonProps{
 
 export function MyButton({ icon, size, disable, onClick }: MyButtonProps) {
     return (
-        <Button className={`optButton ${size}`} size="icon" variant='outline' disabled={disable} onClick={onClick}>
+        <Button className={`my-button ${size}`} size="icon" variant='outline' disabled={disable} onClick={onClick}>
             {icon}
         </Button>
     );

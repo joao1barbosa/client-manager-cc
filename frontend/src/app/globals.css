@@ -93,7 +93,7 @@
 }
 
 @layer components{
-  .optButton {
+  .my-button {
     @apply border-opacity-40 border-gray-500 !important;
   }
 

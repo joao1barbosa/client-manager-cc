@@ -1,23 +1,12 @@
 'use client'
 import { useEffect, useRef, useState } from 'react';
-import { OptionButtons } from '@/components/optionButtons';
+import { OptionButtons } from '@/components/option-buttons';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { Pagination } from "@/components/pagination";
 import { useSearchParams, useRouter } from 'next/navigation';
-import { AddDialog } from '@/components/dialog/addDialog';
-import { Client } from '@/types/Client';
-
-export interface ClientResponse {
-  first: number
-  prev: number | null
-  next: number | null
-  last: number
-  page: number
-  pages: number
-  items: number
-  data: Client[]
-}
+import { AddDialog } from '@/components/dialog/add-client-dialog';
+import { ClientResponse } from '@/@types/';
 
 export default function Home() {
   const [clientsPerPage, setClientsPerPage] = useState<number>(10);
