@@ -1,11 +1,13 @@
 'use client'
 import { useEffect, useRef, useState } from 'react';
-import { OptionButton } from '@/components/ui/optionButton';
+import { MyButton } from '@/components/ui/myButton';
+import { OptionButtons } from '@/components/optionButtons';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
 import { Pagination } from "@/components/pagination";
 import { useSearchParams, useRouter } from 'next/navigation';
+import { AddDialog } from '@/components/dialogs/addDialog';
 
 export interface ClientResponse {
   first: number
@@ -92,7 +94,7 @@ export default function Home() {
       <section className="flex flex-row justify-between items-center pb-3">
         <h1 className="text-5xl">Clientes</h1>
         <div>
-          <OptionButton icon={<Plus/>}/>
+          <AddDialog/>
         </div>
       </section>
       <section className="flex flex-col flex-grow overflow-hidden">
@@ -111,12 +113,14 @@ export default function Home() {
               {clientsResponse?.data.map((client) => {
                 qtdClients++;
                 return(
-                  <TableRow key ={client.uuid}>
+                  <TableRow key={client.uuid}>
                     <TableCell>{client.nome}</TableCell>
                     <TableCell>{client.sobrenome}</TableCell>
                     <TableCell>{client.email}</TableCell>
                     <TableCell>{client.aniversario}</TableCell>
-                    <TableCell>OptButtons</TableCell>
+                    <TableCell className='p-0.5'>
+                      <OptionButtons uuid={client.uuid}/>
+                    </TableCell>
                   </TableRow>
                 )
               })}

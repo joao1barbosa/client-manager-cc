@@ -1,6 +1,6 @@
 'use client'
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react";
-import { OptionButton } from "./ui/optionButton";
+import { MyButton } from "./ui/myButton";
 import { useState, useEffect } from "react";
 
 interface PaginationProps {
@@ -41,25 +41,25 @@ export function Pagination({pages, page, items, onPageChange, qtdAtual}: Paginat
                     <p>{page} de {pages}</p>
                 </span>
                 <div className="space-x-1.5">
-                    <OptionButton 
+                    <MyButton 
                         size={'h-[25px] w-[30px]'} 
                         icon={<ChevronsLeft className="size-4"/>} 
                         onClick={() => onPageChange(1)}
                         disable={ page === 1 }
                     />
-                    <OptionButton 
+                    <MyButton
                         size={'h-[25px] w-[30px]'} 
                         icon={<ChevronLeft className="size-4"/>}
                         onClick={() => onPageChange(page-1)}
                         disable={ (page - 1) <= 0 }
                     />
-                    <OptionButton 
+                    <MyButton 
                         size={'h-[25px] w-[30px]'} 
                         icon={<ChevronRight className="size-4"/>}
                         onClick={() => onPageChange(page+1)}
                         disable={ (page + 1) > pages }
                     />
-                    <OptionButton 
+                    <MyButton
                         size={'h-[25px] w-[30px]'} 
                         icon={<ChevronsRight className="size-4"/>}
                         onClick={() => onPageChange(pages)}
