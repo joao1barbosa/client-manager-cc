@@ -4,9 +4,10 @@ import { OptionButtons } from '@/components/option-buttons';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Pagination } from "@/components/pagination";
 import { useSearchParams, useRouter } from 'next/navigation';
-import { AddDialog } from '@/components/dialog/add-client-dialog';
+import { AddClientDialog } from '@/components/dialog/add-client-dialog';
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { ClientResponse } from '@/@types';
+import { useReadClients } from '@/hooks/client';
 
 export default function Home() {
   const [clientsPerPage, setClientsPerPage] = useState<number>(10);
@@ -16,16 +17,7 @@ export default function Home() {
   const tableRef = useRef<HTMLDivElement>(null);
   let qtdClients = 0;
   
-  const { data: clientsResponse, isLoading } = useQuery<ClientResponse>({
-    queryKey:['get-clients', currentPage, clientsPerPage],
-    queryFn: async() => {
-      const response = await fetch(`http://localhost:8000/api/clients?per_page=${clientsPerPage}&page=${currentPage}`);
-      const data = await response.json();
-
-      return data;
-    },
-    placeholderData: keepPreviousData
-});
+  const { data: clientsResponse, isLoading } = useReadClients(currentPage, clientsPerPage);
 
   // Função para calcular o numero de clientes por página
   const calculateClientsPerPage = () => {
@@ -73,7 +65,7 @@ export default function Home() {
       <section className="flex flex-row justify-between items-center pb-3">
         <h1 className="text-5xl">Clientes</h1>
         <div>
-          <AddDialog/>
+          <AddClientDialog/>
         </div>
       </section>
       <section className="flex flex-col flex-grow overflow-hidden">

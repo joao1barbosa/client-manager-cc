@@ -11,7 +11,7 @@ import { Plus } from "lucide-react";
 import { AddClientForm } from '../forms/add-client-form';
 
 
-export function AddDialog(){
+export function AddClientDialog(){
     return(
         <Dialog>
             <DialogTrigger asChild>

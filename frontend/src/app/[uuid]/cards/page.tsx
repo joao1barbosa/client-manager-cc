@@ -51,7 +51,7 @@ export default function CardsBoard({ params }: { params: { uuid: string } }) {
           className="relative flex flex-col w-48 h-[9rem] rounded 
           border border-gray-300 justify-end items-center m-2"
           >
-            <DeleteDialog to='card' button = {
+            <DeleteDialog to='card' uuid={card.uuid} button = {
               <Button size='icon' variant='ghost' 
                 className="absolute top-[0.01rem] right-0.5 size-[20px]"
               >

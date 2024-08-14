@@ -9,10 +9,8 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Client } from "@/@types";
-import axios from "axios";
-
+import { useDeleteClient } from "@/hooks/client";
+import { useDeleteCard } from "@/hooks/card";
 
 interface DeleteDialogProps{
   button: React.ReactNode;
@@ -20,25 +18,12 @@ interface DeleteDialogProps{
   uuid: string
 }
 
-const deleteClient = async (clientUuid: string): Promise<Client> => {
-  const response = await axios.delete<Client>(`http://localhost:8000/api/clients/${clientUuid}`);
-  return response.data;
-};
-  
 export function DeleteDialog({ button, to, uuid }: DeleteDialogProps) {
-  const queryClient = useQueryClient();
-  
-  const mutation = useMutation<Client, Error, string>({
-    mutationFn: deleteClient,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['get-clients'],
-        exact: true,
-      });
-    },
-  });
+  const { mutate: clientMutate } = useDeleteClient();
+  const { mutate: cardMutate } = useDeleteCard();
 
-  const handleDelete = () => mutation.mutate(uuid);
+  const handleClientDelete = () => clientMutate(uuid);
+  const handleCardDelete = () => cardMutate(uuid);
 
     return (
       <AlertDialog>
@@ -54,7 +39,13 @@ export function DeleteDialog({ button, to, uuid }: DeleteDialogProps) {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancelar</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDelete}
+            <AlertDialogAction onClick={()=>{
+              (to === 'client') ?
+                handleClientDelete()
+              :
+                handleCardDelete()
+            }
+            }
               className="bg-red-700 hover:bg-red-950 text-white"
             >
               Continuar
