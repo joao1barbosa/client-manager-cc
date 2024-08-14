@@ -7,6 +7,7 @@ import Cards from 'react-credit-cards-2';
 import "react-credit-cards-2/dist/es/styles-compiled.css";
 import "./card.css";
 import { Button } from "@/components/ui/button";
+import { AddCardDialog } from "@/components/dialog/add-card-dialog";
 
 export default function CardsBoard({ params }: { params: { uuid: string } }) {
   const { uuid } = params;
@@ -34,7 +35,7 @@ export default function CardsBoard({ params }: { params: { uuid: string } }) {
     return (
       <div className='flex flex-col h-full w-full justify-center items-center space-y-4'>
           <h1 className='font-semibold text-xl'>Nenhum Cartão de Crédito Cadastrado</h1>
-          <h3>vai ter um botão aqui</h3>
+          <AddCardDialog/>
       </div>
     );
   }
@@ -42,7 +43,7 @@ export default function CardsBoard({ params }: { params: { uuid: string } }) {
   return (
     <div className='flex flex-col h-full w-full justify-center items-center'>
       <section className='flex flex-row justify-end w-full'>
-            <h3>Botão de add card</h3>
+        <AddCardDialog/>
       </section>
       <section className='w-full h-full flex flex-wrap overflow-y-auto content-start justify-center my-2'>
       {cardResponse?.data.map((card, index) => {
