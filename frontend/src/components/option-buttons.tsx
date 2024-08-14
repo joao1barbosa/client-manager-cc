@@ -12,8 +12,6 @@ export function OptionButtons ({ uuid }: OptionButtonsProps) {
     const buttonConvert = buttonVariants({ variant: "outline" }).replace('h-10 px-4 py-2', '');
     const buttonSize = 'h-[30px] w-[30px]';
 
-    console.log(buttonConvert);
-
     return (
         <div className="flex flex-row justify-center space-x-1.5">
             <MyButton 

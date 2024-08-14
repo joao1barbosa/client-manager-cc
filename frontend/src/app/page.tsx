@@ -33,6 +33,7 @@ export default function Home() {
       const tableHeight = tableRef.current.clientHeight;
       const rowHeight = 58; //tamanho de cada linha da tabela
       setClientsPerPage(Math.floor(tableHeight / rowHeight));
+      console.log(tableHeight, clientsPerPage)
     }
   };
 
@@ -94,11 +95,11 @@ export default function Home() {
                 qtdClients++;
                 return(
                   <TableRow key={client.uuid}>
-                    <TableCell>{client.nome}</TableCell>
-                    <TableCell>{client.sobrenome}</TableCell>
-                    <TableCell>{client.email}</TableCell>
-                    <TableCell>{client.aniversario}</TableCell>
-                    <TableCell>{client.telefone}</TableCell>
+                    <TableCell className='p-3'>{client.nome}</TableCell>
+                    <TableCell className='p-2'>{client.sobrenome}</TableCell>
+                    <TableCell className='p-2'>{client.email}</TableCell>
+                    <TableCell className='p-2'>{client.aniversario}</TableCell>
+                    <TableCell className='p-2'>{client.telefone}</TableCell>
                     <TableCell className='p-0.5'>
                       <OptionButtons uuid={client.uuid}/>
                     </TableCell>

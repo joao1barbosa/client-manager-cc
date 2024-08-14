@@ -23,9 +23,9 @@
     "react-credit-cards-2": "^1.0.2",
     "react-dom": "^18",
     "react-hook-form": "^7.52.2",
-    "react-input-mask": "^2.0.4",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
+    "use-mask-input": "^3.4.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
