@@ -25,7 +25,7 @@ export function OptionButtons ({ uuid }: OptionButtonsProps) {
                 icon={<Pencil/>}
                 size={buttonSize}    
             />
-            <DeleteDialog to='client' button={
+            <DeleteDialog to='client' uuid={uuid} button={
                 <MyButton 
                     icon={<Trash/>}
                     size={buttonSize}

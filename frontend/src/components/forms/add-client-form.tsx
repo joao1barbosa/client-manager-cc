@@ -8,8 +8,11 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { DialogFooter, DialogClose } from '../ui/dialog';
+import { DialogFooter, DialogClose } from '@/components/ui/dialog';
 import { useHookFormMask } from 'use-mask-input';
+import axios from 'axios';
+import { Client } from '@/@types';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 const createClientSchema = z.object({
   nome: z.string().min(3, {message: 'Nome muito curto'}),
@@ -21,7 +24,14 @@ const createClientSchema = z.object({
 
 type CreateClienteSchema = z.infer<typeof createClientSchema>;
 
+const createClient = async (data: Omit<Client, 'uuid'>): Promise<Client> => {
+    const response = await axios.post<Client>('http://localhost:8000/api/clients', data);
+    return response.data;
+  };
+
 export function AddClientForm() {
+  const queryClient = useQueryClient();
+
   const methods = useForm<CreateClienteSchema>({
     resolver: zodResolver(createClientSchema),
   });
@@ -32,8 +42,18 @@ export function AddClientForm() {
 
   const registerWithMask = useHookFormMask(register);
 
-  const handleCreateClient = (data: CreateClienteSchema) => {
-    console.log(data);
+  const mutation = useMutation<Client, Error, Omit<Client, 'uuid'>>({
+    mutationFn: createClient,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['get-clients'],
+        exact: true
+      });
+    },
+  });
+
+  const handleCreateClient = async (data: CreateClienteSchema) => {
+    mutation.mutate(data);
   };
 
   return (

@@ -2,11 +2,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { OptionButtons } from '@/components/option-buttons';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { Pagination } from "@/components/pagination";
 import { useSearchParams, useRouter } from 'next/navigation';
 import { AddDialog } from '@/components/dialog/add-client-dialog';
-import { ClientResponse } from '@/@types/';
+import { useQuery, keepPreviousData } from "@tanstack/react-query";
+import { ClientResponse } from '@/@types';
 
 export default function Home() {
   const [clientsPerPage, setClientsPerPage] = useState<number>(10);
@@ -25,15 +25,14 @@ export default function Home() {
       return data;
     },
     placeholderData: keepPreviousData
-  });
+});
 
   // Função para calcular o numero de clientes por página
   const calculateClientsPerPage = () => {
     if (tableRef.current) {
       const tableHeight = tableRef.current.clientHeight;
-      const rowHeight = 58; //tamanho de cada linha da tabela
+      const rowHeight = 58; //tamanho de cada linha da tabela em pixels
       setClientsPerPage(Math.floor(tableHeight / rowHeight));
-      console.log(tableHeight, clientsPerPage)
     }
   };
 
@@ -85,7 +84,7 @@ export default function Home() {
               <TableHead className="tableHead">Nome</TableHead>
               <TableHead className="tableHead">Sobrenome</TableHead>
               <TableHead className="tableHead">Email</TableHead>
-              <TableHead className="tableHead">Data de Nascimento</TableHead>
+              <TableHead className="tableHead px-2 max-w-[100px]">Data de Nascimento</TableHead>
               <TableHead className="tableHead">Telefone</TableHead>
               <TableHead className="tableHead">Opções</TableHead> 
             </TableRow>
