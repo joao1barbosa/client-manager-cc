@@ -7,7 +7,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { AddClientDialog } from '@/components/dialog/add-client-dialog';
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { ClientResponse } from '@/@types';
-import { useReadClients } from '@/hooks/client';
+import { useReadClients } from '@/hooks/useClient';
 
 export default function Home() {
   const [clientsPerPage, setClientsPerPage] = useState<number>(10);

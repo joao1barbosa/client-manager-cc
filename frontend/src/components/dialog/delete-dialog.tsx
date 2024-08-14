@@ -9,8 +9,8 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { useDeleteClient } from "@/hooks/client";
-import { useDeleteCard } from "@/hooks/card";
+import { useDeleteClient } from "@/hooks/useClient";
+import { useDeleteCard } from "@/hooks/useCard";
 
 interface DeleteDialogProps{
   button: React.ReactNode;

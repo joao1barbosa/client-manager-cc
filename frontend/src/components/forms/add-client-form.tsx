@@ -9,9 +9,7 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { DialogFooter, DialogClose } from '@/components/ui/dialog';
 import { useHookFormMask } from 'use-mask-input';
-import axios from 'axios';
-import { Client } from '@/@types';
-import { useCreateClient } from '@/hooks/client';
+import { useCreateClient } from '@/hooks/useClient';
 
 const createClientSchema = z.object({
   nome: z.string().min(3, {message: 'Nome muito curto'}),
