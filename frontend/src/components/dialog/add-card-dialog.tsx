@@ -9,9 +9,6 @@ import {
 import { Button } from "../ui/button";
 import { CirclePlus } from 'lucide-react';
 
-interface AddCardDialogProps{
-}
-
 export function AddCardDialog(){
     return(
         <Dialog>
