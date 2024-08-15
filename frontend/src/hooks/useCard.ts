@@ -1,8 +1,8 @@
-import { Card } from "@/@types";
-import { useQueryClient, useMutation } from "@tanstack/react-query";
+import { Card, CardResponse } from "@/@types";
+import { useQueryClient, useMutation, keepPreviousData, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-export const useCreateClient = () => {
+export const useCreateCard = () => {
   const queryClient = useQueryClient();
 
   const createReq = async (data: Omit<Card, 'uuid'>): Promise<Card> => {
@@ -18,6 +18,19 @@ export const useCreateClient = () => {
         exact: true
       });
     },
+  });
+}
+
+export const useReadCards = (client_uuid: string) => {
+  return useQuery<CardResponse>({
+    queryKey:['get-cards'],
+    queryFn: async() => {
+      const response = await fetch(`http://localhost:8000/api/clients/${client_uuid}/cards`);
+      const data = await response.json();
+    
+      return data;
+    },
+    placeholderData: keepPreviousData
   });
 }
 

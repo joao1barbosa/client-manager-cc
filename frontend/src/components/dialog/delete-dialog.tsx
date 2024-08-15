@@ -11,19 +11,29 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useDeleteClient } from "@/hooks/useClient";
 import { useDeleteCard } from "@/hooks/useCard";
+import { QueryObserverResult } from "@tanstack/react-query";
 
 interface DeleteDialogProps{
   button: React.ReactNode;
   to: 'client' | 'card';
   uuid: string
+  refetch: () => Promise<QueryObserverResult>;
 }
 
-export function DeleteDialog({ button, to, uuid }: DeleteDialogProps) {
+export function DeleteDialog({ button, to, uuid, refetch }: DeleteDialogProps) {
   const { mutate: clientMutate } = useDeleteClient();
   const { mutate: cardMutate } = useDeleteCard();
 
-  const handleClientDelete = () => clientMutate(uuid);
-  const handleCardDelete = () => cardMutate(uuid);
+  const handleClientDelete = () => {
+    clientMutate(uuid,{
+      onSuccess: () => refetch()
+    });
+  };
+  const handleCardDelete = () => {
+    cardMutate(uuid, {
+      onSuccess: () => refetch()
+    });
+  };
 
     return (
       <AlertDialog>

@@ -5,8 +5,6 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Pagination } from "@/components/pagination";
 import { useSearchParams, useRouter } from 'next/navigation';
 import { AddClientDialog } from '@/components/dialog/add-client-dialog';
-import { useQuery, keepPreviousData } from "@tanstack/react-query";
-import { ClientResponse } from '@/@types';
 import { useReadClients } from '@/hooks/useClient';
 
 export default function Home() {

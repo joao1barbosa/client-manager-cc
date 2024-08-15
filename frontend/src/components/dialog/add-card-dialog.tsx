@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "../ui/button";
 import { CirclePlus } from 'lucide-react';
+import { AddCardForm } from "../forms/add-card-form";
 
 export function AddCardDialog(){
     return(
@@ -25,7 +26,7 @@ export function AddCardDialog(){
                 <DialogTitle>Adicionar Cartão</DialogTitle>
                 </DialogHeader>
 
-                <p>aaaaaaaaaaaaaaaaaa</p>
+                <AddCardForm/>
             </DialogContent>
         </Dialog>
     );

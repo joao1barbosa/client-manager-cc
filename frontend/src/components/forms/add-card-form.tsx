@@ -5,141 +5,154 @@ import {
     FormControl, FormField, FormItem, FormMessage 
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { DialogFooter, DialogClose } from '@/components/ui/dialog';
 import { useHookFormMask } from 'use-mask-input';
-import { useCreateClient } from '@/hooks/useClient';
+import { useCreateCard } from '@/hooks/useCard';
+import { usePathname } from 'next/navigation';
+import Cards from 'react-credit-cards-2';
+import { useState } from 'react';
 
-const createClientSchema = z.object({
-  nome: z.string().min(3, {message: 'Nome muito curto'}),
-  sobrenome: z.string().min(3, {message: 'Sobrenome muito curto'}),
-  email: z.string().email({message: 'E-mail inválido'}),
-  aniversario: z.string().regex(/^\d{2}\/\d{2}\/\d{4}$/, { message: "Data inválida" }),
-  telefone: z.string().regex(/^\(\d{2}\) \d{5}-\d{4}$/, { message: "Telefone inválido" })
+const createCardSchema = z.object({
+    numero: z.string().regex(/^\d{4} \d{4} \d{4} \d{4}$/, { message: "Número inválido" }),
+    nome: z.string().min(3, { message: 'Nome muito curto' }),
+    validade: z.string().regex(/^(0[1-9]|1[0-2])\/\d{2}$/, { message: "Data inválida" }),
+    cvv: z.string().regex(/^\d{3}$/, { message: "CVV inválido" }),
 });
 
-type CreateClienteSchema = z.infer<typeof createClientSchema>;
+type CreateCardSchema = z.infer<typeof createCardSchema>;
+
+type FocusedField = 'name' | 'number' | 'expiry' | 'cvc';
 
 export function AddCardForm() {
-  const methods = useForm<CreateClienteSchema>({
-    resolver: zodResolver(createClientSchema),
+  const pathname = usePathname();
+  const client_uuid = pathname.split('/')[1];
+
+  const [focus, setFocus] = useState<FocusedField | undefined>('name');
+
+  const methods = useForm<CreateCardSchema>({
+    resolver: zodResolver(createCardSchema),
   });
 
   const { 
-    register, handleSubmit, control, formState: { errors } 
-} = methods;
+    register, handleSubmit, control, formState: { errors }, watch 
+  } = methods;
 
   const registerWithMask = useHookFormMask(register);
+  const { mutate } = useCreateCard();
 
-  const { mutate } = useCreateClient();
-
-  const handleCreateClient = async (data: CreateClienteSchema) => {
-    mutate(data);
+  const handleCreateClient = async (data: CreateCardSchema) => {
+    const full_data = { client_uuid, ...data };
+    mutate(full_data);
   };
 
-  return (
-    <FormProvider {...methods}>
-        <form onSubmit={handleSubmit(handleCreateClient)} className="space-y-4">
-            <FormField
-                control={control}
-                name="nome"
-                render={() => (
-                    <FormItem>
-                        <Label>Nome</Label>
-                        <FormControl>
-                            <Input 
-                            type="text" 
-                            {...register("nome")} 
-                            className="mt-1 block w-full"
-                            />
-                        </FormControl>
-                        {errors.nome && <FormMessage>{errors.nome.message}</FormMessage>}
-                    </FormItem>
-                )}
-            />
-            <FormField
-                control={control}
-                name="sobrenome"
-                render={() => (
-                    <FormItem>
-                        <Label>Sobrenome</Label>
-                        <FormControl>
-                            <Input
-                            type="text"
-                            {...register("sobrenome")} 
-                            className="mt-1 block w-full" 
-                            />
-                        </FormControl>
-                        {errors.sobrenome && <FormMessage>{errors.sobrenome.message}</FormMessage>}
-                    </FormItem>
-                )}
-            />
-            <FormField
-                control={control}
-                name="email"
-                render={() => (
-                    <FormItem>
-                        <Label>Email</Label>
-                        <FormControl>
-                            <Input 
-                            type="email" 
-                            {...register("email")} 
-                            className="mt-1 block"
-                            />
-                        </FormControl>
-                        {errors.email && <FormMessage>{errors.email.message}</FormMessage>}
-                    </FormItem>
-                )}
-            />
-            <FormField
-                control={control}
-                name="aniversario"
-                render={() => (
-                    <FormItem>
-                        <Label>Data de Nascimento</Label>
-                        <FormControl>
-                            <Input 
-                            type="text" 
-                            {...registerWithMask("aniversario", '99/99/9999', {
-                                required: true
-                              })}
-                            className="mt-1 block"
-                            />
-                        </FormControl>
-                        {errors.aniversario && <FormMessage>{errors.aniversario.message}</FormMessage>}
-                    </FormItem>
-                )}
-            />
-            <FormField
-                control={control}
-                name="telefone"
-                render={() => (
-                    <FormItem>
-                        <Label>Telefone</Label>
-                        <FormControl>
-                            <Input 
-                            type="text" 
-                            {...registerWithMask("telefone", '(99) 99999-9999', {
-                                required: true
-                              })}
-                            className="mt-1 block"
-                            />
-                        </FormControl>
-                        {errors.telefone && <FormMessage>{errors.telefone.message}</FormMessage>}
-                    </FormItem>
-                )}
-            />
+  const handleInputFocus = (evt: React.FocusEvent<HTMLInputElement>) => {
+    const focusField = evt.target.name as FocusedField;
+    setFocus(focusField);
+  }
 
-            <DialogFooter>
-                <DialogClose asChild>
-                    <Button type='button' variant='outline'>
-                        Cancelar
-                    </Button>
-                </DialogClose>
-                    <Button type="submit">Salvar</Button>
-            </DialogFooter>
-        </form>
-    </FormProvider>
+  const watchedInputs = watch();
+
+  return (
+    <div className='flex flex-col items-center space-y-4'>
+        <Cards
+            number={watchedInputs.numero || ''}
+            expiry={watchedInputs.validade || ''}
+            cvc={watchedInputs.cvv || ''}
+            name={watchedInputs.nome || ''}
+            focused={focus || undefined}
+        />
+
+        <FormProvider {...methods}>
+            <form onSubmit={handleSubmit(handleCreateClient)} className="space-y-2">
+                <FormField
+                    control={control}
+                    name="numero"
+                    render={() => (
+                        <FormItem>
+                            <FormControl>
+                                <Input 
+                                    type="text" 
+                                    {...registerWithMask("numero", '9999 9999 9999 9999', {
+                                        required: true
+                                    })}
+                                    className="mt-1 block w-3/4 p-2 text-center text-xl placeholder:text-center"
+                                    placeholder='1234 1234 1234 1234'
+                                    onFocus={handleInputFocus}
+                                />
+                            </FormControl>
+                            {errors.numero && <FormMessage>{errors.numero.message}</FormMessage>}
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={control}
+                    name="nome"
+                    render={() => (
+                        <FormItem>
+                            <FormControl>
+                                <Input
+                                    type="text"
+                                    {...register("nome")} 
+                                    className="mt-1 block w-full"
+                                    onFocus={handleInputFocus} 
+                                />
+                            </FormControl>
+                            {errors.nome && <FormMessage>{errors.nome.message}</FormMessage>}
+                        </FormItem>
+                    )}
+                />
+                <div className='flex flex-row space-x-2'>
+                    <FormField
+                        control={control}
+                        name="validade"
+                        render={() => (
+                            <FormItem>
+                                <FormControl>
+                                    <Input 
+                                        type="text" 
+                                        {...registerWithMask("validade", '99/99', {
+                                            required: true
+                                        })}
+                                        className="mt-1 block"
+                                        onFocus={handleInputFocus}
+                                    />
+                                </FormControl>
+                                {errors.validade && <FormMessage>{errors.validade.message}</FormMessage>}
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={control}
+                        name="cvv"
+                        render={() => (
+                            <FormItem>
+                                <FormControl>
+                                    <Input 
+                                        type="text" 
+                                        {...registerWithMask("cvv", '999', {
+                                            required: true
+                                        })}
+                                        className="mt-1 block"
+                                        onFocus={handleInputFocus}
+                                    />
+                                </FormControl>
+                                {errors.cvv && <FormMessage>{errors.cvv.message}</FormMessage>}
+                            </FormItem>
+                        )}
+                    />
+                </div>
+
+                <DialogFooter>
+                    <DialogClose asChild>
+                        <Button type='button' variant='outline'>
+                            Cancelar
+                        </Button>
+                    </DialogClose>
+                        <Button type="submit">Salvar</Button>
+                </DialogFooter>
+            </form>
+        </FormProvider>
+    </div>
   );
 };

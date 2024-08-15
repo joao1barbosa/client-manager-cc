@@ -1,6 +1,4 @@
 'use client'
-import { useQuery, keepPreviousData } from "@tanstack/react-query";
-import { CardResponse } from "@/@types";
 import { DeleteDialog } from "@/components/dialog/delete-dialog";
 import { CircleX } from 'lucide-react';
 import Cards from 'react-credit-cards-2';
@@ -8,28 +6,17 @@ import "react-credit-cards-2/dist/es/styles-compiled.css";
 import "./card.css";
 import { Button } from "@/components/ui/button";
 import { AddCardDialog } from "@/components/dialog/add-card-dialog";
+import { useReadCards } from "@/hooks/useCard";
 
-export default function CardsBoard({ params }: { params: { uuid: string } }) {
+export default function CardsPage({ params }: { params: { uuid: string } }) {
   const { uuid } = params;
-
-  const { data: cardResponse, isLoading } = useQuery<CardResponse>({
-    queryKey:['get-clients'],
-    queryFn: async() => {
-      const response = await fetch(`http://localhost:8000/api/clients/${uuid}/cards`);
-      const data = await response.json();
-    
-      return data;
-    },
-    placeholderData: keepPreviousData
-  });
+  const { data: cardResponse, isLoading, refetch } = useReadCards(uuid);
 
   if(isLoading){
     return (
       <h1 className="text-8xl">Carregando...</h1>
     );
   }
-
-  console.log(cardResponse?.data);
 
   if(!cardResponse?.data){
     return (
@@ -52,14 +39,13 @@ export default function CardsBoard({ params }: { params: { uuid: string } }) {
           className="relative flex flex-col w-48 h-[9rem] rounded 
           border border-gray-300 justify-end items-center m-2"
           >
-            <DeleteDialog to='card' uuid={card.uuid} button = {
+            <DeleteDialog to='card' refetch={refetch} uuid={card.uuid} button = {
               <Button size='icon' variant='ghost' 
                 className="absolute top-[0.01rem] right-0.5 size-[20px]"
               >
                 <CircleX/>
               </Button>
             }/>
-            {/* icon={<CircleX/>} size='h-[20px] w-[20px] absolute top-[0.01rem] right-1' */}
             <div className='mini-credit-card my-2'>
               <Cards
                 cvc=""
