@@ -5,7 +5,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Pagination } from "@/components/pagination";
 import { useSearchParams, useRouter } from 'next/navigation';
 import { AddClientDialog } from '@/components/dialog/add-client-dialog';
-import { useReadClients } from '@/hooks/useClient';
+import { useReadClients } from '@/hooks/ClientQuerys';
+import { useRefetch } from '@/hooks/useRefetch';
 
 export default function Home() {
   const [clientsPerPage, setClientsPerPage] = useState<number>(10);
@@ -14,8 +15,9 @@ export default function Home() {
   const currentPage = parseInt(searchParams.get('page') || '1');
   const tableRef = useRef<HTMLDivElement>(null);
   let qtdClients = 0;
-  
-  const { data: clientsResponse, isLoading } = useReadClients(currentPage, clientsPerPage);
+
+  const { setRefetch } = useRefetch();
+  const { data: clientsResponse, isLoading, refetch } = useReadClients(currentPage, clientsPerPage);
 
   // Função para calcular o numero de clientes por página
   const calculateClientsPerPage = () => {
@@ -45,6 +47,10 @@ export default function Home() {
   useEffect(() => {
     calculateClientsPerPage();
   }, [clientsResponse]);
+
+  useEffect(() => {
+    setRefetch(() => refetch);
+  }, [refetch, setRefetch]);
 
   const handlePageChange = (page: number) => {
     const newUrl = new URL(window.location.href);

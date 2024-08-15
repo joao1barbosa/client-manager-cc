@@ -3,6 +3,7 @@ import { MapPin, CreditCard, Pencil, Trash } from 'lucide-react';
 import { DeleteDialog } from "./dialog/delete-dialog";
 import Link from "next/link";
 import { buttonVariants } from "./ui/button";
+import { QueryObserverResult } from "@tanstack/react-query";
 
 interface OptionButtonsProps{
     uuid: string;

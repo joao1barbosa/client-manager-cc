@@ -10,7 +10,6 @@ import {
 import { Plus } from "lucide-react";
 import { AddClientForm } from '../forms/add-client-form';
 
-
 export function AddClientDialog(){
     return(
         <Dialog>

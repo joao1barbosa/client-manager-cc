@@ -9,7 +9,8 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { DialogFooter, DialogClose } from '@/components/ui/dialog';
 import { useHookFormMask } from 'use-mask-input';
-import { useCreateClient } from '@/hooks/useClient';
+import { useCreateClient } from '@/hooks/ClientQuerys';
+import { useRefetch } from '@/hooks/useRefetch';
 
 const createClientSchema = z.object({
   nome: z.string().min(3, {message: 'Nome muito curto'}),
@@ -22,6 +23,7 @@ const createClientSchema = z.object({
 type CreateClienteSchema = z.infer<typeof createClientSchema>;
 
 export function AddClientForm() {
+  const { refetch } = useRefetch();
   const methods = useForm<CreateClienteSchema>({
     resolver: zodResolver(createClientSchema),
   });
@@ -35,7 +37,9 @@ export function AddClientForm() {
   const { mutate } = useCreateClient();
 
   const handleCreateClient = async (data: CreateClienteSchema) => {
-    mutate(data);
+    mutate(data,{
+        onSuccess: () => {if (refetch) refetch()}
+    });
   };
 
   return (

@@ -8,10 +8,11 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { DialogFooter, DialogClose } from '@/components/ui/dialog';
 import { useHookFormMask } from 'use-mask-input';
-import { useCreateCard } from '@/hooks/useCard';
+import { useCreateCard } from '@/hooks/CardQuerys';
 import { usePathname } from 'next/navigation';
 import Cards from 'react-credit-cards-2';
 import { useState } from 'react';
+import { useRefetch } from '@/hooks/useRefetch';
 
 const createCardSchema = z.object({
     numero: z.string().regex(/^\d{4} \d{4} \d{4} \d{4}$/, { message: "Número inválido" }),
@@ -27,6 +28,7 @@ type FocusedField = 'name' | 'number' | 'expiry' | 'cvc';
 export function AddCardForm() {
   const pathname = usePathname();
   const client_uuid = pathname.split('/')[1];
+  const { refetch } = useRefetch();
 
   const [focus, setFocus] = useState<FocusedField | undefined>('name');
 
@@ -43,7 +45,9 @@ export function AddCardForm() {
 
   const handleCreateClient = async (data: CreateCardSchema) => {
     const full_data = { client_uuid, ...data };
-    mutate(full_data);
+    mutate(full_data, {
+        onSuccess: () => {if (refetch) refetch()}
+    });
   };
 
   const handleInputFocus = (evt: React.FocusEvent<HTMLInputElement>) => {
@@ -64,7 +68,7 @@ export function AddCardForm() {
         />
 
         <FormProvider {...methods}>
-            <form onSubmit={handleSubmit(handleCreateClient)} className="space-y-2">
+            <form onSubmit={handleSubmit(handleCreateClient)} className="flex flex-col space-y-2 justify-center items-center">
                 <FormField
                     control={control}
                     name="numero"
@@ -76,7 +80,7 @@ export function AddCardForm() {
                                     {...registerWithMask("numero", '9999 9999 9999 9999', {
                                         required: true
                                     })}
-                                    className="mt-1 block w-3/4 p-2 text-center text-xl placeholder:text-center"
+                                    className="mt-1 block w-full text-center text-lg placeholder:text-center"
                                     placeholder='1234 1234 1234 1234'
                                     onFocus={handleInputFocus}
                                 />
@@ -94,7 +98,8 @@ export function AddCardForm() {
                                 <Input
                                     type="text"
                                     {...register("nome")} 
-                                    className="mt-1 block w-full"
+                                    className="mt-1 block w-full text-center text-lg placeholder:text-center"
+                                    placeholder='NOME D SOBRENOME'
                                     onFocus={handleInputFocus} 
                                 />
                             </FormControl>
@@ -102,7 +107,7 @@ export function AddCardForm() {
                         </FormItem>
                     )}
                 />
-                <div className='flex flex-row space-x-2'>
+                <div className='flex flex-row space-x-2 w-3/4'>
                     <FormField
                         control={control}
                         name="validade"
@@ -114,7 +119,8 @@ export function AddCardForm() {
                                         {...registerWithMask("validade", '99/99', {
                                             required: true
                                         })}
-                                        className="mt-1 block"
+                                        className="mt-1 block text-center text-lg placeholder:text-center"
+                                        placeholder='12/30'
                                         onFocus={handleInputFocus}
                                     />
                                 </FormControl>
@@ -133,7 +139,8 @@ export function AddCardForm() {
                                         {...registerWithMask("cvv", '999', {
                                             required: true
                                         })}
-                                        className="mt-1 block"
+                                        className="mt-1 block text-center text-lg placeholder:text-center"
+                                        placeholder='567'
                                         onFocus={handleInputFocus}
                                     />
                                 </FormControl>
