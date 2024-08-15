@@ -136,12 +136,12 @@ class ClientController extends Controller
      */
     public function update(ClientRequest $request, $uuid): JsonResponse
     {
-        $client = Client::where('uuid', $uuid)->firstOrFail();
+        $client = Client::where('uuid', $uuid)->firstOr(function () {
+            return ['message' => "Informe um uuid válido!"];
+        });
 
-        if (is_null($client)) {
-            return response()->json([
-                'message' => "Informe um uuid válido!",
-            ], 400);
+        if (isset($client['message'])) {
+            return response()->json($client, 400);
         }
 
         // Iniciar a operação
@@ -182,7 +182,14 @@ class ClientController extends Controller
      */
     public function destroy($uuid): JsonResponse
     {
-        $client = Client::where('uuid', $uuid)->firstOrFail();
+        $client = Client::where('uuid', $uuid)->firstOr(function () {
+            return ['message' => "Informe um uuid válido!"];
+        });
+
+        if (isset($client['message'])) {
+            return response()->json($client, 400);
+        }
+
         try {
 
             $client->delete();
