@@ -7,6 +7,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { AddClientDialog } from '@/components/dialog/add-client-dialog';
 import { useReadClients } from '@/hooks/ClientQuerys';
 import { useRefetch } from '@/hooks/useRefetch';
+import SearchBar from '@/components/search-bar';
 
 export default function Home() {
   const [clientsPerPage, setClientsPerPage] = useState<number>(10);
@@ -68,7 +69,8 @@ export default function Home() {
   <div className="flex flex-col h-screen">
       <section className="flex flex-row justify-between items-center pb-3">
         <h1 className="text-5xl">Clientes</h1>
-        <div>
+        <div className='flex flex-row space-x-2'>
+          <SearchBar/>
           <AddClientDialog/>
         </div>
       </section>
