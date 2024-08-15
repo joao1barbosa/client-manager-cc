@@ -39,6 +39,8 @@ class AddressController extends Controller
         // Iniciar a operação
         DB::beginTransaction();
 
+        $status = 201;
+
         try {
             $address = Address::firstOrCreate(
                 ['client_uuid' => $client_uuid], // Condição de busca
@@ -64,12 +66,13 @@ class AddressController extends Controller
                     'localidade' => $request->localidade,
                     'uf' => $request->uf,
                 ]);
+                $status = 200;
             }
 
             // Conclui a operação
             DB::commit();
 
-            return response()->json($address, 200);
+            return response()->json($address, $status);
 
         } catch (Exception $e) {
             // Não conclui a operação
