@@ -1,9 +1,9 @@
 import { MyButton } from "./ui/my-button";
-import { MapPin, CreditCard, Pencil, Trash } from 'lucide-react';
+import {  CreditCard, Pencil, Trash } from 'lucide-react';
 import { DeleteDialog } from "./dialog/delete-dialog";
 import Link from "next/link";
 import { buttonVariants } from "./ui/button";
-import { QueryObserverResult } from "@tanstack/react-query";
+import { AddressDialog } from "./dialog/address-dialog";
 
 interface OptionButtonsProps{
     uuid: string;
@@ -15,9 +15,8 @@ export function OptionButtons ({ uuid }: OptionButtonsProps) {
 
     return (
         <div className="flex flex-row justify-center space-x-1.5">
-            <MyButton 
-                icon={<MapPin/>}
-                size={buttonSize}
+            <AddressDialog
+                uuid={uuid}
             />
             <Link href={`/${uuid}/cards`} className={buttonSize + ' my-button ' + buttonConvert}>
                 <CreditCard/>
