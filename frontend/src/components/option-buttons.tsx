@@ -5,6 +5,7 @@ import Link from "next/link";
 import { buttonVariants } from "./ui/button";
 import { AddressDialog } from "./dialog/address-dialog";
 import { EditClientDialog } from "./dialog/edit-client-dialog";
+import { ClientUuidContext, ClientUuidProvider } from "@/contexts/client-uuid-context";
 
 interface OptionButtonsProps{
     uuid: string;
@@ -16,24 +17,20 @@ export function OptionButtons ({ uuid }: OptionButtonsProps) {
 
     return (
         <div className="flex flex-row justify-center space-x-1.5">
-            <AddressDialog
-                uuid={uuid}
-            />
-            <Link href={`/${uuid}/cards`} className={buttonSize + ' my-button ' + buttonConvert}>
-                <CreditCard/>
-            </Link>
-            {/* <MyButton
-                icon={<Pencil/>}
-                size={buttonSize}    
-            /> */}
-            <EditClientDialog/>
-            <DeleteDialog to='client' uuid={uuid} button={
-                <MyButton 
-                    icon={<Trash/>}
-                    size={buttonSize}
+            <ClientUuidProvider uuid={uuid}>
+                <AddressDialog/>
+                <Link href={`/${uuid}/cards`} className={buttonSize + ' my-button ' + buttonConvert}>
+                    <CreditCard/>
+                </Link>
+                <EditClientDialog/>
+                <DeleteDialog to='client' uuid={uuid} button={
+                    <MyButton 
+                        icon={<Trash/>}
+                        size={buttonSize}
+                    />
+                }
                 />
-            }
-            />
+            </ClientUuidProvider>
         </div>
     );
 }

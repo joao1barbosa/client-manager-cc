@@ -1,27 +1,26 @@
-import { MapPin } from "lucide-react";
+'use client'
 import { MyButton } from "../ui/my-button";
-import { Dialog, DialogTrigger, DialogContent, DialogTitle } from "@radix-ui/react-dialog";
-import { DialogHeader } from "../ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { MapPin } from "lucide-react";
 
-interface AddressDialogProps{
-    uuid: string
-}
-
-export function AddressDialog({ uuid }: AddressDialogProps){
+export function AddressDialog(){
     return(
         <Dialog>
             <DialogTrigger asChild>
-                <MyButton 
-                    icon={<MapPin/>}
-                    size="h-[30px] w-[30px]"
-                />
+                <MyButton icon={<MapPin/>} size='h-[30px] w-[30px]'/>
             </DialogTrigger>
-            <DialogContent className="">
+            <DialogContent className="sm:max-w-[425px] dialog">
                 <DialogHeader>
                 <DialogTitle>Endereço</DialogTitle>
                 </DialogHeader>
 
-                {/* Form de endereço */}
+                aaaaaaaaaaaa
             </DialogContent>
         </Dialog>
     );

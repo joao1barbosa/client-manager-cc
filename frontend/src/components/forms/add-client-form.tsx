@@ -16,7 +16,7 @@ const createClientSchema = z.object({
   nome: z.string().min(3, {message: 'Nome muito curto'}),
   sobrenome: z.string().min(3, {message: 'Sobrenome muito curto'}),
   email: z.string().email({message: 'E-mail inválido'}),
-  aniversario: z.string().regex(/^\d{2}\/\d{2}\/\d{4}$/, { message: "Data inválida" }),
+  aniversario: z.string().regex(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/, { message: "Data inválida" }),
   telefone: z.string().regex(/^\(\d{2}\) \d{5}-\d{4}$/, { message: "Telefone inválido" })
 });
 
