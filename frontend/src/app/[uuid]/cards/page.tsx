@@ -36,7 +36,8 @@ export default function CardsPage({ params }: { params: { uuid: string } }) {
 
   return (
     <div className='flex flex-col h-full w-full justify-center items-center'>
-      <section className='flex flex-row justify-end w-full'>
+      <section className='flex flex-row justify-between items-center pb-3 w-full'>
+        <h1 className="text-4xl">Cards</h1>
         <AddCardDialog/>
       </section>
       <section className='w-full h-full flex flex-wrap overflow-y-auto content-start justify-center my-2'>

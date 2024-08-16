@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { RefetchContext } from "@/contexts/RefetchContext";
+import { RefetchContext } from "@/contexts/refetch-context";
 
 export function useRefetch() {
     const context = useContext(RefetchContext);

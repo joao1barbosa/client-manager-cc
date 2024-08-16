@@ -34,6 +34,26 @@ export const useReadClients = (currentPage: number, perPage: number) => {
   });
 }
 
+export const useUpdateClient = () => {
+  const queryClient = useQueryClient();
+
+  const updateReq = async (data: Partial<Client> & { uuid: string }): Promise<Client> => {
+    const { uuid, ...rest } = data;
+    const response = await axios.put<Client>(`http://localhost:8000/api/clients/${uuid}`, rest);
+    return response.data;
+  };
+
+  return useMutation<Client, Error, Partial<Client> & { uuid: string }>({
+    mutationFn: updateReq,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['get-clients'],
+        exact: true,
+      });
+    },
+  });
+};
+
 export const useDeleteClient = () => {
   const queryClient = useQueryClient();
 

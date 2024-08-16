@@ -4,6 +4,7 @@ import { DeleteDialog } from "./dialog/delete-dialog";
 import Link from "next/link";
 import { buttonVariants } from "./ui/button";
 import { AddressDialog } from "./dialog/address-dialog";
+import { EditClientDialog } from "./dialog/edit-client-dialog";
 
 interface OptionButtonsProps{
     uuid: string;
@@ -21,10 +22,11 @@ export function OptionButtons ({ uuid }: OptionButtonsProps) {
             <Link href={`/${uuid}/cards`} className={buttonSize + ' my-button ' + buttonConvert}>
                 <CreditCard/>
             </Link>
-            <MyButton
+            {/* <MyButton
                 icon={<Pencil/>}
                 size={buttonSize}    
-            />
+            /> */}
+            <EditClientDialog/>
             <DeleteDialog to='client' uuid={uuid} button={
                 <MyButton 
                     icon={<Trash/>}

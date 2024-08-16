@@ -21,12 +21,12 @@ export default function SearchBar() {
     };    
 
     return (
-        <div className="flex items-center">
+        <div className="flex items-center relative">
             <Input
                 type="text" 
                 placeholder="Pesquisar..." 
                 className= {
-                    `transition-all duration-300 ease-in-out border border-gray-300 
+                    `transition-all duration-300 ease-in-out border border-gray-300 z-10
                     rounded-md p-1.5 mr-2 ${isActive ? 'w-48 opacity-100' : 'w-0 opacity-0'}`
                 }
                 onBlur={() => setIsActive(false)}
@@ -34,7 +34,7 @@ export default function SearchBar() {
                 onKeyDown={handleKeyDown} 
             />
 
-            <MyButton icon={<Search/>} onClick={handleOnClick}/>
+            <MyButton icon={<Search/>} onClick={handleOnClick} size={'z-20'}/>
         </div>
     );
 }

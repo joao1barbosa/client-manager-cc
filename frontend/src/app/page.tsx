@@ -24,7 +24,7 @@ export default function Home() {
   const calculateClientsPerPage = () => {
     if (tableRef.current) {
       const tableHeight = tableRef.current.clientHeight;
-      const rowHeight = 58; //tamanho de cada linha da tabela em pixels
+      const rowHeight = 55; //tamanho de cada linha da tabela em pixels
       setClientsPerPage(Math.floor(tableHeight / rowHeight));
     }
   };
@@ -67,9 +67,9 @@ export default function Home() {
 
   return (
   <div className="flex flex-col h-screen">
-      <section className="flex flex-row justify-between items-center pb-3">
-        <h1 className="text-5xl">Clientes</h1>
-        <div className='flex flex-row space-x-2'>
+      <section className="relative flex flex-row justify-between items-center pb-3">
+        <h1 className="text-5xl z-0">Clientes</h1>
+        <div className='relative flex flex-row space-x-2 z-10'>
           <SearchBar/>
           <AddClientDialog/>
         </div>
@@ -96,7 +96,7 @@ export default function Home() {
                     <TableCell className='p-2'>{client.sobrenome}</TableCell>
                     <TableCell className='p-2'>{client.email}</TableCell>
                     <TableCell className='p-2'>{client.aniversario}</TableCell>
-                    <TableCell className='p-2'>{client.telefone}</TableCell>
+                    <TableCell className='p-2 text-nowrap'>{client.telefone}</TableCell>
                     <TableCell className='p-0.5'>
                       <OptionButtons uuid={client.uuid}/>
                     </TableCell>
