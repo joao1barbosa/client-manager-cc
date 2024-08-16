@@ -38,12 +38,19 @@ class ClientRequest extends FormRequest
     {
         $uuid = $this->route('uuid');
 
+        $isUpdate = $uuid !== null;
+
         return [
-            'nome' => 'required|string|max:255',
-            'sobrenome' => 'required|string|max:255',
-            'email' => 'required|email|unique:clients,email,' . $uuid . ',uuid',
-            'aniversario' => 'required|string|max:10',
-            'telefone' => 'required|string|max:15',
+            'nome' => $isUpdate ? 'sometimes|string|max:255' : 'required|string|max:255',
+            'sobrenome' => $isUpdate ? 'sometimes|string|max:255' : 'required|string|max:255',
+            'email' => [
+                $isUpdate ? 'sometimes' : 'required',
+                'email',
+                'max:255',
+                'unique:clients,email,' . $uuid . ',uuid',
+            ],
+            'aniversario' => $isUpdate ? 'sometimes|string|max:10' : 'required|string|max:10',
+            'telefone' => $isUpdate ? 'sometimes|string|max:15' : 'required|string|max:15',
         ];
     }
 

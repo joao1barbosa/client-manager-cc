@@ -148,15 +148,17 @@ class ClientController extends Controller
         DB::beginTransaction();
 
         try {
+            // Verifica e atualiza apenas os campos presentes na requisição
+            $updateData = array_filter([
+                'nome' => $request->input('nome'),
+                'sobrenome' => $request->input('sobrenome'),
+                'email' => $request->input('email'),
+                'aniversario' => $request->input('aniversario'),
+                'telefone' => $request->input('telefone'),
+            ], fn($value) => !is_null($value));
 
             // Editar o registro no banco de dados
-            $client->update([
-                'nome' => $request->nome,
-                'sobrenome' => $request->sobrenome,
-                'email' => $request->email,
-                'aniversario' => $request->aniversario,
-                'telefone' => $request->telefone,
-            ]);
+            $client->update($updateData);
 
             // Conclui a operação
             DB::commit();
@@ -166,6 +168,7 @@ class ClientController extends Controller
 
             // Não conclui a operação
             DB::rollBack();
+            dd($e);
 
             return response()->json([
                 'message' => "Cliente não editado!",
