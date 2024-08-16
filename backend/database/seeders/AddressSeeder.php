@@ -15,7 +15,7 @@ class AddressSeeder extends Seeder
     public function run()
     {
         // Buscar 12 clientes aleatórios
-        $clients = Client::inRandomOrder()->take(12)->get();
+        $clients = Client::inRandomOrder()->take(17)->get();
 
         $addresses = [
             [
