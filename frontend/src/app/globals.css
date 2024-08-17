@@ -108,6 +108,8 @@
     background: var(--board) !important;
     color: var(--board-foreground);
     border: none;
+    max-width: 360px !important; 
+    width: 100%;
   }
 }
 

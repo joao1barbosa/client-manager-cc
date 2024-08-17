@@ -16,7 +16,7 @@ export function AddClientDialog(){
             <DialogTrigger asChild>
                 <MyButton icon={<Plus/>}/>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px] dialog">
+            <DialogContent className="sm:max-w-[360px] dialog">
                 <DialogHeader>
                 <DialogTitle>Adicionar Cliente</DialogTitle>
                 </DialogHeader>

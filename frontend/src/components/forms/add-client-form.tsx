@@ -96,45 +96,46 @@ export function AddClientForm() {
                     </FormItem>
                 )}
             />
-            <FormField
-                control={control}
-                name="aniversario"
-                render={() => (
-                    <FormItem>
-                        <Label>Data de Nascimento</Label>
-                        <FormControl>
-                            <Input 
-                            type="text" 
-                            {...registerWithMask("aniversario", '99/99/9999', {
-                                required: true
-                              })}
-                            className="mt-1 block"
-                            />
-                        </FormControl>
-                        {errors.aniversario && <FormMessage>{errors.aniversario.message}</FormMessage>}
-                    </FormItem>
-                )}
-            />
-            <FormField
-                control={control}
-                name="telefone"
-                render={() => (
-                    <FormItem>
-                        <Label>Telefone</Label>
-                        <FormControl>
-                            <Input 
-                            type="text" 
-                            {...registerWithMask("telefone", '(99) 99999-9999', {
-                                required: true
-                              })}
-                            className="mt-1 block"
-                            />
-                        </FormControl>
-                        {errors.telefone && <FormMessage>{errors.telefone.message}</FormMessage>}
-                    </FormItem>
-                )}
-            />
-
+            <div className='flex flex-row gap-4'>
+                <FormField
+                    control={control}
+                    name="aniversario"
+                    render={() => (
+                        <FormItem>
+                            <Label>Data de Nascimento</Label>
+                            <FormControl>
+                                <Input 
+                                type="text" 
+                                {...registerWithMask("aniversario", '99/99/9999', {
+                                    required: true
+                                })}
+                                className="mt-1 block"
+                                />
+                            </FormControl>
+                            {errors.aniversario && <FormMessage>{errors.aniversario.message}</FormMessage>}
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={control}
+                    name="telefone"
+                    render={() => (
+                        <FormItem>
+                            <Label>Telefone</Label>
+                            <FormControl>
+                                <Input 
+                                type="text" 
+                                {...registerWithMask("telefone", '(99) 99999-9999', {
+                                    required: true
+                                })}
+                                className="mt-1 block"
+                                />
+                            </FormControl>
+                            {errors.telefone && <FormMessage>{errors.telefone.message}</FormMessage>}
+                        </FormItem>
+                    )}
+                />
+            </div>
             <DialogFooter>
                 <DialogClose asChild>
                     <Button type='button' variant='outline'>

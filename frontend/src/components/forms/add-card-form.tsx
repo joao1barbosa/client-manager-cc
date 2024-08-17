@@ -156,7 +156,7 @@ export function AddCardForm() {
                             Cancelar
                         </Button>
                     </DialogClose>
-                        <Button type="submit">Salvar</Button>
+                    <Button type="submit">Salvar</Button>
                 </DialogFooter>
             </form>
         </FormProvider>

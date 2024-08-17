@@ -21,16 +21,26 @@ export const useCreateClient = () => {
   });
 }
 
-export const useReadClients = (currentPage: number, perPage: number) => {
+export const useReadClients = (
+  currentPage: number, 
+  perPage: number, 
+  searchTerm?: string
+) => {
+  const queryKey = searchTerm 
+    ? ['search-clients', searchTerm, currentPage, perPage] 
+    : ['get-clients', currentPage, perPage];
+
   return useQuery<ClientResponse>({
-    queryKey:['get-clients', currentPage, perPage],
+    queryKey,
     queryFn: async() => {
-      const response = await fetch(`http://localhost:8000/api/clients?per_page=${perPage}&page=${currentPage}`);
-      const data = await response.json();
-    
-      return data;
+      const url = searchTerm 
+        ? `http://localhost:8000/api/clients/search?name=${searchTerm}&per_page=${perPage}&page=${currentPage}` 
+        : `http://localhost:8000/api/clients?per_page=${perPage}&page=${currentPage}`;
+      
+      const response = await axios.get<ClientResponse>(url);
+      return response.data;
     },
-    placeholderData: keepPreviousData
+    placeholderData: keepPreviousData,
   });
 }
 

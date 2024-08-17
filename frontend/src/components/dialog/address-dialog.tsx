@@ -8,6 +8,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { MapPin } from "lucide-react";
+import { AddressForm } from "../forms/address-form";
 
 export function AddressDialog(){
     return(
@@ -15,12 +16,12 @@ export function AddressDialog(){
             <DialogTrigger asChild>
                 <MyButton icon={<MapPin/>} size='h-[30px] w-[30px]'/>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px] dialog">
+            <DialogContent className="dialog">
                 <DialogHeader>
                 <DialogTitle>Endereço</DialogTitle>
                 </DialogHeader>
 
-                aaaaaaaaaaaa
+                <AddressForm/>
             </DialogContent>
         </Dialog>
     );

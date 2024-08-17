@@ -8,30 +8,34 @@ import { AddClientDialog } from '@/components/dialog/add-client-dialog';
 import { useReadClients } from '@/hooks/ClientQuerys';
 import { useRefetch } from '@/hooks/useRefetch';
 import SearchBar from '@/components/search-bar';
+import { InfosDialog } from '@/components/dialog/infos-dialog';
 
 export default function Home() {
-  const [clientsPerPage, setClientsPerPage] = useState<number>(10);
   const searchParams = useSearchParams();
   const router = useRouter();
+  const [clientsPerPage, setClientsPerPage] = useState<number>(10);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [searchTerm, setSearchTerm] = useState<string>(searchParams.get('search') || '');
   const currentPage = parseInt(searchParams.get('page') || '1');
   const tableRef = useRef<HTMLDivElement>(null);
   let qtdClients = 0;
 
   const { setRefetch } = useRefetch();
-  const { data: clientsResponse, isLoading, refetch } = useReadClients(currentPage, clientsPerPage);
+  const { data: clientsResponse, isLoading, refetch } = useReadClients(currentPage, clientsPerPage, searchTerm);
 
   // Função para calcular o numero de clientes por página
   const calculateClientsPerPage = () => {
     if (tableRef.current) {
       const tableHeight = tableRef.current.clientHeight;
-      const rowHeight = 55; //tamanho de cada linha da tabela em pixels
+      const rowHeight = 52; //tamanho de cada linha da tabela em pixels
       setClientsPerPage(Math.floor(tableHeight / rowHeight));
     }
   };
 
   useEffect(() => {
     const handleResize = () => {
-      // Atrasa o cálculo para garantir a renderização completa
+      window.innerWidth < 768 ? setIsMobile(true) : setIsMobile(false);
+
       setTimeout(() => {
         requestAnimationFrame(calculateClientsPerPage);
       }, 50);
@@ -59,6 +63,14 @@ export default function Home() {
     router.push(newUrl.toString());
   };
 
+  const handleSearch = (term: string) => {
+    const newUrl = new URL(window.location.href);
+    term ? newUrl.searchParams.set('search', term) : newUrl.searchParams.delete('search');
+    newUrl.searchParams.set('page', '1');
+    router.push(newUrl.toString());
+    setSearchTerm(term);
+  };
+
   if(isLoading){
     return (
       <h1 className="text-8xl">Carregando...</h1>
@@ -70,7 +82,7 @@ export default function Home() {
       <section className="relative flex flex-row justify-between items-center pb-3">
         <h1 className="text-5xl z-0">Clientes</h1>
         <div className='relative flex flex-row space-x-2 z-10'>
-          <SearchBar/>
+          <SearchBar onSearch={handleSearch}/>
           <AddClientDialog/>
         </div>
       </section>
@@ -81,10 +93,16 @@ export default function Home() {
             <TableRow>
               <TableHead className="tableHead">Nome</TableHead>
               <TableHead className="tableHead">Sobrenome</TableHead>
-              <TableHead className="tableHead">Email</TableHead>
-              <TableHead className="tableHead px-2 max-w-[100px]">Data de Nascimento</TableHead>
-              <TableHead className="tableHead">Telefone</TableHead>
-              <TableHead className="tableHead">Opções</TableHead> 
+              {isMobile ?
+                <TableHead className="tableHead">Infos</TableHead>
+              :
+                <>
+                  <TableHead className="tableHead">Email</TableHead>
+                  <TableHead className="tableHead px-2 max-w-[100px]">Data de Nascimento</TableHead>
+                  <TableHead className="tableHead">Telefone</TableHead>
+                  <TableHead className="tableHead">Opções</TableHead> 
+                </>
+              }
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -94,12 +112,18 @@ export default function Home() {
                   <TableRow key={client.uuid}>
                     <TableCell className='p-3'>{client.nome}</TableCell>
                     <TableCell className='p-2'>{client.sobrenome}</TableCell>
-                    <TableCell className='p-2'>{client.email}</TableCell>
-                    <TableCell className='p-2'>{client.aniversario}</TableCell>
-                    <TableCell className='p-2 text-nowrap'>{client.telefone}</TableCell>
-                    <TableCell className='p-0.5'>
-                      <OptionButtons uuid={client.uuid}/>
-                    </TableCell>
+                    {isMobile ?
+                      <TableCell className='p-2 text-center'><InfosDialog client={client}/></TableCell>
+                    :
+                      <>
+                        <TableCell className='p-2'>{client.email}</TableCell>
+                        <TableCell className='p-2'>{client.aniversario}</TableCell>
+                        <TableCell className='p-2 text-nowrap'>{client.telefone}</TableCell>
+                        <TableCell className='p-0.5'>
+                          <OptionButtons uuid={client.uuid}/>
+                        </TableCell>
+                      </>
+                    }
                   </TableRow>
                 )
               })}

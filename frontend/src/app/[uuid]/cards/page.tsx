@@ -28,7 +28,7 @@ export default function CardsPage({ params }: { params: { uuid: string } }) {
   if(!cardResponse?.data){
     return (
       <div className='flex flex-col h-full w-full justify-center items-center space-y-4'>
-          <h1 className='font-semibold text-xl'>Nenhum Cartão de Crédito Cadastrado</h1>
+          <h1 className='font-semibold text-xl text-center'>Nenhum Cartão de Crédito Cadastrado</h1>
           <AddCardDialog/>
       </div>
     );
