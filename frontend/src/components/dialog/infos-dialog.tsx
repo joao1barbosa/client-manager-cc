@@ -17,7 +17,7 @@ interface InfosDialogProps{
 }
 
 export function InfosDialog({client}: InfosDialogProps){
-    const labelStyle = 'flex items-center justify-end text-center font-bold'
+    const labelStyle = 'flex items-center justify-end text-right font-bold'
     const contentStyle = 'flex justify-center'
 
     return(

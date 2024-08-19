@@ -12,6 +12,7 @@ import { useUuid } from '@/hooks/useClientUuid';
 import { searchCep } from '@/lib/viacep';
 import { useEffect } from 'react';
 import { Search } from 'lucide-react';
+import { MyButton } from '../ui/my-button';
 
 const updateAddressSchema = z.object({
   cep: z.string().length(8, { message: 'CEP inválido' }),
@@ -100,11 +101,11 @@ export function AddressForm() {
                     />
                 </div>
                 <div className="col-span-1 flex justify-center items-center">
-                <Button className='w-full h-full flex justify-center items-center' 
-                    variant='outline' type="button" onClick={handleCepSearch}
-                >
-                    <Search className="w-full h-full" />
-                </Button>
+                  <Button className={`my-button w-full h-full`} size="icon" 
+                    variant='outline' onClick={handleCepSearch} type='button'
+                  >
+                    <Search/>
+                  </Button>
                 </div>
                 </div>
               </FormControl>

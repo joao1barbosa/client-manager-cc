@@ -27,7 +27,7 @@ export default function Home() {
   const calculateClientsPerPage = () => {
     if (tableRef.current) {
       const tableHeight = tableRef.current.clientHeight;
-      const rowHeight = 52; //tamanho de cada linha da tabela em pixels
+      const rowHeight = 55; //tamanho de cada linha da tabela em pixels
       setClientsPerPage(Math.floor(tableHeight / rowHeight));
     }
   };
@@ -80,8 +80,8 @@ export default function Home() {
   return (
   <div className="flex flex-col h-screen">
       <section className="relative flex flex-row justify-between items-center pb-3">
-        <h1 className="text-5xl z-0">Clientes</h1>
-        <div className='relative flex flex-row space-x-2 z-10'>
+        <h1 className="absolute text-5xl z-0">Clientes</h1>
+        <div className='w-full justify-end flex flex-row space-x-2 z-10'>
           <SearchBar onSearch={handleSearch}/>
           <AddClientDialog/>
         </div>

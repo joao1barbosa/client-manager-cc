@@ -25,7 +25,7 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
                 type="text" 
                 placeholder="Pesquisar por Nome" 
                 className= {
-                    `transition-all duration-300 ease-in-out border border-gray-300 z-10
+                    `search-bar transition-all duration-300 ease-in-out border
                     rounded-md p-1.5 mr-2 ${isActive ? 'w-48 opacity-100' : 'w-0 opacity-0'}`
                 }
                 onBlur={() => setIsActive(false)}
@@ -34,7 +34,7 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
                 onKeyDown={handleKeyDown} 
             />
 
-            <MyButton icon={<Search/>} onClick={handleOnClick} size={'z-20'}/>
+            <MyButton icon={<Search/>} onClick={handleOnClick} size={'relative z-20'}/>
         </div>
     );
 }

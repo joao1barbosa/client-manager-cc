@@ -28,13 +28,13 @@ export function ThemeToggleButton() {
         onClick={toggleTheme}
         size='icon'
         variant='secondary'
-        className='fixed top-4 right-4 z-50'
+        className='theme-toggle-button'
     >
         {
         !isDarkMode ? 
-            <Sun/> 
+            <Sun className='size-5'/> 
         :
-            <Moon/>
+            <Moon className='size-5'/>
         }
     </Button>
   );
