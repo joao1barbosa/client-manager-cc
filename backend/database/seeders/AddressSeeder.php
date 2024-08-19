@@ -129,7 +129,12 @@ class AddressSeeder extends Seeder
         ];
 
         foreach ($clients as $index => $client) {
-            Address::create(array_merge($addresses[$index], ['client_uuid' => $client->uuid]));
+            if (isset($addresses[$index])) {
+                Address::updateOrCreate(
+                    ['client_uuid' => $client->uuid],
+                    $addresses[$index]
+                );
+            }
         }
     }
 }
