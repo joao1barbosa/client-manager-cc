@@ -6,8 +6,6 @@ services:
     container_name: frontend
     ports:
       - '${NEXT_PORT}:3000'
-    volumes:
-      - ./frontend:/app
     networks:
       - app-network
 
