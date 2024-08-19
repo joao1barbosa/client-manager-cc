@@ -7,15 +7,19 @@ Este projeto consiste na solução de um desafio técnico, que se trata de um CR
 ### Dashboard
 
 <div align="center">
-  <img src="./docs/client1.gif" alt="Dashboard 1">
-  <img src="./docs/client2.gif" alt="Dashboard 2">
+  <img src="./docs/client.gif" alt="Dashboard">
 </div>
 
 ### Quadro de Cartões
 
 <div align="center">
-  <img src="./docs/cardlist.gif" alt="Listagem de cartões">
-  <img src="./docs/cardadd.gif" alt="Tela de adicionar cartões">
+  <img src="./docs/card.gif" alt="Quadro de cartões">
+</div>
+
+### Responsividade
+
+<div align="center">
+  <img src="./docs/cell.gif" alt="Responsividade">
 </div>
 
 ## 🎲 Estrutura do Banco de Dados
@@ -42,6 +46,8 @@ Este projeto consiste na solução de um desafio técnico, que se trata de um CR
 Para fins de praticidade e, visto que é um projeto que não irá para produção, optei por deixar as variáveis de ambiente padrões.
 
 Logo, a única configuração necessária é mudar o nome do arquivo **.env.example** para **.env** e definir a **APP_KEY** do Laravel.
+
+(Essas configurações são feitas automaticamente ao executar o arquivo **config.sh**)
 
 ## 🏁 Dependências
 
