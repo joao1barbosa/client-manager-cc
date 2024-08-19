@@ -15,7 +15,7 @@ class ClientSeeder extends Seeder
         Client::create([
             'nome' => 'João',
             'sobrenome' => 'Barbosa',
-            'email' => 'joao@email.com',
+            'email' => 'joao1.barbosa@outlook.com',
             'aniversario' => '03/08/2001',
             'telefone' => '(62) 99664-1935',
         ]);

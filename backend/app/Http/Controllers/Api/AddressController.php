@@ -109,7 +109,7 @@ class AddressController extends Controller
 
         } catch (Exception $e) {
             return response()->json([
-                'message' => "Cliente não apagado!",
+                'message' => "Endereço não apagado!",
             ], 400);
         }
     }
