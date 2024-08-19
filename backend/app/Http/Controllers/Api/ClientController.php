@@ -136,27 +136,29 @@ class ClientController extends Controller
      */
     public function update(ClientRequest $request, $uuid): JsonResponse
     {
-        $client = Client::where('uuid', $uuid)->firstOrFail();
+        $client = Client::where('uuid', $uuid)->firstOr(function () {
+            return ['message' => "Informe um uuid válido!"];
+        });
 
-        if (is_null($client)) {
-            return response()->json([
-                'message' => "Informe um uuid válido!",
-            ], 400);
+        if (isset($client['message'])) {
+            return response()->json($client, 400);
         }
 
         // Iniciar a operação
         DB::beginTransaction();
 
         try {
+            // Verifica e atualiza apenas os campos presentes na requisição
+            $updateData = array_filter([
+                'nome' => $request->input('nome'),
+                'sobrenome' => $request->input('sobrenome'),
+                'email' => $request->input('email'),
+                'aniversario' => $request->input('aniversario'),
+                'telefone' => $request->input('telefone'),
+            ], fn($value) => !is_null($value));
 
             // Editar o registro no banco de dados
-            $client->update([
-                'nome' => $request->nome,
-                'sobrenome' => $request->sobrenome,
-                'email' => $request->email,
-                'aniversario' => $request->aniversario,
-                'telefone' => $request->telefone,
-            ]);
+            $client->update($updateData);
 
             // Conclui a operação
             DB::commit();
@@ -166,6 +168,7 @@ class ClientController extends Controller
 
             // Não conclui a operação
             DB::rollBack();
+            dd($e);
 
             return response()->json([
                 'message' => "Cliente não editado!",
@@ -182,7 +185,14 @@ class ClientController extends Controller
      */
     public function destroy($uuid): JsonResponse
     {
-        $client = Client::where('uuid', $uuid)->firstOrFail();
+        $client = Client::where('uuid', $uuid)->firstOr(function () {
+            return ['message' => "Informe um uuid válido!"];
+        });
+
+        if (isset($client['message'])) {
+            return response()->json($client, 400);
+        }
+
         try {
 
             $client->delete();

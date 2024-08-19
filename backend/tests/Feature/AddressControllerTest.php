@@ -50,37 +50,6 @@ class AddressControllerTest extends TestCase
             ]);
     }
 
-    public function test_store_address()
-    {
-        $data = [
-            'cep' => '65901192',
-            'logradouro' => 'Rua das Laranjeiras',
-            'unidade' => '618-A',
-            'complemento' => 'Esquina com Avenida dos Patos',
-            'bairro' => 'Vila Nova',
-            'localidade' => 'Belém',
-            'uf' => 'PA',
-            'client_uuid' => $this->client->uuid,
-        ];
-
-        $response = $this->post('/api/addresses', $data);
-
-        $response->assertStatus(201)
-            ->assertJson($data);
-    }
-
-    public function test_store_address_failure()
-    {
-        $data = [
-            // Dados inválidos para forçar falha
-            'client_uuid' => 'invalid-uuid',
-        ];
-
-        $response = $this->post('/api/addresses', $data);
-
-        $response->assertStatus(422);
-    }
-
     public function test_update_address()
     {
         $address = Address::factory()->create(['client_uuid' => $this->client->uuid]);
@@ -101,7 +70,7 @@ class AddressControllerTest extends TestCase
             ->assertJson($data);
     }
 
-    public function test_update_address_not_found()
+    public function test_update_address_not_found_create_new_one()
     {
         $data = [
             'cep' => '65901192',
@@ -113,12 +82,18 @@ class AddressControllerTest extends TestCase
             'uf' => 'TO',
         ];
 
-        $response = $this->put('/api/addresses/invalid-uuid', $data);
+        $response = $this->put('/api/addresses/' . $this->client->uuid, $data);
 
-        $response->assertStatus(400)
-            ->assertJson([
-                'message' => "Informe um uuid de cliente válido!",
-            ]);
+        $response->assertStatus(201)->assertJson([
+            'cep' => '65901192',
+            'logradouro' => 'Rua das Cerejeiras',
+            'unidade' => '626',
+            'complemento' => 'Esquina com Avenida dos Ganços',
+            'bairro' => 'Vila Nova',
+            'localidade' => 'Palmas',
+            'uf' => 'TO',
+            'client_uuid' => $this->client->uuid,
+        ]);
     }
 
     public function test_delete_address()

@@ -1,14 +1,9 @@
-import type { Metadata } from "next";
+'use client'
 import { Inter } from "next/font/google";
-import { ThemeToggleButton } from '@/components/ui/themeToggleButton';
+import { App } from "@/components/app";
 import "./globals.css";
-import { QueryProvider } from '@/components/queryProvider';
 
 const inter = Inter({ subsets: ["latin"] });
-
-export const metadata: Metadata = {
-  title: "Clientes",
-};
 
 export default function RootLayout({
   children,
@@ -19,6 +14,7 @@ export default function RootLayout({
   return (
       <html className=''>
         <head>
+          <title>Clientes</title>
           <script
             dangerouslySetInnerHTML={{
               __html: `
@@ -33,12 +29,9 @@ export default function RootLayout({
           />
         </head>
         <body className={inter.className}>
-          <QueryProvider>
-            <ThemeToggleButton/>
-            <main className="board flex flex-col space-y-4">
+            <App>
               {children}
-            </main>
-          </QueryProvider>
+            </App>
         </body>
       </html>
   );

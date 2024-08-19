@@ -88,10 +88,12 @@
     height: 80%;
     padding: 1vw;
   }
+
+  
 }
 
 @layer components{
-  .optButton {
+  .my-button {
     @apply border-opacity-40 border-gray-500 !important;
   }
 
@@ -101,14 +103,44 @@
     font-size: large;
     text-align: center !important;
   }
+
+  .dialog{
+    background: var(--board) !important;
+    color: var(--board-foreground);
+    border: none;
+    max-width: 360px !important; 
+    width: 100%;
+  }
+
+  .theme-toggle-button{
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 50;
+  }
+
+  .search-bar{
+    background: var(--board) !important;
+    border-color: #7e7e7e !important;
+  }
 }
 
 /* Responsividade */
 @media (max-width: 768px) {
   .board {
     padding: 1rem;
+    margin-top: 3vh;
     width: 95%;
     height: 90%;
+  }
+
+  .theme-toggle-button{
+    position: fixed;
+    top: 0.25rem;
+    right: 0.25rem;
+    z-index: 50;
+    height: 25px;
+    width: 25px;
   }
 }
 

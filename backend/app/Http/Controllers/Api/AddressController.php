@@ -27,45 +27,6 @@ class AddressController extends Controller
     }
 
     /**
-     * Cria novo endereço com os dados fornecidos na requisição.
-     *
-     * @example POST /api/addresses/ Enviando o json com os dados do cliente a ser criado.
-     * @param  \App\Http\Requests\AddressRequest  $request O objeto de requisição contendo os dados do endereço.
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function store(AddressRequest $request): JsonResponse
-    {
-        // Inicia a operação
-        DB::beginTransaction();
-
-        try {
-            // Cadastra endereço no banco de dados
-            $address = Address::create([
-                'cep' => $request->cep,
-                'logradouro' => $request->logradouro,
-                'unidade' => $request->unidade,
-                'complemento' => $request->complemento,
-                'bairro' => $request->bairro,
-                'localidade' => $request->localidade,
-                'uf' => $request->uf,
-                'client_uuid' => $request->client_uuid,
-            ]);
-
-            // Conclui a operação
-            DB::commit();
-
-            return response()->json($address, 201);
-        } catch (Exception $e) {
-            // Não conclui a operação
-            DB::rollBack();
-
-            return response()->json([
-                'message' => "Endereço não cadastrado!",
-            ], 400);
-        }
-    }
-
-    /**
      * Atualiza os dados de um endereço existente com base no client_uuid fornecido na requisição.
      *
      * @example PUT /api/addresses/{client_uuid} Enviando o json com os dados do endereço a ser atualizado.
@@ -75,41 +36,50 @@ class AddressController extends Controller
      */
     public function update(AddressRequest $request, $client_uuid): JsonResponse
     {
-        $address = Address::where('client_uuid', $client_uuid)->firstOr(function () {
-            return ['message' => "Informe um uuid de cliente válido!"];
-        });
-
-        if (isset($address['message'])) {
-            return response()->json($address, 400);
-        }
-
         // Iniciar a operação
         DB::beginTransaction();
 
-        try {
+        $status = 201;
 
-            // Editar o registro no banco de dados
-            $address->update([
-                'cep' => $request->cep,
-                'logradouro' => $request->logradouro,
-                'unidade' => $request->unidade,
-                'complemento' => $request->complemento,
-                'bairro' => $request->bairro,
-                'localidade' => $request->localidade,
-                'uf' => $request->uf,
-            ]);
+        try {
+            $address = Address::firstOrCreate(
+                ['client_uuid' => $client_uuid], // Condição de busca
+                [ // Dados para criar se não existir
+                    'cep' => $request->cep,
+                    'logradouro' => $request->logradouro,
+                    'unidade' => $request->unidade,
+                    'complemento' => $request->complemento,
+                    'bairro' => $request->bairro,
+                    'localidade' => $request->localidade,
+                    'uf' => $request->uf,
+                ]
+            );
+
+            // Se o endereço já existia, atualiza os dados fornecidos
+            if (!$address->wasRecentlyCreated) {
+                $address->update([
+                    'cep' => $request->cep,
+                    'logradouro' => $request->logradouro,
+                    'unidade' => $request->unidade,
+                    'complemento' => $request->complemento,
+                    'bairro' => $request->bairro,
+                    'localidade' => $request->localidade,
+                    'uf' => $request->uf,
+                ]);
+                $status = 200;
+            }
 
             // Conclui a operação
             DB::commit();
 
-            return response()->json($address, 200);
-        } catch (Exception $e) {
+            return response()->json($address, $status);
 
+        } catch (Exception $e) {
             // Não conclui a operação
             DB::rollBack();
 
             return response()->json([
-                'message' => "Endereço não editado!",
+                'message' => "Erro ao salvar o endereço!",
             ], 400);
         }
     }
@@ -139,7 +109,7 @@ class AddressController extends Controller
 
         } catch (Exception $e) {
             return response()->json([
-                'message' => "Cliente não apagado!",
+                'message' => "Endereço não apagado!",
             ], 400);
         }
     }
