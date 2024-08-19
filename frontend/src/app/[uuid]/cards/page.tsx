@@ -21,7 +21,7 @@ export default function CardsPage({ params }: { params: { uuid: string } }) {
 
   if(isLoading){
     return (
-      <h1 className="text-8xl">Carregando...</h1>
+      <h1 className="text-4xl">Carregando...</h1>
     );
   }
 

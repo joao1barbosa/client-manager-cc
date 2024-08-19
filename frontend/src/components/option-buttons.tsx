@@ -1,11 +1,11 @@
 import { MyButton } from "./ui/my-button";
-import {  CreditCard, Pencil, Trash } from 'lucide-react';
+import {  CreditCard, Trash } from 'lucide-react';
 import { DeleteDialog } from "./dialog/delete-dialog";
 import Link from "next/link";
 import { buttonVariants } from "./ui/button";
 import { AddressDialog } from "./dialog/address-dialog";
 import { EditClientDialog } from "./dialog/edit-client-dialog";
-import { ClientUuidContext, ClientUuidProvider } from "@/contexts/client-uuid-context";
+import { ClientUuidProvider } from "@/contexts/client-uuid-context";
 
 interface OptionButtonsProps{
     uuid: string;

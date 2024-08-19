@@ -12,7 +12,6 @@ import { useUuid } from '@/hooks/useClientUuid';
 import { searchCep } from '@/lib/viacep';
 import { useEffect } from 'react';
 import { Search } from 'lucide-react';
-import { MyButton } from '../ui/my-button';
 
 const updateAddressSchema = z.object({
   cep: z.string().length(8, { message: 'CEP inválido' }),

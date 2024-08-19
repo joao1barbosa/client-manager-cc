@@ -29,7 +29,11 @@ Este projeto consiste na solução de um desafio técnico, que se trata de um CR
 - **React**
 - **Next.js**
 - **TypeScript**
+- **React Query**
+- **React Hook Form**
+- **Zod**
 - **Tailwind**
+- **Componentes do ShadCN**
 - **Laravel**
 - **MySQL**
 
@@ -37,18 +41,15 @@ Este projeto consiste na solução de um desafio técnico, que se trata de um CR
 
 Para fins de praticidade e, visto que é um projeto que não irá para produção, optei por deixar as variáveis de ambiente padrões.
 
-Logo, a única configuração necessária é mudar o nome do arquivo **.env.example** para **.env**.
+Logo, a única configuração necessária é mudar o nome do arquivo **.env.example** para **.env** e definir a **APP_KEY** do Laravel.
 
 ## 🏁 Dependências
 
 Para executar o projeto, e necessário ter as seguintes dependências instaladas:
 
-- Node.js
-- NPM
-- Yarn
-- PHP
-- Composer
+- PHP (para gerar a APP_KEY do laravel).
 - Docker
+- Docker Compose V2
 
 ## 🏗 Setup
 
@@ -70,40 +71,36 @@ Você também pode executar os comandos descritos no arquivo manualmente, se ass
 
 # 🏃 Run
 
-Ao construir a aplicação utilizando o arquivo de configuração, ele já deixará executando os containers Docker necessários para a aplicação Laravel e finalizará com a aplicação Next.js em execução no terminal.
-
-Você pode usar o comando CTRL+C para finalizar a execução do frontend.
-
-Digite o comando cd ../backend seguido de ./vendor/bin/sail down para parar o backend.
+Ao construir a aplicação utilizando o arquivo de configuração, ele já deixará executando os containers Docker necessários para as aplicações.
 
 ## 📋 Endpoints
 
 ### Endpoints de Clientes
 
-**GET /clients:** Lista todos os clientes.
+**GET /api/clients?per_page=15&page=2:** Lista páginada de clientes.
+
+**GET /api/clients/{uuid}:** Retorna um cliente específico baseado no UUID passado como parâmetro.
+
+**GET /api/clients/search?name=João&per_page=15&page=2:** Lista páginada de clientes com o filtro de pesquisa para o campo 'nome'.
 
 **POST /clients:** Cria um novo cliente.
-
-**GET /clients/{uuid}:** Retorna um cliente específico baseado no UUID passado como parâmetro.
 
 **PUT /clients/{uuid}:** Edita um cliente específico baseado no UUID.
 
 **DELETE /clients/{uuid}:** Deleta um cliente específico baseado no UUID.
 
-
 ### Endpoints de Cartões
 
-**POST /cards:** Cria um novo cartão e o conecta a um cliente.
+**GET /api/clients/{client_uuid}/cards?per_page=15&page=2:** Retorna uma lista paginada de cartões vinculados ao UUID passado como parâmetro.
 
-**GET /cards/{uuid}:** Retorna uma lista de cartões vinculados ao UUID passado como parâmetro.
+**POST /api/cards:** Cria um novo cartão e o conecta a um cliente.
 
-**DELETE /cards/{numero}:** Deleta um cartão que possui o número passado como parâmetro.
-
+**DELETE /api/cards/{uuid}:** Deleta um cartão que possui o uuid passado como parâmetro.
 
 ### Endpoints de Endereços
 
-**POST /addresses:** Cria um novo endereço e o conecta a um cliente.
+**GET /api/addresses/{client_uuid}:** Retorna o endereço vinculado ao cliente com UUID passado como parâmetro.
 
-**GET /addresses/{uuid}:** Retorna o endereço vinculado ao UUID passado como parâmetro.
+**PUT /api/addresses/{client_uuid}:** Verifica se o cliente com UUID passado como parâmetro possui um endereço vinculado à ele. Se tiver ele atualiza e senão ele cria um novo.
 
-**PUT /addresses/{uuid}:** Edita o endereço específico baseado no UUID.
+**DELETE /api/addresses/{client_uuid}:** Deleta o endereço que está vinculado ao cliente cujo UUID foi passado como parâmetro.
