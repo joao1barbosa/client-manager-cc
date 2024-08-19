@@ -6,6 +6,10 @@ echo "Configurando ambiente..."
 # Navegar para o diretório backend e configurar o .env
 cd backend || exit
 cp .env.example .env
+
+# Instala dependências do laravel e do sail
+composer require laravel/sail --dev
+
 php artisan key:generate
 
 # Voltar para o diretório raiz
