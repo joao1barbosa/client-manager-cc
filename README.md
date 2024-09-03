@@ -54,6 +54,7 @@ Logo, a única configuração necessária é mudar o nome do arquivo **.env.exam
 Para executar o projeto, e necessário ter as seguintes dependências instaladas:
 
 - PHP (para gerar a APP_KEY do laravel).
+- PHP Composer
 - Docker
 - Docker Compose V2
 
