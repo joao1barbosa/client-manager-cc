@@ -18,12 +18,17 @@ cd ..
 # Configurar o .env na raiz se necessário
 cp .env.example .env
 
+# Cria a rede utilizada pelos containers, se não existir
+if ! docker network ls | grep -q "app-network"; then
+  docker network create app-network
+fi
+
 # Construir e iniciar os containers Docker
 docker compose up --build -d
 
 # Aguardar um pouco para garantir que os containers estejam prontos
 echo "Aguardando os containers iniciarem completamente..."
-sleep 15
+sleep 10
 
 # Verificar se o container backend está em execução
 if [ "$(docker compose ps -q backend)" ]; then
