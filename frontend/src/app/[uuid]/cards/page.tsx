@@ -44,7 +44,7 @@ export default function CardsPage({ params }: { params: { uuid: string } }) {
       {cardResponse?.data.map((card, index) => {
         return(
           <div key={index} 
-          className="relative flex flex-col w-48 h-[9rem] rounded 
+          className="relative flex flex-col w-[300px] h-[220px] rounded 
           border border-gray-300 justify-end items-center m-2"
           >
             <DeleteDialog to='card' uuid={card.uuid} button = {
@@ -54,7 +54,7 @@ export default function CardsPage({ params }: { params: { uuid: string } }) {
                 <CircleX/>
               </Button>
             }/>
-            <div className='mini-credit-card my-2'>
+            <div className='m-2'>
               <Cards
                 cvc=""
                 expiry={card.validade}

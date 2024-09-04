@@ -7,7 +7,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { AddClientDialog } from '@/components/dialog/add-client-dialog';
 import { useReadClients } from '@/hooks/ClientQuerys';
 import { useRefetch } from '@/hooks/useRefetch';
-import SearchBar from '@/components/search-bar';
+import { SearchBar } from '@/components/search-bar';
 import { InfosDialog } from '@/components/dialog/infos-dialog';
 
 export default function Home() {
@@ -27,7 +27,7 @@ export default function Home() {
   const calculateClientsPerPage = () => {
     if (tableRef.current) {
       const tableHeight = tableRef.current.clientHeight;
-      const rowHeight = 55; //tamanho de cada linha da tabela em pixels
+      const rowHeight = 53; //tamanho de cada linha da tabela em pixels
       setClientsPerPage(Math.floor(tableHeight / rowHeight));
     }
   };

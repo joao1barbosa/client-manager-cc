@@ -7,7 +7,7 @@ interface SearchBarProps {
     onSearch: (searchTerm: string) => void;
   }
 
-export default function SearchBar({ onSearch }: SearchBarProps) {
+export function SearchBar({ onSearch }: SearchBarProps) {
     const [isActive, setIsActive] = useState(false);
     const [term, setTerm] = useState('');
 

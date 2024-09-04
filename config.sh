@@ -8,7 +8,7 @@ cd backend || exit
 cp .env.example .env
 
 # Instala dependências do laravel e do sail
-composer require laravel/sail --dev
+composer install
 
 php artisan key:generate
 
