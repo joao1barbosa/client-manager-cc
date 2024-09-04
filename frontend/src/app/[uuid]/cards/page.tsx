@@ -3,7 +3,6 @@ import { DeleteDialog } from "@/components/dialog/delete-dialog";
 import { CircleX } from 'lucide-react';
 import Cards from 'react-credit-cards-2';
 import "react-credit-cards-2/dist/es/styles-compiled.css";
-import "./card.css";
 import { Button } from "@/components/ui/button";
 import { AddCardDialog } from "@/components/dialog/add-card-dialog";
 import { useReadCards } from "@/hooks/CardQuerys";
